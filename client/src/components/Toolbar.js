@@ -3,15 +3,18 @@ import NotificationButton from "./NotificationButton";
 import SettingsButton from "./SettingsButton";
 import { Flex } from "@chakra-ui/react";
 import ProfileButton from "./ProfileButton";
+import CurrentUserHeader from "./CurrentUserHeader";
 
 
 
 export default function ToolBar() {
     return (
-        <Flex gap = '10px'>
+        <Flex align = 'center' gap = '10px'>
+            <CurrentUserHeader/>
             <SettingsButton/>
-            <ProfileButton/>
+            {/*<ProfileButton/>*/}
             <NotificationButton notificationCount={7}/>
-        </Flex>
+            
+        </Flex> 
     )
 }

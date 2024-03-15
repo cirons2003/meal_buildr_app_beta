@@ -9,8 +9,8 @@ export default function SideBar() {
         <>
             <Box height = '100vh'  py = '20px'>
                 <VStack pacing={3} py = '5px' > 
-                    <SideButton to = '/'  text = 'fake1' icon = {ArrowBackIcon}/>
-                    <SideButton to = '/fake1'  text = 'fake1' icon = {ArrowBackIcon}/>
+                    <SideButton to = '/'  text = 'dashboard' icon = {ArrowBackIcon}/>
+                    <SideButton to = '/athletes'  text = 'athletes' icon = {ArrowBackIcon}/>
                     <SideButton to = '/fake1'  text = 'fake1' icon = {ArrowBackIcon}/>
                     <SideButton to = '/fake1'  text = 'fake1' icon = {ArrowBackIcon}/>
                 </VStack>

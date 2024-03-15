@@ -9,6 +9,7 @@ import TopBar from "../components/TopBar"
 import NotificationButton from "../components/NotificationButton"
 import SearchBar from "../components/SearchBar" 
 import ToolBar from "../components/Toolbar"
+import CurrentUserHeader from "../components/CurrentUserHeader"
 
 
 
@@ -31,7 +32,7 @@ export default function HomePage() {
                 <TopBar>
                     <Text as = {RouterLink} to = '/' fontSize = '30px' color = 'white'>MealBuildr</Text>
                     <Flex gap = '30px'>
-                        <SearchBar/>
+                        {/*<SearchBar/>*/}
                         <ToolBar/> 
                     </Flex>
                 </TopBar>
@@ -39,7 +40,7 @@ export default function HomePage() {
                     <Box bg = '' w = '15%' h = '100vh'>
                         <SideBar/>  
                     </Box>
-                    <Box bg = ' ' w = '85%' h = '100vh'>
+                    <Box px = '25px' bg = ' ' w = '85%' h = '100vh'>
                         <Outlet/>
                     </Box>
                 </Flex>   

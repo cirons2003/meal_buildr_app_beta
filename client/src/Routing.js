@@ -9,6 +9,7 @@ import LoginRedirect from './components/LoginRedirect'
 import DashBoard from './pages/Dashboard'
 
 import {useState} from 'react'
+import AthleteList from './pages/AthleteList'
 
 export default function Routing() {
 
@@ -19,6 +20,7 @@ export default function Routing() {
             <Routes>
                 <Route path = '/' element = {<ProtectedRoute><HomePage/></ProtectedRoute>}>
                     <Route index element = {<DashBoard/>}/>
+                    <Route path = 'athletes' element = {<AthleteList/>}/>
                 </Route>
                 <Route path = '/login' element = {<LoginRedirect><LoginPage/></LoginRedirect>}/>
                 <Route path = '/register' element = {<LoginRedirect><RegistrationPage/></LoginRedirect>}/>
