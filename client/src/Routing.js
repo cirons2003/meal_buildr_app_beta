@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage'
 import RegistrationPage from './pages/RegistrationPage'
 import NoPage from './pages/NoPage'
 import LoginRedirect from './components/LoginRedirect'
+import DashBoard from './pages/Dashboard'
 
 import {useState} from 'react'
 
@@ -16,7 +17,9 @@ export default function Routing() {
     return (
         <Router> 
             <Routes>
-                <Route path = '/' element = {<ProtectedRoute><HomePage/></ProtectedRoute>}/>
+                <Route path = '/' element = {<ProtectedRoute><HomePage/></ProtectedRoute>}>
+                    <Route index element = {<DashBoard/>}/>
+                </Route>
                 <Route path = '/login' element = {<LoginRedirect><LoginPage/></LoginRedirect>}/>
                 <Route path = '/register' element = {<LoginRedirect><RegistrationPage/></LoginRedirect>}/>
                 <Route path = '*' element = {<NoPage/>}/>
