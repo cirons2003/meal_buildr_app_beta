@@ -2,22 +2,22 @@ import { Box, Text } from "@chakra-ui/react";
 import {Link as RouterLink} from 'react-router-dom'
 
 
-export default function AthleteTab({username}) {
+export default function AthleteTab({athlete}) {
     return (
         <Box
         as = {RouterLink}
         h="65px"
         w="100%"
-        bg="teal"
+        bg='orange'
         display="flex"
-        alignItems="center"
-        px={2}
+        alignItems="center  "
+        px={10}
         my = '10px'
         borderRadius = '20px'
         
         >
             <Text as = 'b'  fontSize="2xl" isTruncated>
-                {username}
+                {athlete.username}
             </Text>
         </Box>
     )

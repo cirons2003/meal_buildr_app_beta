@@ -28,7 +28,7 @@ export default function HomePage() {
 
     return (
         <>
-            <VStack bg = 'lightyellow'>
+            <VStack overflow = 'hidden' bg = 'lightyellow'>
                 <TopBar>
                     <Text as = {RouterLink} to = '/' fontSize = '30px' color = 'white'>MealBuildr</Text>
                     <Flex gap = '30px'>
@@ -40,7 +40,7 @@ export default function HomePage() {
                     <Box bg = '' w = '15%' h = '100vh'>
                         <SideBar/>  
                     </Box>
-                    <Box px = '25px' bg = ' ' w = '85%' h = '100vh'>
+                    <Box px = '25px' w = '85%' h = '100vh'>
                         <Outlet/>
                     </Box>
                 </Flex>   

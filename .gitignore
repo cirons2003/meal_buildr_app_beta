@@ -28,7 +28,7 @@ yarn-error.log*
 /server/venv/
 /server/*.pyc
 /server/instance/
-/server/myEnv
+/server/myEnv/
 /server/.env
 /server/test.py
 /server/*.pyc
