@@ -1,6 +1,6 @@
 from app import app, login_manager, db, bcrypt
 from app.models import User
-from flask import jsonify, request, session, make_response
+from flask import jsonify, request
 from flask_login import login_user, login_required, logout_user, current_user
 
 
@@ -20,6 +20,8 @@ def register():
     user = User(username = username, hashed_password = hashed_password)
     db.session.add(user)    
     db.session.commit()
+    user = User.query.filter_by(username = username).first()
+    login_user(user)
 
     return jsonify({'message': 'user registered successfully', 'username': f"{username}"}), 201
     
@@ -35,8 +37,7 @@ def login():
     if user and bcrypt.check_password_hash(user.hashed_password, password): 
 
         login_user(user)
-        print(current_user.is_authenticated)
-        print(session)
+        
         return jsonify({'message': 'user logged in successfully', 'username': username}), 200
     else:
         return jsonify({'message': 'invalid credentials'}), 401
