@@ -13,8 +13,8 @@ export default function DashBoard() {
         <>
             <button onClick = {()=>logout()}>Log Out</button>
             <br/>   
-            <h1>{team ? team.team_name : 'No team'}</h1>
-            <h1>{team ? team.role : ''}</h1>
+            <h1>{team ? team?.team_name : 'No team'}</h1>
+            <h1>{team ? team?.role : ''}</h1>
             <button onClick = {()=> getMealsInDateRange('John Doe','Air Force Falcons')}>click</button>
             <br/>
             

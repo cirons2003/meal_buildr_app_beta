@@ -21,13 +21,14 @@ const useGetUserMeals = () => {
         try {   
             const response = await axios.post('http://localhost:5000/getMeals', {start: '1', end: '2', username: username, teamName: teamName}, {withCredentials: true})
             console.log(response.data)
+            setListOfMeals(response.data.listOfMeals)
         }catch(err) {
             console.error(err)
         }
     
     }
 
-    return {getMealsInDateRange}
+    return {getMealsInDateRange, listOfMeals}
 
 }
 

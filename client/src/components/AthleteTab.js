@@ -6,6 +6,7 @@ export default function AthleteTab({athlete}) {
     return (
         <Box
         as = {RouterLink}
+        to = {`/athletePage/${athlete.username}`}
         h="65px"
         w="100%"
         bg='orange'

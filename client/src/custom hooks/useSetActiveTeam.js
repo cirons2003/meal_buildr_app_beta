@@ -1,11 +1,13 @@
 import { useEffect } from "react"
 import { useTeam } from "../context"
+import { useNavigate } from "react-router-dom"
 
 
 
 
 const useSetActiveTeam = () => {
 
+    const navigate = useNavigate()
     const {team, setTeam} = useTeam()
 
     useEffect(()=>{
@@ -21,6 +23,7 @@ const useSetActiveTeam = () => {
             setTeam({team_name: teamName, role: role})
             sessionStorage.setItem('team', JSON.stringify({team_name: teamName, role: role}))
         }
+        navigate('/')
         
     }
     return {team, setActiveTeam}

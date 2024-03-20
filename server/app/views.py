@@ -26,7 +26,7 @@ def getMeals():
     team = Team.query.filter_by(team_name = teamName).first()
 
     if team is None:
-        return jsonify({'message':'team not found'})
+        return jsonify({'message':'team not found'}), 404
 
 
     if (userName == current_user.username 
@@ -47,3 +47,22 @@ def getMeals():
         return jsonify({'message': 'Unauthorized'})
         
         
+@app.route('/getListOfAthletes', methods = ['POST'])
+@login_required
+def getListOfAthletes():
+    userName = request.json.get('username')
+    teamName = request.json.get('team_name')
+    user = User.query.filter_by(username = userName).first()
+    if user is None:
+        return jsonify({'message': 'user not found'}), 404
+    team = Team.query.filter_by(team_name = teamName).first()
+    if team is None:
+        return jsonify({'message': 'team not found'}), 404
+    
+    ##admin/owner access
+    if (team.team_id in [t.id for t in user.admin_teams] 
+        or team.owner_id == current_user.user_id):
+        athletes = [{'username': a.username} for a in team.athletes]
+        return jsonify({'listOfAthletes': athletes, 'message':'successful'})
+    else:
+        return jsonify({'message': 'Unauthorized'}), 404

@@ -2,17 +2,23 @@ import { Box } from "@chakra-ui/react";
 import AthleteListHeader from "../components/AthleteListHeader";
 import AthleteTab from "../components/AthleteTab";
 import AthleteListBody from "../components/AthleteListBody";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useGetAthleteList from "../custom hooks/useGetAthleteList";
 
 export default function AthleteList() {
 
-    const [athletes, setAthletes] = useState([{username: 'Carson Irons'},{ username: 'Connor Irons'}])
+
+    const {listOfAthletes, getAthleteList} = useGetAthleteList()
+    useEffect(() => {
+        getAthleteList('Carson123', 'Princeton Tigers')
+    },[])
 
     return (
         <>
             <Box >
                 <AthleteListHeader numAthletes = {10}/>
-                <AthleteListBody listOfAthletes={athletes}/>
+                <AthleteListBody listOfAthletes={listOfAthletes}/>  
+                {console.log(listOfAthletes)}        
             </Box>
         </>
     )

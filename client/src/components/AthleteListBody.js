@@ -9,7 +9,7 @@ export default function AthleteListBody({listOfAthletes}) {
     return (    
         <Box gap = '5px'>
             {listOfAthletes && listOfAthletes.map((athlete, index) => (
-                <AthleteTab key = {index} index = {index} athlete = {athlete}/>
+                <AthleteTab key = {index} athlete = {athlete}/>
             ))}
         </Box>
     )
