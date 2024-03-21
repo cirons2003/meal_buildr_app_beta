@@ -8,14 +8,15 @@ import { Box } from "@chakra-ui/react"
 export default function AthletePage() {
     const {athleteName} = useParams()
     const {listOfMeals, getMealsInDateRange} = useGetUserMeals()
-    const [meals, setMeals] = useState([])
     const {team} = useTeam()
-
     
+
+    const startDate = new Date('2023-03-20').toISOString()
+    const endDate = new Date().toISOString()
 
     useEffect(()=>{
         if (team && athleteName !== '')
-            getMealsInDateRange(athleteName, team.team_name)
+            getMealsInDateRange(athleteName, team.team_name, startDate, endDate)
     }
     ,[team, athleteName])
 
@@ -26,7 +27,7 @@ export default function AthletePage() {
         <>
             <h1> hello </h1>
             {listOfMeals.map((meal, index) => (
-                <Box index = {index}>
+                <Box key = {index}>
                     <h1>{meal.logged_at}</h1>
                     <p>{meal.description}</p>
                 </Box>

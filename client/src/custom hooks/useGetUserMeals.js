@@ -13,13 +13,11 @@ const useGetUserMeals = () => {
         return false
     }
 
-    const getMealsInDateRange = async(username, teamName /*,start, end*/ ) => {
-        /*if (!isValidDate(start) || !isValidDate(end)) {
-            console.log('invalid dates')
-            return
-        }*/
+    const getMealsInDateRange = async(username, teamName, start, end ) => {
+        
+
         try {   
-            const response = await axios.post('http://localhost:5000/getMeals', {start: '1', end: '2', username: username, teamName: teamName}, {withCredentials: true})
+            const response = await axios.post('http://localhost:5000/getMeals', {start: start, end: end, username: username, teamName: teamName}, {withCredentials: true})
             console.log(response.data)
             setListOfMeals(response.data.listOfMeals)
         }catch(err) {
