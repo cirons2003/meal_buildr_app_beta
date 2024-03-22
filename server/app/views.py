@@ -4,6 +4,7 @@ from flask_login import login_required, current_user
 from flask import jsonify, request
 from app.models import User, Meal, Team, team_admins, team_athletes
 from datetime import datetime
+import pytz
 
 
 
@@ -20,6 +21,8 @@ def getUserTeams():
 
     return jsonify(response)
 
+
+#all dates are stored as utc in the database 
 @app.route('/getMeals', methods = ['Post'])
 @login_required
 def getMeals():
@@ -31,11 +34,11 @@ def getMeals():
         return jsonify({'message':'team not found'}), 404
     
     start = request.json.get('start')
-    start = datetime.fromisoformat(start)
-    start = start.replace(tzinfo = None)
+    start = datetime.fromisoformat(start.replace('Z', '+00:00'))
+    start = start.replace(tzinfo = pytz.UTC)
     end = request.json.get('end')
-    end = datetime.fromisoformat(end)
-    end = end.replace(tzinfo = None)
+    end = datetime.fromisoformat(end.replace('Z', '+00:00'))
+    end = end.replace(tzinfo = pytz.UTC)
     
     if not (isinstance(start, datetime) and isinstance(end, datetime)):
         return jsonify({'message': 'invalid date range'})
@@ -48,10 +51,11 @@ def getMeals():
         if targetUser is None:
             return jsonify({'message':'user not found'}), 404
         if targetUser.user_id in [u.user_id for u in team.athletes]:
-            meals = [{'logged_at': meal.logged_at, 'description': meal.description}for meal in Meal.query.filter_by(user_id = targetUser.user_id)]
+            meals = [meal for meal in Meal.query.filter_by(user_id = targetUser.user_id)]
             #filter for date 
-            meals = [meal for meal in meals if (meal['logged_at'] < end and meal['logged_at'] > start)]
-            return jsonify({"message":"meal fetch was successful",
+            meals = [meal for meal in meals if (meal.logged_at.replace(tzinfo = pytz.UTC) < end and meal.logged_at.replace(tzinfo = pytz.UTC) > start)]
+            meals = [{'logged_at': meal.logged_at.isoformat() + 'Z', 'description': meal.description} for meal in meals]
+            return jsonify({"message":("meal fetch was successful for date range: ", start, "until", end),
                             "listOfMeals": meals})
         else:
             return jsonify({'message':'user not found in team'}), 404

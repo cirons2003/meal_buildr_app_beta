@@ -9,6 +9,7 @@ export default function AthleteList() {
 
 
     const {listOfAthletes, getAthleteList} = useGetAthleteList()
+    
     useEffect(() => {
         getAthleteList('Carson123', 'Princeton Tigers')
     },[])
