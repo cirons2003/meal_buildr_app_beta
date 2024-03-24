@@ -7,7 +7,7 @@ const TopBar = ({ children }) => {
 
   useEffect(()=>onOpen(),[])
 
-  useEffect(() => {
+  /*useEffect(() => {
     const handleScroll = () => {
       if (lastScrollY < window.pageYOffset) {
         onClose();
@@ -22,7 +22,7 @@ const TopBar = ({ children }) => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [onClose, onOpen]);
+  }, [onClose, onOpen]);*/
 
   return (
     <Flex
@@ -31,9 +31,12 @@ const TopBar = ({ children }) => {
       zIndex="1000"
       justify="space-between"
       py = '4'
+      my = '0px'
       bg="tomato"
-      transition="transform 0.3s ease-in-out"
-      transform={isOpen ? 'translateY(0)' : 'translateY(-100%)'}
+      
+      
+      //transition="transform 0.3s ease-in-out"
+      //transform={isOpen ? 'translateY(0)' : 'translateY(-100%)'}
     >
       {children}
     </Flex>

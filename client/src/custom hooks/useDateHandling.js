@@ -9,7 +9,7 @@ const useDateHandling = () => {
     const now = new Date()
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString()
 
-    const [rangeType, setRangeType] = useState(1)
+    const [rangeType, setRangeType] = useState(0)
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
     const [targetDate, setTargetDate] = useState(today)

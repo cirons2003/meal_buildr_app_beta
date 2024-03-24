@@ -2,9 +2,12 @@ import { useParams } from "react-router-dom"
 import useGetUserMeals from "../custom hooks/useGetUserMeals"
 import { useEffect, useState } from "react"
 import { useTeam } from "../context"
-import { Box } from "@chakra-ui/react"
+import { Box, list } from "@chakra-ui/react"
 import useDateHandling from "../custom hooks/useDateHandling"
 import { CgFormatJustify } from "react-icons/cg"
+import DayCard from "../components/DayCard"
+import DayView from "../components/DayView/index"
+import MealCalendarTopBar from "../components/DayView/MealCalendarTopBar"
 
 
 export default function AthletePage() {
@@ -33,6 +36,20 @@ export default function AthletePage() {
     if (!team) 
         return (<div>loading...</div>)
 
+    if (rangeType === 0)
+        return (
+            <>
+                <MealCalendarTopBar targetDate = {targetDate}
+                    incrementDateDay={incrementDateDay} decrementDateDay = {decrementDateDay}
+                    rangeType = {rangeType} setRangeType={changeRangeType}  
+                    athleteName = {athleteName}
+                />
+                <DayView targetDate = {targetDate} meals = {listOfMeals}/>
+            </>
+        )   
+
+
+
     return (
         <>
             <h1> hello </h1>
@@ -51,6 +68,7 @@ export default function AthletePage() {
                     <p>{meal.description}</p>
                 </Box>
             ))}
+            <DayCard rangeType = {1}/>
         </>
     )
 }

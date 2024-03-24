@@ -13,8 +13,9 @@ export const UserProvider = ({children}) => {
         const storedUser = sessionStorage.getItem('user')
         storedUser && setUser(JSON.parse(storedUser))
 
+
         const storedTeam = sessionStorage.getItem('team')
-        storedTeam && setTeam(JSON.parse(storedTeam))
+        storedTeam ? setTeam(JSON.parse(storedTeam)) : setTeam({team_name: 'none', role: 'athlete'})
     },[])
 
     return (
