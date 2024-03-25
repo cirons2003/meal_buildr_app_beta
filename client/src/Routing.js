@@ -10,6 +10,7 @@ import DashBoard from './pages/Dashboard'
 
 import AthleteList from './pages/AthleteList'
 import AthletePage from './pages/AthletePage'
+import MessagesPage from './pages/MessagesPage'
 
 
 export default function Routing() {
@@ -22,7 +23,8 @@ export default function Routing() {
                 <Route path = '/' element = {<ProtectedRoute><HomePage/></ProtectedRoute>}>
                     <Route index element = {<DashBoard/>}/>
                     <Route path = 'athletes' element = {<AthleteList/>}/>
-                    <Route path = 'athletePage/:athleteName' element = <AthletePage/>/>
+                    <Route path = 'athletePage/:athleteName' element = {<AthletePage/>}/>
+                    <Route path = 'messages' element = {<MessagesPage/>}/>
                 </Route>
                 <Route path = '/login' element = {<LoginRedirect><LoginPage/></LoginRedirect>}/>
                 <Route path = '/register' element = {<LoginRedirect><RegistrationPage/></LoginRedirect>}/>
