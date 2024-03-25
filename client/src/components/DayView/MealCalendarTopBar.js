@@ -6,6 +6,8 @@ export default function MealCalendarTopBar({
     setRangeType, rangeType, targetDate, incrementDateDay, decrementDateDay,
     athleteName
 }) {
+
+    
     return (
         <>
             <Flex align = 'center' bg = 'teal' p = '15px' justifyContent = 'space-between'>

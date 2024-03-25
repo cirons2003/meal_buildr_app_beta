@@ -31,7 +31,7 @@ export default function DayMealTab({meal, index, setSelectedMeal, isSelected}) {
             
             
         >
-            <Text as = 'b'  fontSize="sm" >{new Date(meal.logged_at).toLocaleTimeString()}</Text>
+            <Text as = 'b'  fontSize="sm" >{new Date(meal.logged_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true})}</Text>
         </Box>
     );
 };

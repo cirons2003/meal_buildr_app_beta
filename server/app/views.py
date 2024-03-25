@@ -2,10 +2,10 @@
 from app import app 
 from flask_login import login_required, current_user
 from flask import jsonify, request
-from app.models import User, Meal, Team, team_admins, team_athletes
+from app.models import User, Meal, Team, Comment, team_admins, team_athletes
 from datetime import datetime
 import pytz
-
+from app import db 
 
 
 @app.route('/getUserTeams')
@@ -54,7 +54,7 @@ def getMeals():
             meals = [meal for meal in Meal.query.filter_by(user_id = targetUser.user_id)]
             #filter for date 
             meals = [meal for meal in meals if (meal.logged_at.replace(tzinfo = pytz.UTC) < end and meal.logged_at.replace(tzinfo = pytz.UTC) > start)]
-            meals = [{'logged_at': meal.logged_at.isoformat() + 'Z', 'description': meal.description} for meal in meals]
+            meals = [{'logged_at': meal.logged_at.isoformat() + 'Z', 'description': meal.description, 'meal_id': meal.meal_id} for meal in meals]
             return jsonify({"message":("meal fetch was successful for date range: ", start, "until", end),
                             "listOfMeals": meals})
         else:
@@ -86,3 +86,32 @@ def getListOfAthletes():
     else:
         return jsonify({'message': 'Unauthorized'}), 404
     
+
+@app.route('/addComment', methods = ['POST'])
+@login_required
+def addComment():
+    comment_text = request.json.get('comment_text')
+    meal_id = request.json.get('meal_id')
+    poster_id = current_user.user_id
+    poster_username = current_user.username
+
+    comment = Comment(comment_text = comment_text, meal_id = meal_id, poster_id = poster_id, poster_username = poster_username)
+    db.session.add(comment)    
+    db.session.commit()
+
+    return jsonify({'message': 'comment posted!'})
+
+
+@app.route('/getComments', methods = ['POST'])
+@login_required
+def getComments():
+    meal_id = request.json.get('meal_id')
+    meal = Meal.query.filter_by(meal_id = meal_id).first()
+
+    if meal is None: 
+        return jsonify({'message': 'meal not found'}), 404 
+    
+    ##low security version here... anybody can view all comments on a meal
+    comments = Comment.query.filter_by(meal_id = meal.meal_id).all()
+    comments = [{'comment_text': c.comment_text, 'poster_username': c.poster_username, 'commented_at':c.commented_at} for c in comments]
+    return jsonify({'listOfComments': comments, 'message': 'comments fetched successfully'})

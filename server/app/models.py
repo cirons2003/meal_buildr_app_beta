@@ -51,3 +51,10 @@ class Team(db.Model):
 
 
     
+class Comment(db.Model):
+    comment_id = db.Column(db.Integer, primary_key = True)
+    poster_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable = False)
+    poster_username = db.Column(db.String(50), nullable = False)
+    meal_id = db.Column(db.Integer, db.ForeignKey('meal.meal_id'), nullable = False)
+    comment_text = db.Column(db.String(500), nullable = False)
+    commented_at = db.Column(db.DateTime, default = db.func.now(), nullable = False)

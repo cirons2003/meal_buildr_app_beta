@@ -7,7 +7,7 @@ export default function CalendarViewDay ({selectedMeal, setSelectedMeal, meals }
 
     
 
-  const timeSlots = Array.from({ length: 24 * 2 }, (_, i) => `${Math.floor(i / 2)}:${i % 2 === 0 ? '00' : '30'}`);
+  const timeSlots = Array.from({ length: 24 * 2 }, (_, i) => (i % 24 === 0 || i % 24 === 1) ? `${12}:${i % 2 === 0 ? '00' : '30'}${i % 24 === 0 ? 'AM' : 'PM'}` : `${Math.floor(i / 2) % 12}:${i % 2 === 0 ? '00' : '30'}${i % 24 === 0 ? 'AM' : 'PM'}`);
 
     const scrollToTime = "07:00";
     const scrollToPosition = (parseInt(scrollToTime.split(':')[0]) * 2 + (parseInt(scrollToTime.split(':')[1]) / 30)) * 50; // 50px height for each 30-minute slot
