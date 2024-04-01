@@ -1,15 +1,21 @@
 import { Box } from "@chakra-ui/react";
 import MessagesConversationTab from "./MessagesConversationTab";
+import useGetConversations from "../../custom hooks/useGetConversations";
+import { useEffect, useState } from "react";
+import useSendMessage from "../../custom hooks/useSendMessage";
 
 
 
-export default function Conversations({}) {
+export default function Conversations({filteredListOfConversations}) {
 
-    const listOfConversations = [{'username': 'Hector123678923333333330-'}, {'username': 'person2'}]
+    
+    const {sendMessage} = useSendMessage()
+    
+
     return (
         <Box>
-            {listOfConversations.map((contact )=> (
-                <MessagesConversationTab contact = {contact}/>    
+            {filteredListOfConversations.map((convo)=> (
+                <MessagesConversationTab conversation = {convo}/>    
             ))} 
         </Box>
     )

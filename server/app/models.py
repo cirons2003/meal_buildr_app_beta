@@ -58,3 +58,27 @@ class Comment(db.Model):
     meal_id = db.Column(db.Integer, db.ForeignKey('meal.meal_id'), nullable = False)
     comment_text = db.Column(db.String(500), nullable = False)
     commented_at = db.Column(db.DateTime, default = db.func.now(), nullable = False)
+
+class Message(db.Model):
+    message_id = db.Column(db.Integer, primary_key = True) 
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable = False)
+    sender_username = db.Column(db.String(50), nullable = False)
+    recipient_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable = False)
+    recipient_username = db.Column(db.String(50), nullable = False)
+    message_text = db.Column(db.String(500), nullable = False)
+    sent_at = db.Column(db.DateTime, default = datetime.utcnow, nullable = False)
+    conversation_id = db.Column(db.Integer, db.ForeignKey('conversation.conversation_id'), nullable = False)
+
+
+class Conversation(db.Model): 
+    conversation_id = db.Column(db.Integer, primary_key = True)
+    messages = db.relationship('Message', cascade='all, delete-orphan', backref='conversation', lazy='dynamic', foreign_keys='Message.conversation_id')
+    last_used_at = db.Column(db.DateTime, default = db.func.now(), nullable = False)
+    users = db.relationship('User', secondary = 'conversation_users', lazy = 'dynamic')
+    last_message_text = db.Column(db.String(500), nullable = False)
+
+conversation_users = db.Table(
+    'conversation_users', db.Column('conversation_id', db.Integer, db.ForeignKey('conversation.conversation_id', ondelete='CASCADE'), primary_key = True),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.user_id', ondelete='CASCADE'), primary_key = True),
+    db.Column('joined_at', db.DateTime, default = db.func.now(), nullable = False)
+)   

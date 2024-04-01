@@ -9,17 +9,23 @@ export default function AthleteTab({athlete}) {
         to = {`/athletePage/${athlete.username}`}
         h="65px"
         w="100%"
-        bg='orange'
+        borderBottom = '2px'
+        borderLeft = '2px'
+        bg = ''
+        borderColor = 'teal'
         display="flex"
         alignItems="center  "
-        px={10}
+        px={3}
         my = '10px'
         borderRadius = '20px'
         
         >
-            <Text as = 'b'  fontSize="2xl" isTruncated>
-                {athlete.username}
-            </Text>
+            <Box bg = '' py = '3px' px = '8px' borderRadius= '20px'>
+                <Text color = 'teal' as = 'b'  fontSize="2xl" isTruncated>
+                    {athlete.username}
+                </Text>
+            </Box>
+            
         </Box>
     )
 }

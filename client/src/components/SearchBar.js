@@ -1,7 +1,7 @@
 import { Input, InputGroup, InputLeftElement, Icon } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
 
-const SearchBar = () => {
+const SearchBar = ({searchTerm, setSearchTerm}) => {
   return (
     <InputGroup w="300px">
       <InputLeftElement pointerEvents="none">
@@ -14,6 +14,8 @@ const SearchBar = () => {
         _placeholder={{ color: 'gray.500' }}
         _hover={{ bg: 'whiteAlpha.900' }}
         _focus={{ bg: 'whiteAlpha.900', borderColor: 'blue.500' }}
+        value = {searchTerm} 
+        onChange = {(e)=> setSearchTerm(e.target.value)}
       />
     </InputGroup>
   );

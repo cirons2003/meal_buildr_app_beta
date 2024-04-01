@@ -12,7 +12,7 @@ const useLogoutUser = () => {
             const response = await axios.get('http://localhost:5000/logout', {withCredentials: true})
             console.log(response.data.message)
             setUser(null)
-            sessionStorage.removeItem('user')
+            localStorage.removeItem('user')
             
         }catch(err) {
             console.error(err)

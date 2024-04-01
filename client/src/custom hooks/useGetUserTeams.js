@@ -10,7 +10,6 @@ const useGetUserTeams = () => {
         try {
             const response = await axios.get('http://localhost:5000/getUserTeams', {withCredentials: true})
             setListOfTeams(response.data)
-            console.log(response.data)
         }catch(err) {
             console.error(err)
         }

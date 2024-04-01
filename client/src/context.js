@@ -10,11 +10,11 @@ export const UserProvider = ({children}) => {
     const [team, setTeam] = useState(null)
 
     useEffect(() =>{
-        const storedUser = sessionStorage.getItem('user')
+        const storedUser = localStorage.getItem('user')
         storedUser && setUser(JSON.parse(storedUser))
 
 
-        const storedTeam = sessionStorage.getItem('team')
+        const storedTeam = localStorage.getItem('team')
         storedTeam ? setTeam(JSON.parse(storedTeam)) : setTeam({team_name: 'none', role: 'athlete'})
     },[])
 

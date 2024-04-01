@@ -11,6 +11,7 @@ import DashBoard from './pages/Dashboard'
 import AthleteList from './pages/AthleteList'
 import AthletePage from './pages/AthletePage'
 import MessagesPage from './pages/MessagesPage'
+import ConversationPage from './pages/ConversationPage'
 
 
 export default function Routing() {
@@ -25,6 +26,7 @@ export default function Routing() {
                     <Route path = 'athletes' element = {<AthleteList/>}/>
                     <Route path = 'athletePage/:athleteName' element = {<AthletePage/>}/>
                     <Route path = 'messages' element = {<MessagesPage/>}/>
+                    <Route path = 'conversation/:conversationId' element = {<ConversationPage/>}/>
                 </Route>
                 <Route path = '/login' element = {<LoginRedirect><LoginPage/></LoginRedirect>}/>
                 <Route path = '/register' element = {<LoginRedirect><RegistrationPage/></LoginRedirect>}/>

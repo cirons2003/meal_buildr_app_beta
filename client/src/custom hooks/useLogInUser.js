@@ -17,7 +17,7 @@ const useLogInUser = () => {
             console.log(response.data)
             if (response.data.username) 
                 setUser({username: response.data.username})
-                sessionStorage.setItem('user', JSON.stringify({username: response.data.username}))
+                localStorage.setItem('user', JSON.stringify({username: response.data.username}))
             
         }catch(err) {
             console.error(err)
