@@ -28,6 +28,7 @@ export default function SideBar() {
                     <>
                         <SideButton to = '/'  text = 'dashboard' icon = {ArrowBackIcon}/>
                         <SideButton to = {`/athletePage/${user.username}`}  text = 'myMeals' icon = {ArrowBackIcon}/>
+                        <SideButton to = '/uploadMeal'  text = 'upload meal' icon = {ArrowBackIcon}/>
                         <SideButton to = '/messages'  text = 'messages' icon = {ArrowBackIcon}/>
                     </>}
                 </VStack>

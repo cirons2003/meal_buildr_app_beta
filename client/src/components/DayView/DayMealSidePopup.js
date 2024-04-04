@@ -1,8 +1,7 @@
-    import { IconButton, Box, Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody, Image, Text, Input, Flex } from '@chakra-ui/react';
+    import { IconButton, Box, Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody, Image, Text, Input, Flex, Center } from '@chakra-ui/react';
 
-    import defaultImage from '../../static/defaultMeal.svg'
-    import image1 from '../../static/meal-image-1.jpg'
-    import image2 from '../../static/stam.jpg'
+    
+    import defaultImage from '../../static/SVG Layer4.svg'
     import {ArrowForwardIcon} from '@chakra-ui/icons'
 import { useEffect, useState } from 'react';
 import useAddComment from '../../custom hooks/useAddComment';
@@ -20,8 +19,10 @@ import '../../style.css'
         };
 
         const [comment, setComment] = useState('')
+       
         const {addComment} = useAddComment()
         const {getComments, listOfComments, loading} = useGetComments()
+        
 
         const handleComment = () => {
             
@@ -38,6 +39,9 @@ import '../../style.css'
 
         
 
+        
+        
+
 
 
     return (
@@ -52,8 +56,11 @@ import '../../style.css'
                 
                 <PopoverCloseButton bg = 'white' color = 'teal' onClick = {() => setSelectedMeal(null)} />
                 <PopoverHeader color = 'white' as = 'b' fontSize = '25px'>{new Date(selectedMeal.logged_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true})}</PopoverHeader>
-                <PopoverBody  gap = '30px' minHeight = '350px'  >
-                <Image mb = '10px' border = '2px' borderRadius = '10px' borderColor = 'green' src = {image1} alt={selectedMeal.description} />
+                <PopoverBody  gap = '30px' minHeight = '350px'  maxWidth = '350px'>
+                <Center >
+                    <Image mb = '10px' border = '2px' borderRadius = '10px' borderColor = 'green' maxHeight = '250px' maxWidth = '200px' src = {selectedMeal.image_url ? selectedMeal.image_url : defaultImage} alt={'meal-image'} />
+                </Center>
+                {console.log(selectedMeal.image_url)}
                 <Box display = 'flex' flexGrow = {1} borderBottom = '2px' borderRadius='0px' borderColor = 'white'>
                     <Text color = 'white' as="b">{`"${selectedMeal.description ? selectedMeal.description : ''}"`}</Text>
                 </Box>

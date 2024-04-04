@@ -1,11 +1,23 @@
 import {Navigate} from 'react-router-dom'
-import { useUser } from '../context'
+import { useTeam, useUser } from '../context'
+import ChooseTeam from '../pages/ChooseTeam'
 
 export default function ProtectedRoute({children}) {
-    const {user, setUser} = useUser()
+    const {user} = useUser()
+    const {team} = useTeam()
+
+    function CheckTeam() {
+        return (
+            <>
+            
+                {(team && team.team_name !== 'none') ? children : <Navigate to = '/chooseTeam'/>}
+            </>
+        )
+    } 
+
     return (
         <>
-            {user ? children : <Navigate to = '/login'/>}
+            {user ? <CheckTeam/> : <Navigate to = '/login'/>}
         </>
     )
 }

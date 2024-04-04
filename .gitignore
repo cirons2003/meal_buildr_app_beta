@@ -33,3 +33,59 @@ yarn-error.log*
 /server/test.py
 /server/*.pyc
 /server/.DS_Store
+
+###
+##Mobile 
+###
+
+# dependencies
+node_modules/
+mobile/node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+mobile/.expo/
+mobile/dist/
+mobile/web-build/
+
+# Native
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+mobile/*.orig.*
+mobile/*.jks
+mobile/*.p8
+mobile/*.p12
+mobile/*.key
+mobile/*.mobileprovision
+
+# Metro
+.metro-health-check*
+mobile/.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+mobile/npm-debug.*
+mobile/yarn-debug.*
+mobile/yarn-error.*
+
+# macOS
+.DS_Store
+mobile/.DS_Store
+*.pem
+mobile/*.pem
+
+# local env files
+.env*.local
+mobile/.env*.local
+
+# typescript
+*.tsbuildinfo
+mobile/*.tsbuildinfo

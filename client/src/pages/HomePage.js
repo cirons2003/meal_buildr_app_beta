@@ -4,7 +4,7 @@ import useLogoutUser from "../custom hooks/useLogoutUser";
 import { useUser } from "../context";
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import SideBar from '../components/SideBar';
-import { Outlet, Link as RouterLink } from "react-router-dom";
+import { Outlet, Link as RouterLink, useNavigate } from "react-router-dom";
 import TopBar from "../components/TopBar";
 import ToolBar from "../components/Toolbar";
 
@@ -12,9 +12,11 @@ export default function HomePage() {
     const {user, setUser} = useUser();
     const {logout} = useLogoutUser(user, setUser);
 
-    const attemptLogout = () => {
-        logout();
-    };
+    const navigate = useNavigate()
+
+   
+
+    
 
     return (
         <>

@@ -10,7 +10,7 @@ const useGetConversations = () => {
         try {
             const response = await axios.get('http://localhost:5000/getConversations', {withCredentials: true})
             setListOfConversations(response.data.listOfConversations.sort((a,b) => a.last_used_at.localeCompare(b.last_used_at)))
-            setFilteredListOfConversations(response.data.listOfConversations.sort((a,b) => a.last_used_at.localeCompare(b.last_used_at)))
+            setFilteredListOfConversations(response.data.listOfConversations.sort((b,a) => a.last_used_at.localeCompare(b.last_used_at)))
             console.log(response.data)
         }catch(err) {
             console.error(err)

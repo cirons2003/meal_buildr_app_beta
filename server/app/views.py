@@ -24,7 +24,7 @@ def getUserTeams():
 
 
 #all dates are stored as utc in the database 
-@app.route('/getMeals', methods = ['Post'])
+@app.route('/getMeals', methods = ['POST'])
 @login_required
 def getMeals():
     userName = request.json.get('username')
@@ -55,7 +55,7 @@ def getMeals():
             meals = [meal for meal in Meal.query.filter_by(user_id = targetUser.user_id)]
             #filter for date 
             meals = [meal for meal in meals if (meal.logged_at.replace(tzinfo = pytz.UTC) < end and meal.logged_at.replace(tzinfo = pytz.UTC) > start)]
-            meals = [{'logged_at': meal.logged_at.isoformat() + 'Z', 'description': meal.description, 'meal_id': meal.meal_id} for meal in meals]
+            meals = [{'logged_at': meal.logged_at.isoformat() + 'Z', 'description': meal.description, 'meal_id': meal.meal_id, 'image_url': meal.image_url} for meal in meals]
             return jsonify({"message":("meal fetch was successful for date range: ", start, "until", end),
                             "listOfMeals": meals})
         else:

@@ -11,6 +11,7 @@ from flask_login import LoginManager
 
 from flask_bcrypt import Bcrypt 
 
+import boto3
 
 
 app = Flask(__name__) 
@@ -32,4 +33,13 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
-from app import models, authentication, views
+s3_client = boto3.client(
+    's3', 
+    aws_access_key_id = os.getenv('AWS_BUCKET_ACCESS_KEY'),
+    aws_secret_access_key = os.getenv('AWS_BUCKET_SECRET_KEY'),
+    region_name = 'us-east-2'
+)
+
+
+
+from app import models, authentication, views, aws

@@ -12,6 +12,9 @@ import AthleteList from './pages/AthleteList'
 import AthletePage from './pages/AthletePage'
 import MessagesPage from './pages/MessagesPage'
 import ConversationPage from './pages/ConversationPage'
+import MealUploadPage from './pages/MealUploadPage'
+
+import ChooseTeam from './pages/ChooseTeam'
 
 
 export default function Routing() {
@@ -27,10 +30,13 @@ export default function Routing() {
                     <Route path = 'athletePage/:athleteName' element = {<AthletePage/>}/>
                     <Route path = 'messages' element = {<MessagesPage/>}/>
                     <Route path = 'conversation/:conversationId' element = {<ConversationPage/>}/>
+                    <Route path = 'uploadMeal' element = {<MealUploadPage/>}/>
                 </Route>
                 <Route path = '/login' element = {<LoginRedirect><LoginPage/></LoginRedirect>}/>
                 <Route path = '/register' element = {<LoginRedirect><RegistrationPage/></LoginRedirect>}/>
+                <Route path = '/chooseTeam' element = {<ChooseTeam/>}/>
                 <Route path = '*' element = {<NoPage/>}/>
+
             </Routes>
         </Router>
     )
