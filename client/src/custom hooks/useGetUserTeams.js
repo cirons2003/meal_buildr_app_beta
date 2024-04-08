@@ -1,10 +1,14 @@
 import {useState} from 'react'
 import axios from 'axios'
+import useLogoutUser from './useLogoutUser'
+import { useUser } from '../context'
 
 const useGetUserTeams = () => {
     const [listOfTeams, setListOfTeams] = useState([])
     const [loading, setLoading] = useState(false)
-    
+    const {logout} = useLogoutUser()
+    const {user} = useUser()
+
     const getTeams = async() => {
         setLoading(true)
         try {
@@ -12,8 +16,10 @@ const useGetUserTeams = () => {
             setListOfTeams(response.data)
         }catch(err) {
             console.error(err)
+            logout()
         }
         setLoading(false)
+        console.log(user)
     }
     return {listOfTeams, loading, getTeams}
 }

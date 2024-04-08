@@ -25,6 +25,15 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "ios": {
+      "infoPlist": {
+        "NSCameraUsageDescription": "Your custom message explaining why your app needs camera access",
+        "NSPhotoLibraryAddUsageDescription": "Your custom message explaining why your app needs photo library access"
+      }
+    },
+    "android": {
+      "permissions": ["CAMERA", "WRITE_EXTERNAL_STORAGE"]
     }
   }
 }

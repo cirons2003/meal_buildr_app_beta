@@ -6,6 +6,8 @@ export default function ProtectedRoute({children}) {
     const {user} = useUser()
     const {team} = useTeam()
 
+    
+
     function CheckTeam() {
         return (
             <>
@@ -17,7 +19,7 @@ export default function ProtectedRoute({children}) {
 
     return (
         <>
-            {user ? <CheckTeam/> : <Navigate to = '/login'/>}
+            {(user?.username && user.username !== 'none') ? <CheckTeam/> : <Navigate to = '/login'/>}
         </>
     )
 }

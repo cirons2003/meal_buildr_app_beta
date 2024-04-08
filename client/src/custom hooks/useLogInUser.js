@@ -15,10 +15,10 @@ const useLogInUser = () => {
             const response = await axios.post('http://localhost:5000/login', {username: username, password: password},
             {withCredentials: true})
             console.log(response.data)
-            if (response.data.username) 
+            if (response.data.username) {
                 setUser({username: response.data.username})
                 localStorage.setItem('user', JSON.stringify({username: response.data.username}))
-            
+            }
         }catch(err) {
             console.error(err)
         }
