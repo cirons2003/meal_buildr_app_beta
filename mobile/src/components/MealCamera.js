@@ -104,9 +104,9 @@ export default function MealCamera({setActivePicture}) {
                             mb = '10' _pressed = {{backgroundColor: ''}}
                             onPress = {()=>takePicture()}
                         />
-                        <IconButton _icon = {{as: MaterialCommunityIcons, name: 'camera-flip-outline', size: 39, color: theme.colors.teal.grad4}}
+                        {/*<IconButton _icon = {{as: MaterialCommunityIcons, name: 'camera-flip-outline', size: 39, color: theme.colors.teal.grad4}}
                             onPress = {()=>discardPhoto()} style = {{position: 'absolute', bottom: 0, right: 0,}} mb = {10} mr = {5} _pressed = {{backgroundColor: ''}}
-                        />
+                        />*/}
                     </Flex>
                 </Camera>
             }

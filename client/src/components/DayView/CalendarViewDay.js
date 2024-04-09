@@ -2,6 +2,7 @@ import { Box, VStack, Text } from '@chakra-ui/react';
 import DayMealTab from './DayMealTab';
 import { useEffect, useRef, useState } from 'react';
 import DayMealSidePopup from './DayMealSidePopup';
+import useMealHandling from '../../custom hooks/useMealHandling';
 
 export default function CalendarViewDay ({selectedMeal, setSelectedMeal, meals }) {
 
@@ -13,6 +14,7 @@ export default function CalendarViewDay ({selectedMeal, setSelectedMeal, meals }
     const scrollToPosition = (parseInt(scrollToTime.split(':')[0]) * 2 + (parseInt(scrollToTime.split(':')[1]) / 30)) * 50; // 50px height for each 30-minute slot
 
     const scrollContainerRef = useRef(null)
+    
 
     useEffect(()=>{
         if (scrollContainerRef.current)

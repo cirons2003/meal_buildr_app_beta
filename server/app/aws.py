@@ -7,6 +7,7 @@ from flask_login import login_required, current_user
 from flask import request, jsonify
 from app.models import Meal
 from app import db 
+from datetime import datetime
 
 
 @app.route('/uploadMeal', methods = ['POST'])
@@ -17,6 +18,8 @@ def uploadMeal():
     if file is None: 
         return jsonify({'message': 'expected image'}), 404
     filename = secure_filename(file.filename)
+    if (filename == 'SERVERFILL'):
+        filename = f"{current_user.username}_{datetime.now().strftime('%Y%m%d%H%M%S')}.jpg"
     bucket_name = 'mealbuildr-bucket'
 
     try:

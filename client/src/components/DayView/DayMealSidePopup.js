@@ -52,7 +52,7 @@ import '../../style.css'
                 <Box />
             </PopoverTrigger>
             <PopoverContent position = 'absolute' top = {`${getMealPosition(selectedMeal.logged_at) -120}px`} 
-            right = '-900px' bg = 'teal'  minHeight = '350px'>
+            right = '-900px' bg = 'teal'  minHeight = '350px' >
                 
                 <PopoverCloseButton bg = 'white' color = 'teal' onClick = {() => setSelectedMeal(null)} />
                 <PopoverHeader color = 'white' as = 'b' fontSize = '25px'>{new Date(selectedMeal.logged_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true})}</PopoverHeader>
