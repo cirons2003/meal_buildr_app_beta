@@ -44,11 +44,12 @@ class Team(db.Model):
     team_name = db.Column(db.String(20), nullable = False, unique = True)
     capacity = db.Column(db.Integer, nullable = False)
     num_athletes = db.Column(db.Integer, nullable = False, default = 0)
+    join_code = db.Column(db.Integer, unique = True)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable = False)
     created_at = db.Column(db.DateTime, default = db.func.now(), nullable = False,) 
     admins = db.relationship('User', secondary = team_admins, backref = db.backref('admin_of_teams', lazy = 'dynamic'))
     athletes = db.relationship('User', secondary = team_athletes, backref = db.backref('athlete_of_teams', lazy = 'dynamic'))
-
+    
 
     
 class Comment(db.Model):

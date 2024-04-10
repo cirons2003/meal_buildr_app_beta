@@ -257,3 +257,4 @@ def getTeamMembers():
     
     return jsonify({'owner': owner, 'admins': admins, 'athletes': athletes, 'message': 'successfully fetched team members'})
 
+
