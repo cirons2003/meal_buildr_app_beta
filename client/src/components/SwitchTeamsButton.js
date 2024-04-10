@@ -5,7 +5,7 @@ import useGetUserTeams from "../custom hooks/useGetUserTeams"
 import ChooseTeamPanel from "./ChooseTeamPanel"
 
 
-export default function SwitchTeamsButton() {
+export default function SwitchTeamsButton({text}) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef()
 
@@ -14,7 +14,7 @@ export default function SwitchTeamsButton() {
   return (
     <>
       <Button ref={btnRef} colorScheme='teal' onClick={onOpen}>
-        Switch Teams
+        {text ? text : 'Switch Teams'}
       </Button>
       <Drawer
         isOpen={isOpen}

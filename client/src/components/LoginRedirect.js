@@ -3,6 +3,7 @@ import { useUser } from '../context'
 
 export default function LoginRedirect({children}) {
     const {user, setUser} = useUser()
+   
     
     return (
         <>

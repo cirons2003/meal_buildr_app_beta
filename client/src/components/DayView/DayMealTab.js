@@ -1,6 +1,6 @@
 import { Box, Button, Text } from '@chakra-ui/react';
 
-export default function DayMealTab({meal, index, setSelectedMeal, isSelected}) {
+export default function DayMealTab({group, index, setSelectedGroup, isSelected}) {
 
     const getMealPosition = (loggedTime) => {
         const loggedDate = new Date(loggedTime);
@@ -14,14 +14,14 @@ export default function DayMealTab({meal, index, setSelectedMeal, isSelected}) {
             key={index}
             position="absolute"
             left="0"
-            top={`${getMealPosition(meal.logged_at)}px`}
+            top={`${getMealPosition(group.meals[0].logged_at)}px`}
             w="100%"
             p="2"
             bg= {isSelected ? 'teal' : 'lightblue'}
             border = '2px'
             borderRadius="md"
             borderColor = 'teal'
-            onClick = {() => setSelectedMeal(meal)}
+            onClick = {() => setSelectedGroup(group)}
             display = 'flex'
             justifyContent = 'start'
             pl = '50px'
@@ -31,7 +31,7 @@ export default function DayMealTab({meal, index, setSelectedMeal, isSelected}) {
             
             
         >
-            <Text as = 'b'  fontSize="sm" >{new Date(meal.logged_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true})}</Text>
+            <Text as = 'b'  fontSize="sm" >{new Date(group.meals[0].logged_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true})} (x{group.size})</Text>
         </Box>
     );
 };

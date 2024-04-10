@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 import DayMealSidePopup from './DayMealSidePopup';
 import useMealHandling from '../../custom hooks/useMealHandling';
 
-export default function CalendarViewDay ({selectedMeal, setSelectedMeal, meals }) {
+export default function CalendarViewDay ({selectedGroup, setSelectedGroup, meals }) {
 
-    
+  const {mealGroupings}= useMealHandling(meals)
 
   const timeSlots = Array.from({ length: 24 * 2 }, (_, i) => (i % 24 === 0 || i % 24 === 1) ? `${12}:${i % 2 === 0 ? '00' : '30'}${i / 24 < 1 ? 'AM' : 'PM'}` : `${Math.floor(i / 2) % 12}:${i % 2 === 0 ? '00' : '30'}${i / 24 < 1 ? 'AM' : 'PM'}`);
 
@@ -21,6 +21,8 @@ export default function CalendarViewDay ({selectedMeal, setSelectedMeal, meals }
             scrollContainerRef.current.scrollTop = scrollToPosition
     },[])
 
+
+
   return (
     <Box ref = {scrollContainerRef} overflowY="auto" h="80%" position="relative">
       {/* displays the calendar lines*/}
@@ -31,11 +33,11 @@ export default function CalendarViewDay ({selectedMeal, setSelectedMeal, meals }
           </Box>
         ))}
       </VStack>
-      {meals.map((meal, index) => (
-        <DayMealTab setSelectedMeal = {setSelectedMeal} 
-        isSelected = {selectedMeal && selectedMeal.logged_at === meal.logged_at} meal = {meal} index = {index}/>
+      {mealGroupings.map((mealGroup, index) => (
+        <DayMealTab group = {mealGroup} 
+        isSelected = {selectedGroup && selectedGroup.meals[0].logged_at === mealGroup.meals[0].logged_at} setSelectedGroup={setSelectedGroup} index = {index}/>
       ))}
-      <DayMealSidePopup setSelectedMeal = {setSelectedMeal} selectedMeal = {selectedMeal}/>
+      <DayMealSidePopup setSelectedGroup = {setSelectedGroup} selectedGroup = {selectedGroup} />
     </Box>
 
   );

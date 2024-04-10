@@ -1,21 +1,22 @@
-import {useState} from 'react'
-import {useUpdateEffect} from '@chakra-ui/react'
+import {useState, useEffect} from 'react'
+
 
 
 
 const useMealHandling = (meals) => {
     const [mealGroupings, setMealGroupings] = useState([])
     
-    useUpdateEffect(()=> {
-        groupMeals()
-    },)
+    useEffect(()=> {
+        if(meals)
+            groupMeals()
+    },[meals])
 
     const groupMeals = () => {
         const delta = 10 * 60 * 1000 // 10 mins
         let groups = []
         let next = []
         const timeStamps = meals.map((meal)=> ({
-            ...meal, timestamp: new Date(meal.logged_at).getTime()
+            meal: {...meal}, timestamp: new Date(meal.logged_at).getTime()
         }))
 
         for (let i = 0; i < timeStamps.length; i++){
@@ -34,7 +35,7 @@ const useMealHandling = (meals) => {
             groups.push([...next])
         
         let listBuilder = []
-        groups.map((group)=> listBuilder.push({size: group.length, meals: group.map((g)=>(g.meals))}))
+        groups.map((group)=> listBuilder.push({size: group.length, meals: group.map((g)=>(g.meal))}))
         setMealGroupings(listBuilder)
 
         }

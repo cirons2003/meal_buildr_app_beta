@@ -6,33 +6,18 @@ import DayMealSidePopup from './DayMealSidePopup';
 import CalendarViewDay from './CalendarViewDay';
 
 export default function DayView({ meals, targetDate }){
-  const [selectedMeal, setSelectedMeal] = useState(null);
+  const [selectedGroup, setSelectedGroup] = useState(null);
 
     useEffect(()=> {
-        setSelectedMeal(null)
+        setSelectedGroup(null)
     },[targetDate])
 
   return (
     <>
-        <CalendarViewDay selectedMeal = {selectedMeal} 
-            setSelectedMeal = {setSelectedMeal}  meals = {meals}
+        <CalendarViewDay selectedGroup = {selectedGroup} 
+            setSelectedGroup = {setSelectedGroup}  meals = {meals}
         />
     </>
   )
 
-
-
-  return (
-    <Flex height = '100%' bg = ''>
-      {/* Left-Side Calendar */}
-      <Box w="50%" p="4">
-        {meals.map((meal) => (
-          <Box key={meal.id} /*onMouseEnter={() => setSelectedMeal(meal)}*/ p="2" _hover={{ bg: 'gray.100' }}>
-            <DayMealTab meal = {meal} onSelect = {()=>{setSelectedMeal(meal)}}/>
-          </Box>
-        ))}
-      </Box>
-      <DayMealSidePopup setSelectedMeal = {setSelectedMeal} selectedMeal = {selectedMeal}/>
-
-    </Flex>
-  ) }
+}

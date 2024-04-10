@@ -21,7 +21,7 @@ const useSetActiveTeam = () => {
         }
         else {  
             setTeam({team_name: teamName, role: role})
-            sessionStorage.setItem('team', JSON.stringify({team_name: teamName, role: role}))
+            localStorage.setItem('team', JSON.stringify({team_name: teamName, role: role}))
         }
         navigate('/')
         
