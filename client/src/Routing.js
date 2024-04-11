@@ -15,6 +15,7 @@ import ConversationPage from './pages/ConversationPage'
 import MealUploadPage from './pages/MealUploadPage'
 
 import ChooseTeam from './pages/ChooseTeam'
+import JoinTeamPage from './pages/JoinTeamPage'
 
 
 export default function Routing() {
@@ -35,6 +36,7 @@ export default function Routing() {
                 <Route path = '/login' element = {<LoginRedirect><LoginPage/></LoginRedirect>}/>
                 <Route path = '/register' element = {<LoginRedirect><RegistrationPage/></LoginRedirect>}/>
                 <Route path = '/chooseTeam' element = {<ChooseTeam/>}/>
+                <Route path = '/joinTeam' element = {<ProtectedRoute><JoinTeamPage/></ProtectedRoute>}/>
                 <Route path = '*' element = {<NoPage/>}/>
 
             </Routes>

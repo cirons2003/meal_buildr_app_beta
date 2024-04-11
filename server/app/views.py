@@ -244,7 +244,7 @@ def getTeamMembers():
     
     team = Team.query.filter_by(team_name = team_name).first()
     if team is None: 
-        return jsonify({'message': 'user not found'}), 404
+        return jsonify({'message': 'team not found'}), 404
 
     owner = User.query.filter_by(user_id = team.owner_id).first()
     admins = team.admins
@@ -257,4 +257,79 @@ def getTeamMembers():
     
     return jsonify({'owner': owner, 'admins': admins, 'athletes': athletes, 'message': 'successfully fetched team members'})
 
+
+@app.route('/changeTeamCode', methods = ['POST'])
+@login_required
+def changeTeamCode():
+    team_name = request.json('team_name')
+    join_code = request.json('join_code')
+
+    team = Team.query.filter_by(team_name = team_name).first()
+
+    if team is None: 
+        return jsonify({'message': 'team not found'}), 404
+
+    if (team.owner_id != current_user.user_id):
+        return jsonify({'message':'Must be owner to change join code'}), 401
+    
+    team.join_code = join_code
+
+    db.session.commit()
+    return jsonify({'message': 'successfully changed join code!'}), 201
+    
+
+
+@app.route('/getTeamCode', methods = ['POST'])
+@login_required
+def getTeamCode():
+    team_name = request.json.get('team_code')
+
+    team = Team.query.filter_by(team_name = team_name).first()
+
+    if team is None: 
+        return jsonify({'message': 'team not found'}), 404
+
+    if (team.owner_id != current_user.user_id):
+        return jsonify({'message':'Must be owner to change join code'}), 401
+    
+    return jsonify({'message': 'successfully retrieved join code', 'join_code': team.join_code})
+
+
+@app.route('/getTeamWithCode', methods = ['POST'])
+@login_required
+def getTeamWithCode():
+    team_code = request.json.get('team_code')
+
+    team = Team.query.filter_by(join_code = team_code).first()
+
+    if team is None: 
+        return jsonify({'message': 'no teams match given code', 'team': None})
+
+    return jsonify({'message':'successfully returned matching team', 'team': {'team_name':team.team_name}})
+
+
+
+@app.route('/joinTeamWithCode', methods = ['POST'])
+@login_required
+def joinTeamWithCode():
+    team_name = request.json.get('team_name')
+    team_code = int(request.json.get('team_code'))
+    
+
+    team = Team.query.filter_by(team_name = team_name).first()
+
+    if team is None: 
+        return jsonify({'message': 'team not found'}), 404
+
+    if (team.join_code != team_code):
+        return jsonify({'message': f'{team_code} is invalid code for {team.team_name}'})
+
+    if (team.team_id in [t.team_id for t in current_user.athlete_teams]):
+        return jsonify({'message': 'user already in team'})
+    
+    new_row = team_athletes.insert().values(user_id = current_user.user_id, team_id = team.team_id)
+    db.session.execute(new_row)
+    db.session.commit()
+
+    return jsonify({'message': 'successfully joined team!'}), 201
 
