@@ -24,7 +24,7 @@ export default function AthletePage() {
         changeRangeType
     } = useDateHandling()
     
-
+    
 
     // getMeals in specified range 
     useEffect(()=>{

@@ -31,7 +31,7 @@ def getMeals():
     teamName = request.json.get('teamName')
     team = Team.query.filter_by(team_name = teamName).first()
 
-    if team is None:
+    if team is None and teamName != 'none': 
         return jsonify({'message':'team not found'}), 404
     
     start = request.json.get('start')
@@ -45,13 +45,13 @@ def getMeals():
         return jsonify({'message': 'invalid date range'})
 
 
-    if (userName == current_user.username 
-        or team.team_id in [t.team_id for t in current_user.admin_teams] 
-        or team.owner.user_id == current_user.user_id):
+    if (userName == current_user.username or (team and (
+        team.team_id in [t.team_id for t in current_user.admin_teams] 
+        or team.owner.user_id == current_user.user_id))):
         targetUser = User.query.filter_by(username = userName).first()
         if targetUser is None:
             return jsonify({'message':'user not found'}), 404
-        if targetUser.user_id in [u.user_id for u in team.athletes]:
+        if (userName == current_user.username or targetUser.user_id in [u.user_id for u in team.athletes]):
             meals = [meal for meal in Meal.query.filter_by(user_id = targetUser.user_id)]
             #filter for date 
             meals = [meal for meal in meals if (meal.logged_at.replace(tzinfo = pytz.UTC) < end and meal.logged_at.replace(tzinfo = pytz.UTC) > start)]
@@ -62,7 +62,8 @@ def getMeals():
             return jsonify({'message':'user not found in team'}), 404
 
     else:   
-        return jsonify({'message': 'Unauthorized'})
+        return jsonify({'message': f'{userName} is Unauthorized'})
+
         
         
 @app.route('/getListOfAthletes', methods = ['POST'])

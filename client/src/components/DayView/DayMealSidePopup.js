@@ -102,7 +102,7 @@ import '../../style.css'
                 </PopoverBody>
             </PopoverContent>
             </Popover>
-        )}loo
+        )}
         </Box>
     );
     };

@@ -5,7 +5,7 @@ import { useUser } from '../context'
 const useUploadMeal = () => {
 
     const {user} = useUser()
-    const baseURL = "https://114d-140-180-240-233.ngrok-free.app"
+    const baseURL = "https://84cb-140-180-240-225.ngrok-free.app"
 
     const uploadMeal = async(image_uri, description) => {
         const formData = new FormData()
