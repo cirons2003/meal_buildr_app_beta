@@ -16,7 +16,6 @@ export default function MealGroupPopup({selectedGroup, setSelectedGroup}) {
 
     const [showComments, setShowComments] = useState(false)
 
-    
 
     ModalDimensions = {
         height: screenHeight * 0.65, 

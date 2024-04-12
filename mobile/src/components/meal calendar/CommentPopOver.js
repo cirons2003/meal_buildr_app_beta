@@ -1,4 +1,4 @@
-import {Flex, Button, Popover, Text, Input, useTheme, ScrollView, IconButton} from 'native-base'
+import {Flex, Button, Popover, Text, Input, useTheme, ScrollView, IconButton, KeyboardAvoidingView} from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons';
 import {useState, useEffect} from 'react'
 import { Dimensions } from 'react-native';
@@ -15,6 +15,8 @@ export default function CommentPopOver({meal, isActive, index, showComments, set
 
     const {listOfComments, getComments, addComment} = useCommentHandling()
 
+    const [showInputFeedback, setShowInputFeedback] = useState(true)
+
     const handleSendComment = () => {
         addComment(newComment, meal.meal_id)
         setNewComment('')
@@ -29,9 +31,9 @@ export default function CommentPopOver({meal, isActive, index, showComments, set
     return (
         <Flex width='100%' flex={1} justify='center' direction='column' align='center' mb={20}>
             <Popover isOpen={showComments && isActive} onClose={() => setShowComments(false)} placement='top' trigger={(triggerProps) => {
-                return <Button {...triggerProps}  onPress = {()=> setShowComments(true)} bg={theme.colors.teal.grad4}>Comments</Button>;
+                return <Button {...triggerProps} fontSize = {15}  onPress = {()=> setShowComments(true)} bg={theme.colors.teal.grad4}>{`Comments (${listOfComments.length})`}</Button>;
             }}>
-                <Popover.Content borderColor = {theme.colors.teal.grad4} width = {screenWidth * 0.8} height = {screenHeight * 0.4}>
+                <Popover.Content borderColor = {theme.colors.teal.grad4} width = {screenWidth * 0.8} height = {screenHeight * 0.4} pos= 'relative'>
                 <Popover.Arrow />
                 <Popover.CloseButton />
                 <Popover.Header bg = {theme.colors.teal.grad6} borderColor = {theme.colors.teal.grad4}>
@@ -41,9 +43,12 @@ export default function CommentPopOver({meal, isActive, index, showComments, set
                     <ScrollView maxH='200px'>
                     {listOfComments.map((comment, index) => (
                         <Flex  key={index} direction = 'column' width = '100%' >
-                            <Text bold color = 'red.100' fontSize = {10}>
-                                {comment.poster_username}
-                            </Text>
+                            <Flex direction='row' justify = 'space-between'>
+                                
+                                <Text bold color = 'red.100' fontSize = {10}>
+                                    {comment.poster_username}
+                                </Text>
+                            </Flex>
                             <Text mb={2} fontSize = {15}>
                                 {comment.comment_text}
                             </Text>
@@ -63,7 +68,8 @@ export default function CommentPopOver({meal, isActive, index, showComments, set
                         bg = {theme.colors.teal.grad3}
                         borderColor= {theme.colors.teal.grad5}
                         _input={{color: 'lightblue'}}
-                        _focus={{ transform: [{ translateY: 100 }] }}
+                        onFocus={()=>setShowInputFeedback(true)}
+                        
                         
                     />
                     <IconButton
