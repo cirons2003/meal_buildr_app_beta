@@ -1,7 +1,7 @@
 import {Text, Flex, ScrollView, useTheme, Button, Pressable} from 'native-base'
 import {useRef, useEffect, useState} from 'react'
 import useGetUserMeals from '../../custom hooks/useGetUserMeals'
-import { useTeam, useUser } from '../../context'
+import { useReRender, useTeam, useUser } from '../../context'
 import DayViewTab from './DayViewTab'
 import MealGroupPopup from './MealGroupPopup'
 
@@ -29,13 +29,14 @@ export default function DayView({startDate, endDate}) {
     const [selectedGroup, setSelectedGroup] = useState(null)
     const {user} = useUser()
     const {team} = useTeam()
+    const {reRender} = useReRender()
 
     useEffect(()=>{
         if (startDate && endDate && user) {
             getMealsInDateRange(user.username, 'none', startDate, endDate)
             console.log('go')
         }
-    }, [startDate, endDate, user])
+    }, [startDate, endDate, user, reRender])
 
     return (
         <Flex width = '100%' direction = 'column' flex = {1} bg = 'white' align = 'center'>

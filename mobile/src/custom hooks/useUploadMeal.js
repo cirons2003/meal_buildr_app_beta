@@ -1,9 +1,11 @@
 import axios from 'axios'
-import { useUser } from '../context'
+import { useReRender, useUser } from '../context'
 
 
 const useUploadMeal = () => {
 
+
+    const {setReRender, reRender} = useReRender()
     const {user} = useUser()
     const baseURL = "https://84cb-140-180-240-225.ngrok-free.app"
 
@@ -19,6 +21,7 @@ const useUploadMeal = () => {
         try{
             const response = await axios.post(baseURL + '/uploadMeal', formData, 
             {headers: {'Content-Type': 'multipart/form-data'}, withCredentials: true})
+            setReRender(!reRender)
             console.log(response.data)
         }catch(err) {
             console.error(err)
