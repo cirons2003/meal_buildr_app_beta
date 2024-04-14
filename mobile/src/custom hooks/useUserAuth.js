@@ -7,6 +7,7 @@ const baseURL = "https://84cb-140-180-240-225.ngrok-free.app"
 
 const useUserAuth = () => {
     const {setUser} = useUser()
+
     const loginUser = async (username, password) => {
         try {
             const response = await axios.post(baseURL+'/login', {username: username, password: password},
@@ -14,7 +15,7 @@ const useUserAuth = () => {
             console.log(response.data)
             if (response.data.username) {
                 setUser({username: response.data.username})
-                AsyncStorage.setItem('user', JSON.stringify({username: response.data.username}))
+                AsyncStorage.setItem('user', JSON.stringify({username: response.data.username, password: response.data.password}))
             }
         }catch(err) {
             console.error(err)
@@ -30,6 +31,7 @@ const useUserAuth = () => {
             console.error(err)
         }
     }
+    
 
     const signUpUser = async(username, password) => {
         try {
@@ -38,7 +40,7 @@ const useUserAuth = () => {
             console.log(response.data)
             if (response.data.username) {
                 setUser({username: response.data.username})
-                AsyncStorage.setItem('user', JSON.stringify({username: response.data.username}))
+                AsyncStorage.setItem('user', JSON.stringify({username: response.data.username, password: response.data.password}))
             }
         }catch(err) {
             console.error(err)

@@ -1,10 +1,11 @@
 import BottomBar from '../components/layout/BottomBar'
 import PagerViewContent from '../components/layout/PagerViewContent'
-import {useRef, useState} from 'react'
+import {useRef, useState, useEffect} from 'react'
 import {useUser } from '../context'
 import LoginPage from '../pages/LoginPage'
 import {Flex} from 'native-base'
 import TopBar from '../components/layout/TopBar'
+import useUserAuth from '../custom hooks/useUserAuth'
 
 
 
@@ -15,6 +16,15 @@ export default function Routing() {
   const pagerViewRef = useRef(null)
 
   const {user} = useUser()
+  const {loginUser} = useUserAuth()
+
+  useEffect(()=>{
+    if (user) {
+      const clear = setTimeout(()=>loginUser(user.username, user.password),3000)
+      return () => clearTimeout(clear)
+    }
+  },[user])
+
 
   const setPage = (pageNum) => {
     pagerViewRef.current?.setPage(pageNum)

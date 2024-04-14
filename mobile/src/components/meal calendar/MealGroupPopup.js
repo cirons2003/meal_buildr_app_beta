@@ -41,7 +41,7 @@ export default function MealGroupPopup({selectedGroup, setSelectedGroup}) {
                             <Flex pt = {6} bg = {theme.colors.teal.grad3} p = {0} gap = {5} mb = {0} direction = 'column' align = 'center' width = '100%' height = '100%' key = {index}>
                                 
                                 <AspectRatio ratio = {0.8} height = '50%' >
-                                    <Image borderRadius = {10} source = {{uri: meal.image_url}} alt = 'pic' />
+                                    <Image borderColor = {theme.colors.teal.grad5} borderWidth = {1} borderRadius = {10} source = {{uri: meal.image_url}} alt = 'pic' />
                                 </AspectRatio>
                                 <ScrollView borderBottomWidth = {2} borderBottomColor = {theme.colors.teal.grad4} width = '80%' pb = {1} maxHeight = '15%'>
                                     <Text color = {theme.colors.teal.grad4}  fontSize = {16}>{`"${meal.description}"`}</Text>

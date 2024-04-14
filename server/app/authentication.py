@@ -23,7 +23,7 @@ def register():
     user = User.query.filter_by(username = username).first()
     login_user(user)
 
-    return jsonify({'message': 'user registered successfully', 'username': f"{username}"}), 201
+    return jsonify({'message': 'user registered successfully', 'username': f"{username}", 'password': password}), 201
     
 @app.route('/login', methods = ['POST'])
 def login(): 
@@ -38,7 +38,7 @@ def login():
 
         login_user(user)
         
-        return jsonify({'message': 'user logged in successfully', 'username': username}), 200
+        return jsonify({'message': 'user logged in successfully', 'username': username, 'password': password}), 200
     else:
         return jsonify({'message': 'invalid credentials'}), 401
     

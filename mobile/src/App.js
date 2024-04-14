@@ -5,7 +5,9 @@ import customTheme from './theme'
 
 
 
+
 export default function App() {
+  
   return (
     <NativeBaseProvider theme = {customTheme}> 
       <ContextProvider>
