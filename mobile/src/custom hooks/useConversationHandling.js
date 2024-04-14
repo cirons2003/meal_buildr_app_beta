@@ -2,13 +2,16 @@ import { useState } from "react"
 import axios from 'axios'
 
 
-const useGetConversations = () => {
+const useConversationHandling = () => {
     const [listOfConversations, setListOfConversations] = useState([])
     const [filteredListOfConversations, setFilteredListOfConversations] = useState([])
+    const [listOfMessages, setListOfMessages] = useState([])
+
+    const baseURL = "https://84cb-140-180-240-225.ngrok-free.app"
 
     const getConversations = async() => {
         try {
-            const response = await axios.get('http://localhost:5000/getConversations', {withCredentials: true})
+            const response = await axios.get(baseURL+'/getConversations', {withCredentials: true})
             setListOfConversations(response.data.listOfConversations.sort((a, b) => new Date(b.last_used_at) - new Date(a.last_used_at)))
             setFilteredListOfConversations(response.data.listOfConversations.sort((a, b) => new Date(b.last_used_at) - new Date(a.last_used_at)))
             console.log(response.data)
@@ -25,7 +28,19 @@ const useGetConversations = () => {
         setFilteredListOfConversations(listOfConversations.filter(conv => conv.other_user_username.toLowerCase().startsWith(searchTerm.toLowerCase())).sort((a,b) => a.other_user_username.localeCompare(b.other_user_username)))
         
     }
-    return {filteredListOfConversations, getConversations, filterConversations}
+
+
+    const getMessages = async(conversationId) => {
+        try {
+            const response = await axios.post(baseURL+'/getMessages', {'conversation_id': conversationId}, {withCredentials: true})
+            setListOfMessages(response.data.listOfMessages)
+            console.log(response.data.listOfMessages)
+        }catch(err) {
+            console.error(err)
+        }
+    }
+
+    return {filteredListOfConversations, getConversations, filterConversations, getMessages, listOfMessages}
 }
 
-export default useGetConversations
+export default useConversationHandling

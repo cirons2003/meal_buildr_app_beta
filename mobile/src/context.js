@@ -5,10 +5,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const UserContext = createContext(null)
 const TeamContext = createContext(null)
+const LoggedInContext = createContext(null)
 
 export const ContextProvider = ({children}) => {
     const [user, setUser] = useState(null)
     const [team, setTeam] = useState(null)
+    const [loggedIn, setLoggedIn] = useState(false)
 
     useEffect(() =>{
         const getUser = async() => {
@@ -38,7 +40,9 @@ export const ContextProvider = ({children}) => {
     return (
         <TeamContext.Provider value = {{team, setTeam}}>
             <UserContext.Provider value = {{user, setUser}}>
-                {children}
+                <LoggedInContext.Provider value = {{loggedIn, setLoggedIn}}>
+                    {children}
+                </LoggedInContext.Provider>
             </UserContext.Provider>
         </TeamContext.Provider>
     )
@@ -47,3 +51,4 @@ export const ContextProvider = ({children}) => {
 
 export const useUser = () => useContext(UserContext)
 export const useTeam = () => useContext(TeamContext)
+export const useLoggedIn = () => useContext(LoggedInContext)

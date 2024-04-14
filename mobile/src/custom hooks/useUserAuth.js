@@ -1,12 +1,13 @@
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useUser } from '../context'
+import { useLoggedIn, useUser } from '../context'
 
 
 const baseURL = "https://84cb-140-180-240-225.ngrok-free.app"
 
 const useUserAuth = () => {
     const {setUser} = useUser()
+    const {loggedIn, setLoggedIn} = useLoggedIn()
 
     const loginUser = async (username, password) => {
         try {
@@ -17,6 +18,7 @@ const useUserAuth = () => {
                 setUser({username: response.data.username})
                 AsyncStorage.setItem('user', JSON.stringify({username: response.data.username, password: response.data.password}))
             }
+            setLoggedIn(true)
         }catch(err) {
             console.error(err)
         }
@@ -24,6 +26,7 @@ const useUserAuth = () => {
 
     const logoutUser = async () => {
         try {
+            setLoggedIn(false)
             const response = await axios.get(baseURL + '/logout', {withCredentials: true})
             setUser(null)
             AsyncStorage.removeItem('user')
@@ -42,6 +45,7 @@ const useUserAuth = () => {
                 setUser({username: response.data.username})
                 AsyncStorage.setItem('user', JSON.stringify({username: response.data.username, password: response.data.password}))
             }
+            setLoggedIn(true)
         }catch(err) {
             console.error(err)
         }

@@ -36,8 +36,8 @@ export default function NewMessageList() {
             <Flex direction = 'column' py = '10px' gap = '10px' color = 'teal'>
                 <Input height = '30px' border = '1px' borderColor = 'teal' fontSize = '15px'  type = 'text' value = {searchTerm} onChange={((e)=> setSearchTerm(e.target.value))} placeholder= 'search people...'/>
                 <Flex justify='space-around' bg = 'lightblue' borderRadius = '20px'>
-                    <NewMessageToggleButton onClick = {()=>setShowStaff(!showStaff)} text = 'staff' active = {showStaff}/>
-                    <NewMessageToggleButton onClick = {()=>setShowStaff(!showStaff)} text = 'athletes' active = {!showStaff}/>
+                    <NewMessageToggleButton onClick = {()=>setShowStaff(true)} text = 'staff' active = {showStaff}/>
+                    <NewMessageToggleButton onClick = {()=>setShowStaff(false)} text = 'athletes' active = {!showStaff}/>
                 </Flex>
             </Flex>
             <Flex  bg= 'cloud' overFlowY = 'auto' display= 'flex' direction = 'column' gap = '2px' flex = "1" >
