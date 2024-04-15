@@ -1,6 +1,6 @@
 import { Center, Flex, Text } from "@chakra-ui/react";
 import SwitchTeamsButton from "../components/SwitchTeamsButton";
-import backgroundImage from '../static/images.jpg'
+import backgroundImage from '../static/gradient-emerald-background_23-2150260696.avif'
 
 
 export default function ChooseTeam() {

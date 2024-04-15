@@ -1,10 +1,11 @@
 import {useState} from  'react'
 import axios from 'axios'
-import { useUser } from '../context'
+import { useTeam, useUser } from '../context'
 
 const useLogoutUser = () => {
-    const {user, setUser} = useUser()
+    const {setUser} = useUser()
     const [logoutLoading, setLogoutLoading] = useState(false)
+    const {setTeam} = useTeam()
 
     const logout = async() => {
         setLogoutLoading(true)
@@ -12,7 +13,9 @@ const useLogoutUser = () => {
             const response = await axios.get('http://localhost:5000/logout', {withCredentials: true})
             console.log(response.data.message)
             setUser(null)
+            setTeam(null)
             localStorage.removeItem('user')
+            localStorage.removeItem('team')
             
         }catch(err) {
             console.error(err)

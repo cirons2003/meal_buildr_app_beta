@@ -1,4 +1,4 @@
-import { Box, Button } from "@chakra-ui/react"
+import { Box, Button, Text, Flex } from "@chakra-ui/react"
 import useGetUserTeams from "../custom hooks/useGetUserTeams"
 import {Link as RouterLink} from 'react-router-dom'
 import { useEffect } from "react"
@@ -27,10 +27,11 @@ export default function ChooseTeamPanel() {
         return(
             <>
                 <Box display = 'flex' flexDirection = 'column' gap = '10px'>
-                    {listOfTeams && Array.isArray(listOfTeams) &&
+                    {(listOfTeams && listOfTeams.length > 0)? Array.isArray(listOfTeams) &&
                         listOfTeams.map((team) =>(
                         <TeamButton teamName = {team.team_name} userRole = {team.role}/>
-                    ) )}
+                    ))
+                    : <Flex align = 'center' justify = 'center' mt = {5} ><Text as= 'b' >No teams found...</Text></Flex>}
                     <br/>
                     
                 <Button bg = 'magenta' as = {RouterLink} to = '/joinTeam'>Join Team</Button>

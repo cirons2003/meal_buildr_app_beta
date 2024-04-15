@@ -2,7 +2,9 @@ import {Center, Flex, Text, HStack, Input, Button, Alert, AlertIcon, AlertTitle 
 import backgroundImage from '../static/purpleBackground.avif'
 import {useEffect, useRef, useState} from 'react'
 import useJoinCodeHandling from '../custom hooks/useJoinCodeHandling'
-import {Link as RouterLink} from 'react-router-dom'
+import {Link as RouterLink, Navigate} from 'react-router-dom'
+import { useUser } from '../context'
+
 
 
 export default function JoinTeamPage() {
@@ -103,6 +105,14 @@ export default function JoinTeamPage() {
         const codeToUse = getCode()
         joinTeam(teamFound.team_name, codeToUse)
     }
+
+    const {user} = useUser()
+
+    if (!user) 
+        return (
+            <Navigate to = '/login'/>
+        )
+
 
     return (
         <Center height="100vh" width="100vw" bgImage={backgroundImage} bgPosition="center" bgRepeat="no-repeat" bgSize="cover">

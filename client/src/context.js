@@ -15,6 +15,7 @@ export const UserProvider = ({children}) => {
 
 
         const storedTeam = localStorage.getItem('team')
+        console.log(storedTeam)
         storedTeam ? setTeam(JSON.parse(storedTeam)) : setTeam({team_name: 'none', role: 'athlete'})
     },[])
 

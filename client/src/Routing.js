@@ -38,7 +38,7 @@ export default function Routing() {
                 <Route path = '/login' element = {<LoginRedirect><LoginPage/></LoginRedirect>}/>
                 <Route path = '/register' element = {<LoginRedirect><RegistrationPage/></LoginRedirect>}/>
                 <Route path = '/chooseTeam' element = {<ChooseTeam/>}/>
-                <Route path = '/joinTeam' element = {<ProtectedRoute><JoinTeamPage/></ProtectedRoute>}/>
+                <Route path = '/joinTeam' element = {<JoinTeamPage/>}/>
                 <Route path = '*' element = {<NoPage/>}/>
 
             </Routes>
