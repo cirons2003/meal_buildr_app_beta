@@ -7,12 +7,15 @@ const UserContext = createContext(null)
 const TeamContext = createContext(null)
 const LoggedInContext = createContext(null)
 const ReRenderContext = createContext(null)
+const ProxyContext = createContext(null)
 
 export const ContextProvider = ({children}) => {
     const [user, setUser] = useState(null)
     const [team, setTeam] = useState(null)
     const [loggedIn, setLoggedIn] = useState(false)
     const [reRender, setReRender] = useState(false)
+
+    const baseURL = 'https://8205-140-180-240-233.ngrok-free.app'
 
     useEffect(() =>{
         const getUser = async() => {
@@ -34,21 +37,23 @@ export const ContextProvider = ({children}) => {
             }
         }
         getUser()
-        getTeam()
+        getTeam()   
     },[])
 
 
     
     return (
-        <TeamContext.Provider value = {{team, setTeam}}>
-            <UserContext.Provider value = {{user, setUser}}>
+        <UserContext.Provider value = {{user, setUser}}>
+            <TeamContext.Provider value = {{team, setTeam}}>
                 <LoggedInContext.Provider value = {{loggedIn, setLoggedIn}}>
                     <ReRenderContext.Provider value = {{reRender, setReRender}}>
-                        {children}
+                            <ProxyContext.Provider value = {{baseURL}}>
+                                {children}  
+                            </ProxyContext.Provider>
                     </ReRenderContext.Provider>
                 </LoggedInContext.Provider>
-            </UserContext.Provider>
-        </TeamContext.Provider>
+            </TeamContext.Provider>
+        </UserContext.Provider>
     )
 
 }
@@ -57,3 +62,4 @@ export const useUser = () => useContext(UserContext)
 export const useTeam = () => useContext(TeamContext)
 export const useLoggedIn = () => useContext(LoggedInContext)
 export const useReRender = () => useContext(ReRenderContext)
+export const useProxyProvider = () => useContext(ProxyContext)

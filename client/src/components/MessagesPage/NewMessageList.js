@@ -6,7 +6,7 @@ import { Box, Flex, Input, useUpdateEffect } from "@chakra-ui/react"
 import NewMessageToggleButton from "./NewMessageToggleButton"
 
 
-export default function NewMessageList() {
+export default function NewMessageList({TabType, onClose}) {
 
     const {team} = useTeam()
     const {getTeamMembers, filterTeamMembers, filteredStaff, filteredAthletes} = useGetTeamMembers()
@@ -44,11 +44,11 @@ export default function NewMessageList() {
                 
                 {showStaff ?    
                     filteredStaff.map((stf, index)=> (
-                        <NewMessageListTab key = {index} member = {stf}/>
+                        <TabType key = {index} member = {stf} onClose = {onClose}/>
                     ))
                     :
                     filteredAthletes.map((ath, index)=> (
-                        <NewMessageListTab key = {index} member = {ath}/>
+                        <TabType key = {index} member = {ath}  onClose = {onClose}/>
                     ))
                     
                 }

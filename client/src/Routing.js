@@ -17,6 +17,9 @@ import MealUploadPage from './pages/MealUploadPage'
 import ChooseTeam from './pages/ChooseTeam'
 import JoinTeamPage from './pages/JoinTeamPage'
 import ScheduleMeetingPage from './pages/ScheduleMeetingPage'
+import MemberSettingsPage from './pages/MemberSettingsPage'
+import OwnerDashboard from './pages/OwnerDashboard'
+import SettingsPage from './pages/SettingsPage'
 
 
 export default function Routing() {
@@ -34,6 +37,9 @@ export default function Routing() {
                     <Route path = 'conversation/:conversationId' element = {<ConversationPage/>}/>
                     <Route path = 'uploadMeal' element = {<MealUploadPage/>}/>
                     <Route path = 'scheduleMeeting' element = {<ScheduleMeetingPage/>}/>
+                    <Route path = 'settings/:athleteName' element = {<MemberSettingsPage/>}/>
+                    <Route path = 'ownerDashboard' element = {<OwnerDashboard/>}/>
+                    <Route path = 'settings' element = {<SettingsPage/>}/>
                 </Route>
                 <Route path = '/login' element = {<LoginRedirect><LoginPage/></LoginRedirect>}/>
                 <Route path = '/register' element = {<LoginRedirect><RegistrationPage/></LoginRedirect>}/>

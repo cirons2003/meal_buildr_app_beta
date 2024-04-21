@@ -1,10 +1,11 @@
 import axios from "axios"
 import { useState } from "react"
+import { useProxyProvider } from "../context"
 
 
 const useCommentHandling = () => {
 
-    const baseURL = 'https://84cb-140-180-240-225.ngrok-free.app'
+    const baseURL = 'https://8205-140-180-240-233.ngrok-free.app'//const {baseURL} = useProxyProvider()
 
     const [listOfComments, setListOfComments] = useState([])
     const [loading, setLoading] = useState(false)

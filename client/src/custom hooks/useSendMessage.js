@@ -4,18 +4,21 @@ import { useState } from "react"
 
 
 const useSendMessage = () => {
+    const baseURL = 'http://localhost:5000'
 
     const [cid, setCid] = useState(-1)
+    const [refreshToggle, setRefreshToggle] = useState(false)
+    const [noConvo, setNoConvo] = useState(false)
 
     const sendMessageWithUser = async(message_text, recipient_id) => {
-        console.log({recipient_id})
         message_text = message_text.trim()
         if (message_text === '')
-            return 
+            message_text = 'doNotSendMessage' 
         try {
-            const response = await axios.post('http://localhost:5000/sendMessage', {message_text: message_text, recipient_id: recipient_id}, {withCredentials: true})
+            const response = await axios.post(baseURL+'/sendMessage', {message_text: message_text, recipient_id: recipient_id}, {withCredentials: true})
             console.log(response.data)
             setCid(response.data.conversation_id)
+            setRefreshToggle(!refreshToggle)
         }catch(err) {
             console.error(err)
         }
@@ -24,17 +27,18 @@ const useSendMessage = () => {
     const sendMessageWithConversation = async(message_text, conversation_id) => {
         message_text = message_text.trim()
         if (message_text === '')
-            return 
+            return
         try {
             const response = await axios.post('http://localhost:5000/sendMessage', {message_text: message_text, conversation_id: conversation_id}, {withCredentials: true})
             console.log(response.data)
             setCid(response.data.conversation_id)
+            setRefreshToggle(!refreshToggle)
         }catch(err) {
             console.error(err)
         }
     }  
 
-    return {cid, sendMessageWithUser, sendMessageWithConversation}
+    return {cid, sendMessageWithUser, sendMessageWithConversation, refreshToggle, noConvo}
 }
 
 export default useSendMessage

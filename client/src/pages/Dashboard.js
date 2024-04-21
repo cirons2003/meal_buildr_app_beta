@@ -11,12 +11,9 @@ export default function DashBoard() {
     
     return  (
         <>
-            <button onClick = {()=>logout()}>Log Out</button>
-            <br/>   
-            <h1>{team ? team?.team_name : 'No team'}</h1>
-            <h1>{team ? team?.role : ''}</h1>
-            <button onClick = {()=> getMealsInDateRange('John Doe','Air Force Falcons')}>click</button>
-            <br/>
+            
+            <h1>This page will have some useful statistics</h1>
+            <Button bg = 'red' mt = {1} onClick = {()=>logout()}>Log Out</Button>
             
         </>
     )

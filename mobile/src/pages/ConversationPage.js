@@ -4,7 +4,7 @@ export default function({navigation, route}) {
 
     return (
         <>
-            <Text> hello </Text>
+            <Text> hello</Text>
         </>
     )
 }

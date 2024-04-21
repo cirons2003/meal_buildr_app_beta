@@ -12,7 +12,7 @@ const useMealHandling = (meals) => {
     },[meals])
 
     const groupMeals = () => {
-        const delta = 10 * 60 * 1000 // 10 mins
+        const delta = 20 * 60 * 1000 // 20 mins
         let groups = []
         let next = []
         const timeStamps = meals.map((meal)=> ({

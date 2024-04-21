@@ -23,12 +23,12 @@ export default function ConversationPage() {
 
     const {user} = useUser()
 
-
+    const [refresh, setRefresh] = useState(false)
 
     useEffect(()=> {
         if (conversationId)
             getMessages(conversationId)
-    }, [conversationId])
+    }, [conversationId, refresh])
 
 
     useEffect(()=>{
@@ -41,7 +41,7 @@ export default function ConversationPage() {
         <Flex  direction = 'column' width = '100%' height = '100%' bg = 'lightblue' borderRadius = '20px' px = '10px' py = '8px' overflow = 'hidden' gap = ''>
             <ConversationTopBar other_username = {other_username}></ConversationTopBar>
             <ConversationFeed user_username = {user?.username} listOfMessages={listOfMessages}/>
-            <ConversationBottomBar conversationId={conversationId} getMessages={getMessages}/>
+            <ConversationBottomBar conversationId={conversationId} getMessages={getMessages} refresh = {refresh} setRefresh={setRefresh}/>
             
         </Flex>
     )

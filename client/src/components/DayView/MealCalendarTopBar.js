@@ -1,6 +1,8 @@
-import { Box, Button, Center, Flex, IconButton, Text} from "@chakra-ui/react";
-import {ArrowForwardIcon, ArrowBackIcon} from '@chakra-ui/icons'
+import { Box, Button, Center, Flex, IconButton, Text, Icon} from "@chakra-ui/react";
+import {ArrowForwardIcon, ArrowBackIcon, SettingsIcon} from '@chakra-ui/icons'
 import RangeTypeSelectButton from "./RangeTypeSelectButton";
+import {Link as RouterLink} from 'react-router-dom'
+
 
 export default function MealCalendarTopBar({
     setRangeType, rangeType, targetDate, incrementDateDay, decrementDateDay,
@@ -17,9 +19,10 @@ export default function MealCalendarTopBar({
                     <Text bg = 'orange' borderRadius = '20px' p = '10px' as = 'b'>{new Date(targetDate).toLocaleDateString()}</Text>
                     <IconButton bg = 'tomato' icon = {<ArrowForwardIcon/>} onClick = {()=>{incrementDateDay()}}/>
                 </Flex>
-                <Box bg = 'orange' borderRadius='20px' px = '15px'>
+                <Flex bg = 'orange' borderRadius='20px' px = '15px' direction = 'row' align = 'center' gap= {2}>
                     <Text as = 'b' fontSize = '25px'> {athleteName} </Text>
-                </Box>
+                    <IconButton as = {RouterLink} bg = 'transparent' icon = {<SettingsIcon color = 'teal' fontSize = {20}/>}  to = {`/settings/${athleteName}`}/>
+                </Flex>
                 <Flex  gap = '20px'align = 'center'>
                     <RangeTypeSelectButton setRangeType={setRangeType} rangeKey = {0} text = {'Day'} 
                         rangeType = {rangeType}

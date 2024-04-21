@@ -1,12 +1,13 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
+import { useProxyProvider } from "../context"
 
 
 const useGetUserMeals = () => {
     // This will be a list of meals stored in a array sorted by datetime
     const [meals, setMeals] = useState([])
     const [mealGroupings, setMealGroupings] = useState([])
-    const baseURL = "https://84cb-140-180-240-225.ngrok-free.app"
+    const baseURL = 'https://8205-140-180-240-233.ngrok-free.app'//const {baseURL} = useProxyProvider()
 
     const isValidDate = (date) => {
         if (date instanceof Date && !isNaN(date.getTime()))
@@ -35,7 +36,7 @@ const useGetUserMeals = () => {
     const groupMeals = () => {
         if (meals.length === 0)
             setMealGroupings([])
-        const delta = 10 * 60 * 1000 // 10 mins
+        const delta = 20 * 60 * 1000 // 20 mins
         let groups = []
         let next = []
         const timeStamps = meals.map((meal)=> ({

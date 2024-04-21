@@ -1,5 +1,6 @@
 
 import {extendTheme} from 'native-base'
+import TeamButton from './components/layout/topbar components/TeamButton'
 
 const customTheme = extendTheme({
     colors: {
@@ -11,13 +12,18 @@ const customTheme = extendTheme({
         grad5: '#034444',
         grad6: '#40B0B0',
       },
+      TeamButton: {
+        owner: '#E6F97A',
+        admin: '#D11E18', 
+        athlete: '#318C27',
+      },
       lightblue2: '#2B8DEE',
       lightblue1: '#73C2C4',
       black: '#000505',
       lightBlack: '#252524',
       white: '#FFFFFF',
       orange: '#D3AF1D',
-      
+      gold: '#B6A539',
     },
   })
 

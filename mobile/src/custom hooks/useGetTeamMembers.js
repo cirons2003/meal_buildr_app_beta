@@ -1,6 +1,7 @@
 
 import axios from "axios"
 import { useState } from "react"
+import { useProxyProvider } from "../context"
 
 
 const useGetTeamMembers = () => {
@@ -9,7 +10,7 @@ const useGetTeamMembers = () => {
     const [filteredStaff, setFilteredStaff] = useState([])
     const [filteredAthletes, setFilteredAthletes] = useState([])
 
-    const baseURL = "https://84cb-140-180-240-225.ngrok-free.app"
+    const baseURL = 'https://8205-140-180-240-233.ngrok-free.app'//const {baseURL} = useProxyProvider()
 
     const getTeamMembers = async(team_name) => {
         try {

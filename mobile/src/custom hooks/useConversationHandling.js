@@ -1,5 +1,6 @@
 import { useState } from "react"
 import axios from 'axios'
+import { useProxyProvider } from "../context"
 
 
 const useConversationHandling = () => {
@@ -7,7 +8,7 @@ const useConversationHandling = () => {
     const [filteredListOfConversations, setFilteredListOfConversations] = useState([])
     const [listOfMessages, setListOfMessages] = useState([])
 
-    const baseURL = "https://84cb-140-180-240-225.ngrok-free.app"
+    const baseURL = 'https://8205-140-180-240-233.ngrok-free.app'//const {baseURL} = useProxyProvider()
 
     const getConversations = async() => {
         try {

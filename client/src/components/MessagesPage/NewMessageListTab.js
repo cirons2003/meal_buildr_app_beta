@@ -10,9 +10,6 @@ import { useNavigate } from "react-router-dom"
 
 export default function NewMessageListTab({member}) {
 
-    const {team} = useTeam()
-    const {getTeamMembers} = useGetTeamMembers()
-
     const {sendMessageWithUser, cid} = useSendMessage()
     const [newMessage, setNewMessage] = useState('')
     const navigate = useNavigate()

@@ -32,6 +32,7 @@ export default function SideBar() {
                         <SideButton to = '/messages'  text = 'messages' icon = {ArrowBackIcon}/>
                         
                     </>}
+
                 </VStack>
                 <SwitchTeamsButton/>
             </Box>

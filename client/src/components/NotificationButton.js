@@ -5,7 +5,7 @@ import {Link as RouterLink} from 'react-router-dom'
 const NotificationButton = ({ notificationCount, ...props }) => {
   return (
     <Box position="relative" display="inline-block">
-      <IconButton as = {RouterLink} to = '/notifications'icon={<BellIcon />} {...props} />
+      <IconButton as = {RouterLink} icon={<BellIcon />} {...props} />
       {(notificationCount !== 0) && (
         <Badge
           position="absolute"

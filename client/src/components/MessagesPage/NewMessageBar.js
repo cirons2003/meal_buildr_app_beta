@@ -2,6 +2,7 @@ import { Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, Draw
 import { useState } from "react"
 import {EditIcon} from '@chakra-ui/icons'
 import NewMessageList from "./NewMessageList"
+import NewMessageListTab from "./NewMessageListTab"
 
 
 
@@ -33,7 +34,7 @@ export default function NewMessageBar() {
                 </DrawerHeader>
                     
                 <DrawerBody flexGrow = {1} bg = ''>
-                    <NewMessageList/>
+                    <NewMessageList TabType={NewMessageListTab}/>
                 </DrawerBody>
 
                 

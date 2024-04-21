@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useReRender, useUser } from '../context'
+import { useProxyProvider, useReRender, useUser } from '../context'
 
 
 const useUploadMeal = () => {
@@ -7,7 +7,7 @@ const useUploadMeal = () => {
 
     const {setReRender, reRender} = useReRender()
     const {user} = useUser()
-    const baseURL = "https://84cb-140-180-240-225.ngrok-free.app"
+    const baseURL = 'https://8205-140-180-240-233.ngrok-free.app'//const {baseURL} = useProxyProvider()
 
     const uploadMeal = async(image_uri, description) => {
         const formData = new FormData()

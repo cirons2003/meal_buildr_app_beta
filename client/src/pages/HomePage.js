@@ -1,20 +1,21 @@
 import { useEffect } from "react";
 import useLogoutUser from "../custom hooks/useLogoutUser";
-
-import { useUser } from "../context";
+import { FaCrown } from "react-icons/fa";
+import { BsClipboard2PulseFill } from "react-icons/bs";
+import { useTeam, useUser } from "../context";
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import SideBar from '../components/SideBar';
 import { Outlet, Link as RouterLink, useNavigate } from "react-router-dom";
 import TopBar from "../components/TopBar";
 import ToolBar from "../components/Toolbar";
 
+
 export default function HomePage() {
     const {user, setUser} = useUser();
     const {logout} = useLogoutUser(user, setUser);
 
     const navigate = useNavigate()
-
-   
+    const {team} = useTeam()
 
     
 
@@ -22,7 +23,13 @@ export default function HomePage() {
         <>
             <VStack spacing="0px" bg='lightyellow'>
                 <TopBar position="fixed" width="100%" zIndex="1">
-                    <Text as={RouterLink} to='/' fontSize='30px' color='white'>MealBuildr</Text>
+                    <Flex align = 'center' gap = '10px'>
+                        <Text as={RouterLink} to='/' fontSize='30px' color='white'>MealBuildr</Text>
+                        {team?.role === 'owner' && <FaCrown color = 'yellow' fontSize = '30px'/>}
+                        {team?.role === 'admin' && <BsClipboard2PulseFill color = 'red' fontSize = '30px'/>}
+                    </Flex>
+                    
+                    
                     <Flex gap='30px'>
                         <ToolBar/>
                     </Flex>

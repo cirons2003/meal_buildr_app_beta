@@ -3,6 +3,7 @@ import { Entypo } from '@expo/vector-icons';
 import {useState, useEffect} from 'react'   
 import SearchBar from './SearchBar';
 import useGetTeamMembers from '../../custom hooks/useGetTeamMembers';
+import { useTeam } from '../../context';
 
 
 
@@ -15,8 +16,10 @@ export default function NewMessageButton() {
 
     const {getTeamMembers, filterTeamMembers, filteredAthletes, filteredStaff} = useGetTeamMembers()
 
+    const {team} = useTeam()
+
     useEffect(()=>{
-        getTeamMembers('Princeton Tigers')
+        getTeamMembers(team?.team_name ? team.team_name : 'Princeton Tigers')
     },[])
 
     useEffect(()=>{

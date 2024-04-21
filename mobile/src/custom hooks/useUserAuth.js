@@ -1,11 +1,10 @@
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useLoggedIn, useUser } from '../context'
-
-
-const baseURL = "https://84cb-140-180-240-225.ngrok-free.app"
+import { useProxyProvider } from '../context'
 
 const useUserAuth = () => {
+    const baseURL = 'https://8205-140-180-240-233.ngrok-free.app'//const {baseURL} = useProxyProvider()
     const {setUser} = useUser()
     const {loggedIn, setLoggedIn} = useLoggedIn()
 

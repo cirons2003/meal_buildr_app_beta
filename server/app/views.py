@@ -23,6 +23,121 @@ def getUserTeams():
     return jsonify(response)
 
 
+#Get Athlete Info 
+@app.route('/getAthleteInfo', methods = ['POST'])
+@login_required
+def getAthleteInfo():
+    athlete_name = request.json.get(athlete_name)
+    team_name = request.json.get(team_name)
+    athlete = User.query.filter_by(username = athlete_name).first()
+    if (athlete is None): 
+        return jsonify({'message': 'cannot find athlete'}), 401
+    team = Team.query.filter_by(team_name = team_name).first()
+    if (team is None): 
+        return jsonify({'message': 'cannot find team'}), 401
+
+    if (not((current_user.user_id in [u.user_id for u in team.admins]) or (team.owner_id != current_user.user_id))):
+        return jsonify({'message': 'unauthorized to access athlete info'})
+
+    return jsonify({'message': 'successfully fetched athlete info', 'athlete': {}})
+
+
+##change user role in team 
+@app.route('/changeUserRole', methods = ["POST"])
+@login_required
+def changeUserRole():
+    athlete_name = request.json.get('athlete_name')
+    to_role = request.json.get('to_role')
+    team_name = request.json.get('team_name')
+    athlete = User.query.filter_by(username = athlete_name).first()
+    if (athlete is None): 
+        return jsonify({'message': 'cannot find athlete', 'status': 'error'}), 401
+    team = Team.query.filter_by(team_name = team_name).first()
+    if (team is None): 
+        return jsonify({'message': 'cannot find team'}), 401
+    if (team.owner_id != current_user.user_id):
+        return jsonify({'message': 'Must be an owner to edit roles', 'status': 'error'})
+    
+    if to_role == 'admin':
+        if athlete not in team.admins:
+            team.admins.append(athlete)
+            if athlete in team.athletes:
+                team.athletes.remove(athlete)
+            db.session.commit()
+            return jsonify({'message': 'Athlete added as admin', 'status': 'success'}), 200
+        else:
+            return jsonify({'message': 'Athlete is already an admin', 'status': 'error'}), 409
+    elif to_role == 'athlete':
+        if athlete not in team.athletes:
+            team.athletes.append(athlete)
+            if athlete in team.admins:
+                team.admins.remove(athlete)
+            db.session.commit()
+            return jsonify({'message': 'Athlete added as team member', 'status': 'success'}), 200
+        else:
+            return jsonify({'message': 'Athlete is already a team member', 'status': 'error'}), 409
+    else:
+        return jsonify({'message': 'Invalid role specified'}), 400
+    
+@app.route('/getTeamMemberContext', methods = ['POST'])
+@login_required
+def getUserRole():
+    username = request.json.get('username')
+    team_name = request.json.get('team_name')
+
+    user = User.query.filter_by(username = username).first()
+    if (user is None): 
+        return jsonify({'message': 'cannot find user'}), 401
+    team = Team.query.filter_by(team_name = team_name).first()
+    if (team is None): 
+        return jsonify({'message': 'cannot find team'}), 401
+    
+    ## get role 
+    if (user in team.admins):
+        role = 'admin'
+    elif (user in team.athletes):
+        role = 'athlete'
+    else: 
+        role = 'none'
+
+    return jsonify({'message': 'successfully fetched team info', 'info': {'role': role, 'user_id': user.user_id}})
+
+    
+    
+        
+    
+    
+@app.route('/removeUserFromTeam', methods = ["POST"])
+@login_required
+def removeUserFromTeam():
+    username = request.json.get('username')
+    team_name = request.json.get('team_name')
+
+    user = User.query.filter_by(username = username).first()
+    if (user is None): 
+        return jsonify({'message': 'cannot find user'}), 401
+    team = Team.query.filter_by(team_name = team_name).first()
+    if (team is None): 
+        return jsonify({'message': 'cannot find team'}), 401
+    
+    ##check authorization
+    if (team.owner_id != current_user.user_id):
+        return jsonify({'message': 'Must be an owner to edit roles', 'status': 'error'})
+    
+    if (user in team.athletes):
+        team.athletes.remove(user)
+    if (user in team.admins):
+        team.admins.remove(user)
+    
+    db.session.commit()
+
+    return jsonify({'message': ('successfully removed',username,' from ', team_name)} )
+
+
+    
+
+
+
 #all dates are stored as utc in the database 
 @app.route('/getMeals', methods = ['POST'])
 @login_required
@@ -166,6 +281,8 @@ def sendMessage():
         ##at this point we've grabbed the convo or have no convo existing  
         ##create new convo if needed 
         if conversation is None:
+            if (message_text == 'doNotSendMessage'):
+                return jsonify({'message':'no existing conversation', 'conversation_id': -1})
             convo = Conversation(last_message_text = message_text)
             db.session.add(convo)
             db.session.commit()
@@ -176,7 +293,10 @@ def sendMessage():
         ##update old convo otherwise
         else: 
             cid = conversation.conversation_id
-            conversation.last_message_text = message_text  
+            if (not(message_text == 'doNotSendMessage')):
+                conversation.last_message_text = message_text 
+                conversation.last_used_at = datetime.utcnow()
+                db.session.commit()
 #########################################################################################################################      
     ##this means we should use cid instead 
     else: 
@@ -189,10 +309,11 @@ def sendMessage():
         convo.last_used_at = datetime.utcnow()
 ###################################################################################################################
     ##at this point 
-    message = Message(message_text = message_text, sender_id = current_user.user_id, sender_username = current_user.username, recipient_id = recipient_id, recipient_username = user.username , conversation_id = cid)
+    if (message_text != 'doNotSendMessage'):
+        message = Message(message_text = message_text, sender_id = current_user.user_id, sender_username = current_user.username, recipient_id = recipient_id, recipient_username = user.username , conversation_id = cid)
 
-    db.session.add(message)    
-    db.session.commit()
+        db.session.add(message)    
+        db.session.commit()
 
     return jsonify({'message': f'message sent to {recipient_id}', 'conversation_id': cid})
 
@@ -325,7 +446,7 @@ def joinTeamWithCode():
     if (team.join_code != team_code):
         return jsonify({'message': f'{team_code} is invalid code for {team.team_name}'})
 
-    if (team.team_id in [t.team_id for t in current_user.athlete_teams]):
+    if ((team.team_id in [t.team_id for t in current_user.athlete_teams]) or (team.team_id in [t.team_id for t in current_user.admin_teams]) or (team.team_id in [t.team_id for t in current_user.owned_teams])):
         return jsonify({'message': 'user already in team'})
     
     new_row = team_athletes.insert().values(user_id = current_user.user_id, team_id = team.team_id)
