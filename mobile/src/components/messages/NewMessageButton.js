@@ -22,8 +22,9 @@ export default function NewMessageButton() {
     const navigation = useNavigation() 
 
     useEffect(()=>{
-        getTeamMembers(team?.team_name ? team.team_name : 'Princeton Tigers')
-    },[])
+        if (team?.team_name)
+            getTeamMembers(team.team_name)
+    },[team])
 
     useEffect(()=>{
         const clear = setTimeout(()=>filterTeamMembers(searchTerm))

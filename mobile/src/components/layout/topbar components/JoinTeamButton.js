@@ -2,7 +2,7 @@ import {Button, useTheme} from 'native-base'
 import JoinTeamPopup from './JoinTeamPopup'
 import {useState} from 'react'
 
-export default function JoinTeamButton() {
+export default function JoinTeamButton({triggerReload}) {
     const theme = useTheme()
 
     const [joinOpen, setJoinOpen] = useState(false)
@@ -10,7 +10,7 @@ export default function JoinTeamButton() {
     return (
         <>
             <Button bg = {theme.colors.teal.grad4} onPress = {()=>setJoinOpen(true)}>Join Team</Button>
-            <JoinTeamPopup joinOpen = {joinOpen} setJoinOpen = {setJoinOpen}/>
+            <JoinTeamPopup joinOpen = {joinOpen} setJoinOpen = {setJoinOpen} triggerReload={triggerReload}/>
         </>
     )
 }

@@ -19,12 +19,18 @@ const customTheme = extendTheme({
       },
       lightblue2: '#2B8DEE',
       lightblue1: '#73C2C4',
+      lightblue3: '#2A9BF1',
       black: '#000505',
       lightBlack: '#252524',
       white: '#FFFFFF',
       orange: '#D3AF1D',
       gold: '#B6A539',
+      darkgreen: '#10470C',
+      purple: '#330C88',
+      lightpurple: '#CDA0E9', 
+      
     },
+    
   })
 
   export default customTheme

@@ -2,7 +2,7 @@ import {Flex, IconButton, useTheme, Modal, Text, ScrollView} from 'native-base'
 import { FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import JoinTeamButton from './JoinTeamButton';
 import useGetUserTeams from '../../../custom hooks/useGetUserTeams';
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import TeamButton from './TeamButton';
 import { useTeam } from '../../../context'
 
@@ -10,12 +10,17 @@ export default function NameDropDown({dropDownOpen, setDropDownOpen}) {
     const theme = useTheme()
     const {listOfTeams, getTeams} = useGetUserTeams()
 
+    const [reload, setReload] = useState(false)
 
     useEffect(()=> {
-        const clear = setTimeout(()=>getTeams(), 2000)
+        const clear = setTimeout(()=>getTeams(), 1000)
         return ()=> clearTimeout(clear)
-    },[])
+    },[reload])
     const {team, setTeam} = useTeam()
+
+    const triggerReload = () => {
+        setReload(!reload)
+    }
 
     return (
         <Flex position = 'absolute'  justify = 'center' width = '100%' top = '100%' transform={[{ translateY: '-32%' }]}>
@@ -32,7 +37,7 @@ export default function NameDropDown({dropDownOpen, setDropDownOpen}) {
                                     ))}
                                 </Flex>
                             </ScrollView>
-                            <JoinTeamButton/>
+                            <JoinTeamButton triggerReload={triggerReload}/>
                         </Flex>
                     </Flex>
                 </Modal.Content>
