@@ -9,10 +9,10 @@ import customTheme from './theme'
 export default function App() {
   
   return (
-    <NativeBaseProvider theme = {customTheme}> 
-      <ContextProvider>
+    <ContextProvider>
+      <NativeBaseProvider theme = {customTheme}> 
         <Routing/>
-      </ContextProvider>
-    </NativeBaseProvider>
+      </NativeBaseProvider>
+    </ContextProvider>
   )
 }

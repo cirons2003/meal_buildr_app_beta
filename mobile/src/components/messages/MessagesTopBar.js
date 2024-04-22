@@ -1,7 +1,7 @@
 import {Flex, Text, useTheme} from 'native-base'
 import NewMessageButton from "./NewMessageButton";
 
-export default function ConversationTopBar() {
+export default function MessagesTopBar() {
     const theme = useTheme()
     return (
         <Flex direction = 'row' width = '100%' height = {12}  align = 'center' justify = 'space-between' pl = {4} pr = {2}>

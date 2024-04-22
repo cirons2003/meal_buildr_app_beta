@@ -1,6 +1,6 @@
 import { useState } from "react"
 import axios from 'axios'
-import { useProxyProvider } from "../context"
+import { useProxy } from "../context"
 
 
 const useConversationHandling = () => {
@@ -8,7 +8,7 @@ const useConversationHandling = () => {
     const [filteredListOfConversations, setFilteredListOfConversations] = useState([])
     const [listOfMessages, setListOfMessages] = useState([])
 
-    const {baseURL} = useProxyProvider()
+    const {baseURL} = useProxy()
 
     const getConversations = async() => {
         try {

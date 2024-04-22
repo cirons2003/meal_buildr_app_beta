@@ -1,13 +1,13 @@
 import {useState} from 'react'
 import axios from 'axios'
-import { useProxyProvider, useUser } from '../context'
+import { useProxy, useUser } from '../context'
 
 const useGetUserTeams = () => {
     const [listOfTeams, setListOfTeams] = useState([])
     const [loading, setLoading] = useState(false)
     const {user} = useUser()
 
-    const {baseURL} = useProxyProvider()
+    const {baseURL} = useProxy()
 
     const getTeams = async() => {
         setLoading(true)

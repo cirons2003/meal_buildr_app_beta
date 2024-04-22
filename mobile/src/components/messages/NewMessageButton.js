@@ -4,6 +4,8 @@ import {useState, useEffect} from 'react'
 import SearchBar from './SearchBar';
 import useGetTeamMembers from '../../custom hooks/useGetTeamMembers';
 import { useTeam } from '../../context';
+import {useNavigation} from '@react-navigation/native'
+import NewMessagePopover from './NewMessagePopover';
 
 
 
@@ -17,6 +19,7 @@ export default function NewMessageButton() {
     const {getTeamMembers, filterTeamMembers, filteredAthletes, filteredStaff} = useGetTeamMembers()
 
     const {team} = useTeam()
+    const navigation = useNavigation() 
 
     useEffect(()=>{
         getTeamMembers(team?.team_name ? team.team_name : 'Princeton Tigers')
@@ -43,20 +46,11 @@ export default function NewMessageButton() {
                             <ScrollView width = '100%' flex = {1}>
                                 {staff ? 
                                     filteredStaff.map((mem, index)=>(
-                                        <Pressable onPress = {()=>{}} _pressed = {{ borderRadius: 20, opacity: 30}} width = '100%' key = {index}>
-                                            <Flex mb = {2} p = {2} width= '100%' height = {8} borderColor={theme.colors.teal.grad3} borderBottomWidth={1} borderRadius={20} borderLeftWidth={1}>
-                                                <Text bold color = {theme.colors.teal.grad3} fontSize = {12}>{mem.username}</Text>
-                                            </Flex>
-                                        </Pressable>
+                                        <NewMessagePopover onClose = {() => setIsOpen(false)} navigation = {navigation} key = {index} mem = {mem}/>
                                     ))
                                 :
                                     filteredAthletes.map((mem, index)=>(
-                                        <Pressable onPress = {()=>{}} _pressed = {{ borderRadius: 20, opacity: 30}} width = '100%' key = {index}>
-                                            <Flex mb = {2} p = {2} width= '100%' height = {8} borderColor={theme.colors.teal.grad3} borderBottomWidth={1} borderRadius={20} borderLeftWidth={1}>
-                                                <Text bold color = {theme.colors.teal.grad3} fontSize = {12}>{mem.username}</Text>
-                                            </Flex>
-                                        </Pressable>
-                                        
+                                        <NewMessagePopover onClose = {() => setIsOpen(false)} navigation = {navigation} key = {index} mem = {mem}/>
                                     ))
                                 }
                             </ScrollView>

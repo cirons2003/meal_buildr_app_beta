@@ -1,10 +1,23 @@
-import {Text} from 'native-base'
+import {Text, Flex} from 'native-base'
+import useGetConversationMessages from '../custom hooks/useGetConversationMessages'
+import {useEffect, useState} from 'react'
+import ConversationMessages from '../components/conversation page/ConversationMessages'
+import ConversationBottomBar from '../components/conversation page/ConversationBottomBar'
+import ConversationTopBar from '../components/conversation page/ConversationTopBar'
 
-export default function({navigation, route}) {
+
+export default function({ route}) {
+
+    const {conversationId, otherUsername} = route.params
+
+    const {listOfMessages, getMessages} = useGetConversationMessages()
+    const [refresh, setRefresh] = useState(false)
 
     return (
-        <>
-            <Text> hello</Text>
-        </>
+        <Flex direction='column' justify = 'space-between' align = 'center' flex = {1} mb = {20}>
+            <ConversationTopBar otherUsername = {otherUsername}/>
+            <ConversationMessages cid = {conversationId} refresh = {refresh}/>
+            <ConversationBottomBar cid = {conversationId} refresh={refresh} setRefresh={setRefresh}/>
+        </Flex>
     )
 }

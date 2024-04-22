@@ -1,7 +1,7 @@
 
 import axios from "axios"
 import { useState } from "react"
-import { useProxyProvider } from "../context"
+import { useProxy} from "../context"
 
 
 const useGetTeamMembers = () => {
@@ -10,11 +10,12 @@ const useGetTeamMembers = () => {
     const [filteredStaff, setFilteredStaff] = useState([])
     const [filteredAthletes, setFilteredAthletes] = useState([])
 
-    const {baseURL} = useProxyProvider()
+    const {baseURL} = useProxy()
 
     const getTeamMembers = async(team_name) => {
         try {
             const response = await axios.post(baseURL.current+'/getTeamMembers', {team_name: team_name}, {withCredentials: true})
+            console.log(response.data)
             setListOfAthletes(response.data.athletes)
             setFilteredAthletes(response.data.athletes)
             setListOfStaff([response.data.owner, ...response.data.admins])

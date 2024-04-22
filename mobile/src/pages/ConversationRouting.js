@@ -2,16 +2,20 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MessagesPage from './MessagesPage';
 import ConversationPage from './ConversationPage';
+import {Flex, Box, useTheme} from 'native-base'
 
 export default function ConversationRouting() {
     const Stack = createNativeStackNavigator()
+    const theme = useTheme()
     
     return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName='Conversation'>
-                <Stack.Screen name = 'Messages' component = {MessagesPage}/>
-                <Stack.Screen name = 'Conversation' component={ConversationPage}/>
-            </Stack.Navigator>            
-        </NavigationContainer>
+        <Flex width = '100%' flex = {1} safeAreaTop pos = 'relative' top = {20}>
+            <NavigationContainer>
+                <Stack.Navigator initialRouteName='Messages'>
+                    <Stack.Screen name = 'Messages' component = {MessagesPage} options = {{headerShown: false}}/>
+                    <Stack.Screen name = 'Conversation' component={ConversationPage}/>
+                </Stack.Navigator>            
+            </NavigationContainer>
+        </Flex>
     )
 }

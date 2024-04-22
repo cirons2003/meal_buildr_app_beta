@@ -1,13 +1,13 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
-import { useProxyProvider } from "../context"
+import { useProxy} from "../context"
 
 
 const useGetUserMeals = () => {
     // This will be a list of meals stored in a array sorted by datetime
     const [meals, setMeals] = useState([])
     const [mealGroupings, setMealGroupings] = useState([])
-    const {baseURL} = useProxyProvider()
+    const {baseURL} = useProxy()
     
 
     const isValidDate = (date) => {

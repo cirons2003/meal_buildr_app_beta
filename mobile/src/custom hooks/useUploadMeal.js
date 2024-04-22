@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useProxyProvider, useReRender, useUser } from '../context'
+import { useProxy, useReRender, useUser } from '../context'
 
 
 const useUploadMeal = () => {
@@ -7,7 +7,7 @@ const useUploadMeal = () => {
 
     const {setReRender, reRender} = useReRender()
     const {user} = useUser()
-    const {baseURL} = useProxyProvider()
+    const {baseURL} = useProxy()
 
     const uploadMeal = async(image_uri, description) => {
         const formData = new FormData()

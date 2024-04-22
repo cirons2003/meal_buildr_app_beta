@@ -20,7 +20,7 @@ const useMessageHandling = (message, user_username) => {
                 setUsername(message.sender_username)
             }
         }
-    },myMessage)
+    },[myMessage])
     
     return {myMessage, username}
 }

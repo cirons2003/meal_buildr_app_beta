@@ -2,7 +2,7 @@ import {Flex, Button, Popover, Text, Input, useTheme, ScrollView, IconButton, Ke
 import { MaterialIcons } from '@expo/vector-icons';
 import {useState, useEffect} from 'react'
 import { Dimensions } from 'react-native';
-import useCommentHandling from '../../custom hooks/useCommentHandling';
+import useCommentHandling from '../../custom hooks/useCommentHandling'
 
 
 export default function CommentPopOver({meal, isActive, index, showComments, setShowComments}) {
@@ -57,6 +57,7 @@ export default function CommentPopOver({meal, isActive, index, showComments, set
                     </ScrollView>
                 </Popover.Body>
                 <Popover.Footer bg = {theme.colors.teal.grad6} borderColor = {theme.colors.teal.grad4}>
+                
                     <Flex direction='row' align='center' pos = 'relative' left = {'-50%'} >
                     <Input
                         flex={1}

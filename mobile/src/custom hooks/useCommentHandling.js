@@ -1,11 +1,12 @@
 import axios from "axios"
 import { useState } from "react"
-import { useProxyProvider } from "../context"
+import { useProxy } from "../context"
+
 
 
 const useCommentHandling = () => {
 
-    const {baseURL} = useProxyProvider()
+    const {baseURL} = useProxy()
 
     const [listOfComments, setListOfComments] = useState([])
     const [loading, setLoading] = useState(false)
@@ -30,7 +31,7 @@ const useCommentHandling = () => {
         }
         setLoading(true)
         try {
-            const response = await axios.post(baseURL+'/addComment', {
+            const response = await axios.post(baseURL.current+'/addComment', {
                 comment_text: comment_text, meal_id: meal_id
             }, {withCredentials: true})
             console.log(response.data)
