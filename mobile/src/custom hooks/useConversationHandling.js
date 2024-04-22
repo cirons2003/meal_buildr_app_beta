@@ -8,11 +8,11 @@ const useConversationHandling = () => {
     const [filteredListOfConversations, setFilteredListOfConversations] = useState([])
     const [listOfMessages, setListOfMessages] = useState([])
 
-    const baseURL = 'https://8205-140-180-240-233.ngrok-free.app'//const {baseURL} = useProxyProvider()
+    const {baseURL} = useProxyProvider()
 
     const getConversations = async() => {
         try {
-            const response = await axios.get(baseURL+'/getConversations', {withCredentials: true})
+            const response = await axios.get(baseURL.current+'/getConversations', {withCredentials: true})
             setListOfConversations(response.data.listOfConversations.sort((a, b) => new Date(b.last_used_at) - new Date(a.last_used_at)))
             setFilteredListOfConversations(response.data.listOfConversations.sort((a, b) => new Date(b.last_used_at) - new Date(a.last_used_at)))
             console.log(response.data)

@@ -4,13 +4,13 @@ import { useLoggedIn, useUser } from '../context'
 import { useProxyProvider } from '../context'
 
 const useUserAuth = () => {
-    const baseURL = 'https://8205-140-180-240-233.ngrok-free.app'//const {baseURL} = useProxyProvider()
+    const {baseURL} = useProxyProvider()
     const {setUser} = useUser()
     const {loggedIn, setLoggedIn} = useLoggedIn()
 
     const loginUser = async (username, password) => {
         try {
-            const response = await axios.post(baseURL+'/login', {username: username, password: password},
+            const response = await axios.post(baseURL.current+'/login', {username: username, password: password},
             {withCredentials: true, timeout: 30000})
             console.log(response.data)
             if (response.data.username) {

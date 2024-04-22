@@ -1,6 +1,6 @@
 
 
-import {createContext, useContext, useState, useEffect} from 'react'
+import {createContext, useContext, useState, useEffect, useRef} from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const UserContext = createContext(null)
@@ -15,7 +15,7 @@ export const ContextProvider = ({children}) => {
     const [loggedIn, setLoggedIn] = useState(false)
     const [reRender, setReRender] = useState(false)
 
-    const baseURL = 'https://8205-140-180-240-233.ngrok-free.app'
+    const baseURL = useRef('https://047c-140-180-240-233.ngrok-free.app')
 
     useEffect(() =>{
         const getUser = async() => {

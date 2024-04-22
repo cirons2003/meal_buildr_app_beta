@@ -7,12 +7,12 @@ const useGetUserTeams = () => {
     const [loading, setLoading] = useState(false)
     const {user} = useUser()
 
-    const baseURL = 'https://8205-140-180-240-233.ngrok-free.app'//const {baseURL} = useProxyProvider()
+    const {baseURL} = useProxyProvider()
 
     const getTeams = async() => {
         setLoading(true)
         try {
-            const response = await axios.get(baseURL+'/getUserTeams', {withCredentials: true})
+            const response = await axios.get(baseURL.current+'/getUserTeams', {withCredentials: true})
             setListOfTeams(response.data)
         }catch(err) {
             console.error(err)

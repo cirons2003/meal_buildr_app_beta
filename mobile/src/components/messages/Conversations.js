@@ -23,7 +23,7 @@ export default function Conversations() {
 
     useEffect(()=>{
         if (loggedIn) {
-            const clear = setTimeout(()=>getConversations(),1000)
+            const clear = setTimeout(()=>getConversations(),500)
             return () => clearTimeout(clear)
         }
     },[loggedIn])
@@ -40,7 +40,7 @@ export default function Conversations() {
         <Flex flex = {1} width = '100%' pos = 'relative'>
             <Flex mt = '3px' flex = {1} width = '100%' pos = 'absolute' top = {20} >
                 <ConversationTopBar/>
-                <ScrollView width= '100%' flex = {1}>
+                <ScrollView width= '100%' flex = {1} marginBottom = {20}>
                     <SearchBar placeholder={'search conversations...'} value = {searchTerm} setValue={setSearchTerm}/>
                     {filteredListOfConversations.map((convo, index) => (
                         <ConversationTab key = {index} convo = {convo}/>

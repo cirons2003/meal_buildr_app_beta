@@ -32,11 +32,15 @@ export default function DayView({startDate, endDate}) {
     const {reRender} = useReRender()
 
     useEffect(()=>{
-        if (startDate && endDate && user) {
+        
+        const clear = setTimeout(() => {
+            
+            if (startDate && endDate && user) {
             getMealsInDateRange(user.username, 'none', startDate, endDate)
-            console.log('go')
-        }
-    }, [startDate, endDate, user, reRender])
+            }}, 250)
+
+            return () => clearTimeout(clear)
+        }, [startDate, endDate, user, reRender])
 
     return (
         <Flex width = '100%' direction = 'column' flex = {1} bg = 'white' align = 'center'>

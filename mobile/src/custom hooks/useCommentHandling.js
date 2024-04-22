@@ -5,7 +5,7 @@ import { useProxyProvider } from "../context"
 
 const useCommentHandling = () => {
 
-    const baseURL = 'https://8205-140-180-240-233.ngrok-free.app'//const {baseURL} = useProxyProvider()
+    const {baseURL} = useProxyProvider()
 
     const [listOfComments, setListOfComments] = useState([])
     const [loading, setLoading] = useState(false)
@@ -13,7 +13,7 @@ const useCommentHandling = () => {
     const getComments = async(meal_id) => {
         setLoading(true)
         try {
-            const response = await axios.post(baseURL + '/getComments', 
+            const response = await axios.post(baseURL.current + '/getComments', 
             {meal_id: meal_id}, {withCredentials: true})
             setListOfComments(response.data.listOfComments)
             console.log(response.data)

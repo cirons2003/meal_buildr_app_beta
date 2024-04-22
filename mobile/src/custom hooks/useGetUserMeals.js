@@ -7,7 +7,8 @@ const useGetUserMeals = () => {
     // This will be a list of meals stored in a array sorted by datetime
     const [meals, setMeals] = useState([])
     const [mealGroupings, setMealGroupings] = useState([])
-    const baseURL = 'https://8205-140-180-240-233.ngrok-free.app'//const {baseURL} = useProxyProvider()
+    const {baseURL} = useProxyProvider()
+    
 
     const isValidDate = (date) => {
         if (date instanceof Date && !isNaN(date.getTime()))
@@ -20,11 +21,15 @@ const useGetUserMeals = () => {
             groupMeals()
     },[meals])
 
+    useEffect(()=>{
+        if (baseURL?.current)
+            console.log(baseURL.current)
+    },[baseURL])
 
     const getMealsInDateRange = async(username, teamName, start, end ) => {
 
         try {   
-            const response = await axios.post(baseURL+'/getMeals', {start: start, end: end, username: username, teamName: teamName}, {withCredentials: true})
+            const response = await axios.post(baseURL.current+'/getMeals', {start: start, end: end, username: username, teamName: teamName}, {withCredentials: true})
             console.log(response.data)
             setMeals(response.data.listOfMeals)
         }catch(err) {

@@ -7,7 +7,7 @@ const useUploadMeal = () => {
 
     const {setReRender, reRender} = useReRender()
     const {user} = useUser()
-    const baseURL = 'https://8205-140-180-240-233.ngrok-free.app'//const {baseURL} = useProxyProvider()
+    const {baseURL} = useProxyProvider()
 
     const uploadMeal = async(image_uri, description) => {
         const formData = new FormData()
@@ -19,7 +19,7 @@ const useUploadMeal = () => {
         formData.append('description', description)
 
         try{
-            const response = await axios.post(baseURL + '/uploadMeal', formData, 
+            const response = await axios.post(baseURL.current + '/uploadMeal', formData, 
             {headers: {'Content-Type': 'multipart/form-data'}, withCredentials: true})
             setReRender(!reRender)
             console.log(response.data)

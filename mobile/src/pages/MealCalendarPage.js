@@ -24,7 +24,7 @@ export default function MealCalendarPage() {
     return (
         <Box flex = {1} bg = {theme.colors.teal.grad3}>
             <Flex flex = {1} direction = 'column' safeAreaTop bg = 'white' pos = 'relative' pt = {20}>
-                <CalendarHeader incrementDateDay = {incrementDateDay} decrementDateDay = {decrementDateDay} targetDate = {targetDate}/>
+                <CalendarHeader incrementDateDay = {incrementDateDay} decrementDateDay = {decrementDateDay} targetDate = {targetDate} incrementDateWeek={incrementDateWeek} decrementDateWeek={decrementDateWeek}/>
                 <MealCalendar startDate = {startDate} endDate = {endDate}/>
             </Flex>
         </Box>
