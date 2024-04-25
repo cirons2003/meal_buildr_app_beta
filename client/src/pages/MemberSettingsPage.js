@@ -6,7 +6,7 @@ import {useState, useRef, useEffect} from 'react'
 import useChangeUserRole from '../custom hooks/useChangeUserRole'
 import MemberListButton from '../components/Settings/MemberListButton'
 import useRemoveUserFromTeam from '../custom hooks/useRemoveUserFromTeam'
-import useGetUserInfo from '../custom hooks/useGetUserInfo'
+import useUserInfo from '../custom hooks/useUserInfo'
 import useSendMessage from '../custom hooks/useSendMessage'
 import SettingsMessageButton from '../components/Settings/SettingsMessageButton'
 
@@ -21,7 +21,7 @@ export default function MemberSettingsPage() {
     const [deleteConfirm, setDeleteConfirm] = useState(false)
     const cancelRef = useRef()
     const {removeUser, response: removeResponse, clearResponse: clearRemoveResponse} = useRemoveUserFromTeam()
-    const {role, getUserInfo, userId} = useGetUserInfo()
+    const {role, getTeamMemberContext, userId} = useUserInfo()
 
     const handleSaveChanges = () => {
         changeRole(athleteName, `${isAdmin ? 'admin' : 'athlete'}`) 
@@ -42,7 +42,7 @@ export default function MemberSettingsPage() {
     },[athleteName])
 
     useEffect(()=> {    
-        getUserInfo(athleteName)
+        getTeamMemberContext(athleteName)
     },[athleteName, changeResponse])
 
     useEffect(()=>{

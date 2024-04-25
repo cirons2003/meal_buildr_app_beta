@@ -2,11 +2,13 @@ import {useState} from 'react'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 import { useUser } from '../context'
+import useUserInfo from './useUserInfo'
 
 const useRegisterUser = () => {
     const {user, setUser} = useUser()
     const [registerLoading, setRegisterLoading] = useState(false)
     const [message, setMessage] = useState('')
+    const {getUserInfo} = useUserInfo()
     
     const navigate = useNavigate()
 
@@ -18,9 +20,7 @@ const useRegisterUser = () => {
              {withCredentials: true})
             console.log(response.data.message)
             setMessage(response.data.message)
-            if (response.data.username)
-                setUser({username: response.data.username})
-                sessionStorage.setItem('user', JSON.stringify({username: response.data.username}))
+            getUserInfo()
             if (user) 
                 navigate('/')
 

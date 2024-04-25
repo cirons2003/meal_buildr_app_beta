@@ -27,7 +27,10 @@ const useGetAthleteList = () => {
         if (searchTerm === '')
             setFilteredListOfAthletes(listOfAthletes.sort((a,b) => a.username.localeCompare(b.username)))
         else {
-            setFilteredListOfAthletes(listOfAthletes.filter(ath => ath.username.toLowerCase().startsWith(searchTerm.toLowerCase())).sort((a,b) => a.username.localeCompare(b.username)))
+            setFilteredListOfAthletes(listOfAthletes.filter(ath => (ath.username && ath.username.toLowerCase().startsWith(searchTerm.toLowerCase())) 
+        || (ath.first_name && ath.first_name.toLowerCase().startsWith(searchTerm.toLowerCase()))
+        || (ath.last_name && ath.last_name.toLowerCase().startsWith(searchTerm.toLowerCase())))
+            .sort((a,b) => a.username.localeCompare(b.username)))
         }
         
     }

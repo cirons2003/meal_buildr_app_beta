@@ -14,7 +14,6 @@ from datetime import datetime
 @login_required
 def uploadMeal(): 
     file = request.files['image']
-    print(file)
     if file is None: 
         return jsonify({'message': 'expected image'}), 404
     filename = secure_filename(file.filename)
@@ -37,6 +36,30 @@ def uploadMeal():
     db.session.commit()
 
     return jsonify({'message': 'successfully logged meal'})
+
+
+
+@app.route('/uploadProfilePicture', methods = ['POST'])
+@login_required
+def uploadProfilePicture():
+    file = request.files['image']
+    if 'image' not in request.files: 
+        return jsonify({'message': 'expected image'}), 400
+    filename = f"{current_user.username}_profilePicture.jpg"
+    bucket_name = 'mealbuildr-bucket'
+    try:
+        s3_client.upload_fileobj(file, bucket_name, filename, ExtraArgs={'ContentType': file.content_type})
+    except Exception as e:
+        return jsonify({'message': f'Failed to upload image: {e}'}), 201
+
+    image_url = f"https://{bucket_name}.s3.amazonaws.com/{filename}?v={datetime.now().strftime('%Y%m%d%H%M%S')}"
+    current_user.profile_picture_url = image_url
+    db.session.commit()
+
+    return jsonify({'message': 'successfully changed profile picture'})
+
+
+
 
 
 @app.route('/getMealImage/<filename>')

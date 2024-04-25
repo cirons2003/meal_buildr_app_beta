@@ -102,9 +102,40 @@ def getUserRole():
 
     return jsonify({'message': 'successfully fetched team info', 'info': {'role': role, 'user_id': user.user_id}})
 
+    ##finish
+@app.route('/getUserInfo')
+@login_required
+def getUserInfo():
+    c = current_user
+    userInfo = {'user_id': c.user_id, 'username': c.username, 'first_name': c.first_name, 'last_name': c.last_name, 'bio': c.bio, 'profile_picture_url': c.profile_picture_url}
+
+    return jsonify({'message': f'successfully fetched user data{c.profile_picture_url}', 'user': userInfo})
+    
+
+#finish
+@app.route('/changeUserInfo', methods = ['POST'])
+@login_required
+def changeUserInfo(): 
+    ##newUsername = request.json.get('newUsername') ##not yet 
+    newFirstName = request.json.get('newFirstName')
+    newLastName = request.json.get('newLastName')
+    newBio = request.json.get('newBio')
+    newProfilePictureURL = None # request.json.get('newProfilePictureURL') ##not yet
+     
+    if newFirstName:
+        current_user.first_name = newFirstName
+    if newLastName:
+        current_user.last_name = newLastName
+    if newBio:
+        current_user.bio = newBio
     
     
-        
+    db.session.commit()
+    return jsonify({'message': 'successfully updated profile' })
+    
+    
+    
+
     
     
 @app.route('/removeUserFromTeam', methods = ["POST"])
@@ -198,7 +229,7 @@ def getListOfAthletes():
     ##admin/owner access
     if (team.team_id in [t.team_id for t in user.admin_teams] 
         or team.owner_id == current_user.user_id):
-        athletes = [{'username': a.username} for a in team.athletes]
+        athletes = [{'username': a.username, 'first_name':a.first_name, 'last_name':a.last_name, 'profile_picture_url': a.profile_picture_url} for a in team.athletes]
         return jsonify({'listOfAthletes': athletes, 'message':'successful'})
     else:
         return jsonify({'message': 'Unauthorized'}), 404
@@ -349,10 +380,15 @@ def getConversations():
                      .filter(conversation_users.c.user_id == current_user.user_id)
                      .order_by(db.desc(Conversation.last_used_at)).all())
     
+    
+
     conversations = [{'last_used_at': c.last_used_at,
                        'last_message_text': c.last_message_text,
                          'other_user_id': next((user.user_id for user in c.users if user.user_id != current_user.user_id), None),
                          'other_user_username': next((user.username for user in c.users if user.user_id != current_user.user_id), current_user.username),
+                         'other_user_profile_picture_url': next((user.profile_picture_url for user in c.users if user.user_id != current_user.user_id), current_user.profile_picture_url),
+                         'other_first_name': next((user.first_name for user in c.users if user.user_id != current_user.user_id), current_user.first_name),
+                         'other_last_name': next((user.last_name for user in c.users if user.user_id != current_user.user_id), current_user.last_name),
                          'conversation_id': c.conversation_id} for c in conversations]
     
     return jsonify({'listOfConversations': conversations, 'message': 'successfully fetched conversations'})
@@ -372,9 +408,9 @@ def getTeamMembers():
     admins = team.admins
     athletes = team.athletes
 
-    owner = {'username': owner.username, 'user_id': owner.user_id, 'role': 'owner'}
-    admins = [{'username': a.username, 'user_id': a.user_id, 'role': 'admin'} for a in admins]
-    athletes = [{'username': a.username, 'user_id': a.user_id, 'role': 'athlete'} for a in athletes]
+    owner = {'username': owner.username, 'first_name': owner.first_name, 'last_name':owner.last_name, 'user_id': owner.user_id, 'role': 'owner'}
+    admins = [{'username': a.username, 'first_name': a.first_name, 'last_name': a.last_name, 'user_id': a.user_id, 'role': 'admin'} for a in admins]
+    athletes = [{'username': a.username, 'first_name': a.first_name, 'last_name': a.last_name, 'user_id': a.user_id, 'role': 'athlete'} for a in athletes]
     
     
     return jsonify({'owner': owner, 'admins': admins, 'athletes': athletes, 'message': 'successfully fetched team members'})

@@ -21,14 +21,23 @@ const useGetTeamMembers = () => {
         }
     }
 
+    const filterPeople = (listOfPeople, searchTerm) => {
+        return listOfPeople.filter(p => (p.username && p.username.toLowerCase().startsWith(searchTerm.toLowerCase()))
+            || (p.first_name && p.first_name.toLowerCase().startsWith(searchTerm.toLowerCase()))
+            || (p.last_name && p.last_name.toLowerCase().startsWith(searchTerm.toLowerCase())))
+            .sort((a,b) => a.username.localeCompare(b.username))
+    }
+
     const filterTeamMembers = (searchTerm) => {
         if (searchTerm === '' && listOfAthletes && listOfStaff)
         setFilteredAthletes(listOfAthletes)
         setFilteredStaff(listOfStaff)
-        setFilteredAthletes(listOfAthletes.filter(ath => ath.username.toLowerCase().startsWith(searchTerm.toLowerCase())).sort((a,b) => a.username.localeCompare(b.username)))
-        setFilteredStaff(listOfStaff.filter(stf => stf.username.toLowerCase().startsWith(searchTerm.toLowerCase())).sort((a,b) => a.username.localeCompare(b.username)))
+        setFilteredAthletes(filterPeople(listOfAthletes, searchTerm))
+        setFilteredStaff(filterPeople(listOfStaff, searchTerm))
     }
+
     return {getTeamMembers, filterTeamMembers, filteredStaff, filteredAthletes}
 }
+
 
 export default useGetTeamMembers

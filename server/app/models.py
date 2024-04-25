@@ -18,7 +18,7 @@ team_athletes = db.Table(
 
 class User(db.Model, UserMixin): 
     user_id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(20), index = True, unique = True, nullable = False)
+    username = db.Column(db.String(15), index = True, unique = True, nullable = False)
     hashed_password = db.Column(db.String(128), nullable = False)
     join_date = db.Column(db.DateTime, default = db.func.now(), nullable = False)
     account_type = db.Column(db.String(35), default = "standard", nullable = False)     
@@ -27,6 +27,11 @@ class User(db.Model, UserMixin):
     owned_teams = db.relationship('Team', backref = db.backref('owner', uselist = False) )
     admin_teams = db.relationship('Team', secondary = team_admins, backref = db.backref('admins_', lazy = 'dynamic'))
     athlete_teams = db.relationship('Team', secondary = team_athletes, backref = db.backref('athletes_', lazy = 'dynamic'))
+    ##need to push (also changed username length to 15)
+    first_name = db.Column(db.String(20))
+    last_name = db.Column(db.String(20))
+    bio = db.Column(db.String(50))
+    
 
     def get_id(self): 
         return str(self.user_id)

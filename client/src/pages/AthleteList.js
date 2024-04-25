@@ -11,7 +11,7 @@ export default function AthleteList() {
     const {user} = useUser()
     const {team} = useTeam()
 
-    const delay = 500
+    const delay = 300
 
     const {filteredListOfAthletes, getAthleteList, filterAthletes} = useGetAthleteList()
     const [searchTerm, setSearchTerm] = useState('')

@@ -6,9 +6,7 @@ const useUploadMeal = () => {
             const formData = new FormData()
             formData.append('image', image)
             formData.append('description', description)
-            for (let [key, value] of formData.entries()) {
-    console.log(key, value);
-}
+            
             const response = await axios.post('http://localhost:5000/uploadMeal', formData, {
                 headers: {'Content-Type': 'multipart/form-data'}, withCredentials: true})
             console.log(response.data)
