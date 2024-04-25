@@ -42,7 +42,7 @@ export default function AthletePage() {
                 <MealCalendarTopBar targetDate = {targetDate}
                     incrementDateDay={incrementDateDay} decrementDateDay = {decrementDateDay}
                     rangeType = {rangeType} setRangeType={changeRangeType}  
-                    athleteName = {athleteName}
+                    athleteName = {athleteName} incrementDateWeek = {incrementDateWeek} decrementDateWeek = {decrementDateWeek}
                 />
                 <DayView targetDate = {targetDate} meals = {listOfMeals}/>
             </>
