@@ -10,7 +10,7 @@ import MemberListButton from "./Settings/MemberListButton";
 
 
 
-export default function ToolBar() {
+export default function ToolBar({notificationCount}) {
     const {team} = useTeam()
     return (
         <Flex align = 'center' gap = '10px'>
@@ -18,7 +18,7 @@ export default function ToolBar() {
             <CurrentUserHeader/>
             <SettingsButton/>
             {/*<ProfileButton/>*/}
-            <NotificationButton notificationCount={7}/>
+            <NotificationButton notificationCount={notificationCount}/>
             
             
         </Flex> 

@@ -20,6 +20,7 @@ import ScheduleMeetingPage from './pages/ScheduleMeetingPage'
 import MemberSettingsPage from './pages/MemberSettingsPage'
 import OwnerDashboard from './pages/OwnerDashboard'
 import SettingsPage from './pages/SettingsPage'
+import NotificationsPage from './pages/NotificationsPage'
 
 
 export default function Routing() {
@@ -32,7 +33,7 @@ export default function Routing() {
                 <Route path = '/' element = {<ProtectedRoute><HomePage/></ProtectedRoute>}>
                     <Route index element = {<DashBoard/>}/>
                     <Route path = 'athletes' element = {<AthleteList/>}/>
-                    <Route path = 'athletePage/:athleteName' element = {<AthletePage/>}/>
+                    <Route path = 'athletePage/:athleteName/:mealId?/:mealLoggedAt?' element = {<AthletePage/>}/>
                     <Route path = 'messages' element = {<MessagesPage/>}/>
                     <Route path = 'conversation/:conversationId' element = {<ConversationPage/>}/>
                     <Route path = 'uploadMeal' element = {<MealUploadPage/>}/>
@@ -40,6 +41,7 @@ export default function Routing() {
                     <Route path = 'settings/:athleteName' element = {<MemberSettingsPage/>}/>
                     <Route path = 'ownerDashboard' element = {<OwnerDashboard/>}/>
                     <Route path = 'settings' element = {<SettingsPage/>}/>
+                    <Route path = 'notifications' element = {<NotificationsPage/>}/>
                 </Route>
                 <Route path = '/login' element = {<LoginRedirect><LoginPage/></LoginRedirect>}/>
                 <Route path = '/register' element = {<LoginRedirect><RegistrationPage/></LoginRedirect>}/>

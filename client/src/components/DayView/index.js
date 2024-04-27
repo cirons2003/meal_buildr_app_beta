@@ -5,17 +5,19 @@ import DayMealTab from './DayMealTab';
 import DayMealSidePopup from './DayMealSidePopup';
 import CalendarViewDay from './CalendarViewDay';
 
-export default function DayView({ meals, targetDate }){
+export default function DayView({ meals, targetDate, selectedMealId }){
   const [selectedGroup, setSelectedGroup] = useState(null);
 
     useEffect(()=> {
         setSelectedGroup(null)
     },[targetDate])
 
+    
+    
   return (
     <>
         <CalendarViewDay selectedGroup = {selectedGroup} 
-            setSelectedGroup = {setSelectedGroup}  meals = {meals}
+            setSelectedGroup = {setSelectedGroup}  meals = {meals} selectedMealId = {selectedMealId} targetDate={targetDate}
         />
     </>
   )

@@ -16,7 +16,7 @@ export default function MessagesTopBar({filterConversations}) {
     return (
         <>
             <Flex  justify = 'space-between' bg= 'teal' p = '10px' mb = '30px'>
-                <Flex bg = 'white' px = '10px' py = '3px' borderRadius = '20px' align = 'center'>
+                <Flex bg = 'lightblue' px = '10px' py = '3px' borderRadius = '20px' align = 'center'>
                     <Text as = 'b' color = 'teal' fontSize = '20px' >Messages</Text>  
                 </Flex>
                 <Flex gap = '10px'>

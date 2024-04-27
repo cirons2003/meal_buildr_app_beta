@@ -2,12 +2,14 @@ import { useEffect } from "react";
 import useLogoutUser from "../custom hooks/useLogoutUser";
 import { FaCrown } from "react-icons/fa";
 import { BsClipboard2PulseFill } from "react-icons/bs";
-import { useTeam, useUser } from "../context";
+import { useTeam, useUser} from "../context";
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import SideBar from '../components/SideBar';
 import { Outlet, Link as RouterLink, useNavigate } from "react-router-dom";
 import TopBar from "../components/TopBar";
 import ToolBar from "../components/Toolbar";
+
+
 
 
 export default function HomePage() {
@@ -39,7 +41,7 @@ export default function HomePage() {
                         <SideBar/>
                     </Box>
                     <Box as="main" flex="1" pl='15%' overflow   ="hidden"> {/* Adjust left padding to match the width of the sidebar */}
-                        <Outlet/>
+                        <Outlet/>   
                     </Box>
                 </Flex>
             </VStack>

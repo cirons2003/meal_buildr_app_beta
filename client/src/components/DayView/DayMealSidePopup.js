@@ -1,71 +1,80 @@
 import { IconButton, AspectRatio, Box, Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody, Image, Text, Input, Flex, Center } from '@chakra-ui/react';
 
-    
+import useNotifications from '../../custom hooks/useNotifications';
 import defaultImage from '../../static/SVG Layer4.svg'
 import {ArrowForwardIcon, ChevronLeftIcon, ChevronRightIcon} from '@chakra-ui/icons'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import useAddComment from '../../custom hooks/useAddComment';
 import useGetComments from '../../custom hooks/useGetComments';
 import PopupComment from './PopupComment';
 import '../../style.css'
 
 
-    export default function DayMealSidePopup({setSelectedGroup, selectedGroup, isOpen}) {
+    export default function DayMealSidePopup({getMealPosition, setSelectedGroup, selectedGroup, mealIndex, setMealIndex}) {
 
         const [selectedMeal, setSelectedMeal] = useState(null)
-        const [mealIndex, setMealIndex] = useState(0)
+        
 
-        const getMealPosition = (loggedTime) => {   
-            const loggedDate = new Date(loggedTime);
-            const startOfDay = new Date(loggedDate).setHours(0, 0, 0, 0);
-            const minutesSinceStartOfDay = (loggedDate - startOfDay) / (1000 * 60);
-            return (minutesSinceStartOfDay / 30) * 50; // 50px height for each 30-minute slot
-        };
+        const scrollRef = useRef(null)
 
+        
 
+        const {viewComments} = useNotifications()
         
 
         const [comment, setComment] = useState('')
        
-        const {addComment} = useAddComment()
-        const {getComments, listOfComments, loading} = useGetComments()
+        const {addComment, toggleRefresh} = useAddComment()
+        const {getComments, listOfComments, loading} = useGetComments() 
         
 
         const handleComment = () => {
             
             addComment(comment, selectedMeal.meal_id)
             setComment('')
-            getComments(selectedMeal.meal_id)
         }
 
+        // handle new popup opening
         useEffect(()=> {
-            if (selectedGroup !== null) {
-                setSelectedMeal(selectedGroup.meals[0])
+            if (selectedGroup && mealIndex !== null) {
+                setSelectedMeal(selectedGroup.meals[mealIndex])
+            }
+            else {
+                setSelectedMeal(null)
                 setMealIndex(0)
             }
-            else 
-                setSelectedMeal(null)
-        },[selectedGroup])
+        }, [selectedGroup, mealIndex])
 
+        // only happens once when the component is rendered with selectedMealIndex prop 
+        useEffect(()=> {
+
+        },[])
+
+        // get comments
         useEffect(()=> {
             if (selectedMeal) {
                 getComments(selectedMeal.meal_id)
+                viewComments(selectedMeal.meal_id)
             }
-        },[selectedMeal, loading])
+        },[selectedMeal, loading, toggleRefresh])
+
+        // scroll to  bottom of comments
+        useEffect(()=> {
+            if (scrollRef.current)
+                scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+        }, [listOfComments])
 
         
-
         
-    
-
 
 
     return (
         <Box /*onClick = {() => setSelectedMeal(null)}*/ w="50%" p="4" bg="white">
+        {console.log(mealIndex)}
         {(selectedMeal && selectedGroup) && (
             <Popover  isOpen>
             <PopoverTrigger>
-                <Box />
+                <Box/>
             </PopoverTrigger>
             <PopoverContent position = 'absolute' top = {`${getMealPosition(selectedGroup.meals[0].logged_at) -120}px`} 
             right = '-900px' bg = 'teal'  minHeight = '350px' >
@@ -82,7 +91,7 @@ import '../../style.css'
                     <Box display = 'flex' flexGrow = {1} borderBottom = '2px' borderRadius='0px' borderColor = 'white'>
                         <Text color = 'white' as="b">{`"${selectedMeal.description ? selectedMeal.description : ''}"`}</Text>
                     </Box>
-                    <Box maxHeight = '100px' overflowY = 'auto' display = 'flex' flexDirection= 'column' gap = '5px'>
+                    <Box ref = {scrollRef} maxHeight = '100px' overflowY = 'auto' display = 'flex' flexDirection= 'column' gap = '5px'>
                         {listOfComments.map((comment, index)=> (
                             <PopupComment key = {index} comment = {comment}/>
                         ))}

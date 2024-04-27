@@ -119,7 +119,13 @@ const useDateHandling = () => {
         setTargetDate(date.toISOString())
     }
 
-
+    const assignTargetDate = (datestring) => {
+        if (!datestring || datestring === '')
+            return 
+        let target = new Date(datestring)
+        target = new Date(target.getFullYear(), target.getMonth(), target.getDate()).toISOString()
+        setTargetDate(target)
+    }
 
 
     return {
@@ -127,7 +133,7 @@ const useDateHandling = () => {
         incrementDateDay, decrementDateDay, 
         incrementDateMonth, decrementDateMonth,
         incrementDateWeek, decrementDateWeek,
-        changeRangeType
+        changeRangeType, assignTargetDate
     }
 }
 

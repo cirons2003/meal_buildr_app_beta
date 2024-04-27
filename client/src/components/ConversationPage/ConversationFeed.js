@@ -1,10 +1,10 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import ConversationMessage from "./ConversationMessage";
 import { useRef, useEffect } from "react";
 
 
 
-export default function ConversationFeed({listOfMessages, user_username}) {
+export default function ConversationFeed({listOfMessages, user_username, convo}) {
     const feedRef = useRef(null)
     useEffect(()=> {
         if (feedRef.current)
@@ -15,6 +15,7 @@ export default function ConversationFeed({listOfMessages, user_username}) {
             {listOfMessages.map((mes, index)=>(
                 <ConversationMessage key = {index} message = {mes} user_username = {user_username}/>
             ))}
+            
         </Flex>
     )
 }

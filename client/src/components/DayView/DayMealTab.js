@@ -1,6 +1,6 @@
 import { Box, Button, Text } from '@chakra-ui/react';
 
-export default function DayMealTab({group, index, setSelectedGroup, isSelected}) {
+export default function DayMealTab({group, index, setSelectedGroup, isSelected, setMealIndex}) {
 
     const getMealPosition = (loggedTime) => {
         const loggedDate = new Date(loggedTime);
@@ -21,7 +21,7 @@ export default function DayMealTab({group, index, setSelectedGroup, isSelected})
             border = '2px'
             borderRadius="md"
             borderColor = 'teal'
-            onClick = {() => setSelectedGroup(group)}
+            onClick = {() => {setSelectedGroup(group);setMealIndex(0)}}
             display = 'flex'
             justifyContent = 'start'
             pl = '50px'

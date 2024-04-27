@@ -4,6 +4,7 @@ from flask_login import UserMixin
 
 
 
+
 team_admins = db.Table(
     'team_admins',
     db.Column('team_id', db.Integer, db.ForeignKey('team.team_id'), primary_key = True),
@@ -82,9 +83,27 @@ class Conversation(db.Model):
     last_used_at = db.Column(db.DateTime, default = db.func.now(), nullable = False)
     users = db.relationship('User', secondary = 'conversation_users', lazy = 'dynamic')
     last_message_text = db.Column(db.String(500), nullable = False)
+    #new
+    unread_message = db.Column(db.Boolean, nullable = False, default = True)
+    last_message_sender_username = db.Column(db.String(50))
 
 conversation_users = db.Table(
     'conversation_users', db.Column('conversation_id', db.Integer, db.ForeignKey('conversation.conversation_id', ondelete='CASCADE'), primary_key = True),
     db.Column('user_id', db.Integer, db.ForeignKey('user.user_id', ondelete='CASCADE'), primary_key = True),
     db.Column('joined_at', db.DateTime, default = db.func.now(), nullable = False)
 )   
+
+
+class Notification(db.Model):
+    notification_id = db.Column(db.Integer, primary_key = True)
+    header = db.Column(db.String(100))
+    body = db.Column(db.String(500))
+    is_new = db.Column(db.Boolean, nullable = False, default = True)
+    timestamp = db.Column(db.DateTime, default = datetime.utcnow, nullable = False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable = False)
+    variant = db.Column(db.String(30)) ##message, comment, other(from mealBuildr)
+    cid = db.Column(db.Integer, db.ForeignKey('conversation.conversation_id')) ##only if message type
+    meal_username = db.Column(db.String(50)) ##only if comment type 
+    meal_id = db.Column(db.Integer, db.ForeignKey('meal.meal_id')) ## only if comment type 
+    #new 
+    meal_logged_at = db.Column(db.DateTime, nullable = True) ## only if comment type 

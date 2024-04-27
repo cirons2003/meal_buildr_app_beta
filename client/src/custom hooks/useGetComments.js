@@ -13,7 +13,6 @@ const useGetComments = () => {
             const response = await axios.post('http://localhost:5000/getComments', 
             {meal_id: meal_id}, {withCredentials: true})
             setListOfComments(response.data.listOfComments)
-            console.log(response.data)
             setLoading(false)
         }catch(err) {
             console.error(err)

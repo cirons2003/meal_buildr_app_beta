@@ -12,7 +12,7 @@ import MealCalendarTopBar from "../components/DayView/MealCalendarTopBar"
 
 export default function AthletePage() {
 
-    const {athleteName} = useParams()
+    const {athleteName, mealId, mealLoggedAt} = useParams()
     const {listOfMeals, getMealsInDateRange} = useGetUserMeals()
     const {team} = useTeam()
 
@@ -21,17 +21,24 @@ export default function AthletePage() {
         incrementDateDay, decrementDateDay,
         incrementDateMonth, decrementDateMonth, 
         incrementDateWeek, decrementDateWeek,
-        changeRangeType
+        changeRangeType, assignTargetDate
     } = useDateHandling()
     
     
 
     // getMeals in specified range 
     useEffect(()=>{
-        if (team && athleteName !== '')
+        if (startDate && endDate && team && athleteName !== '')
             getMealsInDateRange(athleteName, team.team_name, startDate, endDate)
     }
-    ,[team, athleteName, startDate, endDate])
+    ,[team, athleteName, endDate])
+
+    useEffect(()=>{
+        if (mealLoggedAt) {
+            assignTargetDate(mealLoggedAt)
+        }
+    }, [mealLoggedAt])
+
 
     if (!team) 
         return (<div>loading...</div>)
@@ -44,12 +51,12 @@ export default function AthletePage() {
                     rangeType = {rangeType} setRangeType={changeRangeType}  
                     athleteName = {athleteName} incrementDateWeek = {incrementDateWeek} decrementDateWeek = {decrementDateWeek}
                 />
-                <DayView targetDate = {targetDate} meals = {listOfMeals}/>
+                <DayView selectedMealId = {mealId} targetDate = {targetDate} meals = {listOfMeals}/>
             </>
         )   
 
-
-
+    
+/*
     return (
         <>
             <h1> hello </h1>
@@ -68,7 +75,7 @@ export default function AthletePage() {
                     <p>{meal.description}</p>
                 </Box>
             ))}
-            <DayCard rangeType = {1}/>
+            <DayCard selectedMealId = {mealId} rangeType = {1}/>
         </>
-    )
+    )*/
 }

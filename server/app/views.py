@@ -2,7 +2,7 @@
 from app import app 
 from flask_login import login_required, current_user
 from flask import jsonify, request
-from app.models import User, Meal, Team, Comment, Message, Conversation, conversation_users, team_admins, team_athletes
+from app.models import User, Meal, Team, Comment, Message, Conversation, Notification, conversation_users, team_admins, team_athletes
 from datetime import datetime
 import pytz
 from app import db 
@@ -103,14 +103,20 @@ def getUserRole():
     return jsonify({'message': 'successfully fetched team info', 'info': {'role': role, 'user_id': user.user_id}})
 
     ##finish
-@app.route('/getUserInfo')
+@app.route('/getUserInfo', methods = ['POST'])
 @login_required
 def getUserInfo():
-    c = current_user
+    username = request.json.get('username')
+    if (username):
+        c = User.query.filter_by(username = username).first()
+    else:
+        c = current_user
     userInfo = {'user_id': c.user_id, 'username': c.username, 'first_name': c.first_name, 'last_name': c.last_name, 'bio': c.bio, 'profile_picture_url': c.profile_picture_url}
 
-    return jsonify({'message': f'successfully fetched user data{c.profile_picture_url}', 'user': userInfo})
-    
+    return jsonify({'message': f'successfully fetched user data', 'user': userInfo})
+
+
+
 
 #finish
 @app.route('/changeUserInfo', methods = ['POST'])
@@ -201,7 +207,7 @@ def getMeals():
             meals = [meal for meal in Meal.query.filter_by(user_id = targetUser.user_id)]
             #filter for date 
             meals = [meal for meal in meals if (meal.logged_at.replace(tzinfo = pytz.UTC) < end and meal.logged_at.replace(tzinfo = pytz.UTC) > start)]
-            meals = [{'logged_at': meal.logged_at.isoformat() + 'Z', 'description': meal.description, 'meal_id': meal.meal_id, 'image_url': meal.image_url} for meal in meals]
+            meals = [{'meal_id': meal.meal_id,'logged_at': meal.logged_at.isoformat() + 'Z', 'description': meal.description, 'meal_id': meal.meal_id, 'image_url': meal.image_url} for meal in meals]
             return jsonify({"message":("meal fetch was successful for date range: ", start, "until", end),
                             "listOfMeals": meals})
         else:
@@ -242,6 +248,25 @@ def addComment():
     meal_id = request.json.get('meal_id')
     poster_id = current_user.user_id
     poster_username = current_user.username
+
+    meal = Meal.query.filter_by(meal_id = meal_id).first()
+    if (meal is None):
+        return jsonify({'message': 'meal not found'}), 404
+
+    #notification
+    if (current_user.user_id != meal.user_id):
+        meal_owner = User.query.filter_by(user_id = meal.user_id).first()
+        if (meal_owner is None): 
+            return jsonify({'message':'meal has no owner'}), 404
+
+        if (current_user.first_name and current_user.last_name):
+            fromTag = f"{current_user.first_name} {current_user.last_name}"
+        else:
+            fromTag = f"{current_user.username}"
+        header = f"{fromTag} commented on your meal!"
+        body = 'Click here to see what they said...'
+        notification = Notification(header = header, body = body, user_id = meal_owner.user_id, variant = 'comment', meal_username = meal_owner.username, meal_id = meal_id, meal_logged_at =meal.logged_at.strftime('%Y-%m-%d %H:%M:%S'))   
+        db.session.add(notification)
 
     comment = Comment(comment_text = comment_text, meal_id = meal_id, poster_id = poster_id, poster_username = poster_username)
     db.session.add(comment)    
@@ -314,7 +339,7 @@ def sendMessage():
         if conversation is None:
             if (message_text == 'doNotSendMessage'):
                 return jsonify({'message':'no existing conversation', 'conversation_id': -1})
-            convo = Conversation(last_message_text = message_text)
+            convo = Conversation(last_message_text = message_text, last_message_sender_username= current_user.username)
             db.session.add(convo)
             db.session.commit()
             cid = convo.conversation_id
@@ -326,6 +351,8 @@ def sendMessage():
             cid = conversation.conversation_id
             if (not(message_text == 'doNotSendMessage')):
                 conversation.last_message_text = message_text 
+                conversation.last_message_sender_username = current_user.username 
+                conversation.unread_message = True
                 conversation.last_used_at = datetime.utcnow()
                 db.session.commit()
 #########################################################################################################################      
@@ -338,12 +365,23 @@ def sendMessage():
         user = User.query.get(recipient_id)
         convo.last_message_text = message_text
         convo.last_used_at = datetime.utcnow()
+        convo.last_message_sender_username = current_user.username
+        convo.unread_message = True
 ###################################################################################################################
     ##at this point 
     if (message_text != 'doNotSendMessage'):
         message = Message(message_text = message_text, sender_id = current_user.user_id, sender_username = current_user.username, recipient_id = recipient_id, recipient_username = user.username , conversation_id = cid)
+        
+        if (current_user.first_name and current_user.last_name):
+            fromTag = f"{current_user.first_name} {current_user.last_name}"
+        else:
+            fromTag = f"{current_user.username}"
+        header = f'New Message from {fromTag}'
+        body = 'Click here to see what they said...'
+        notification = Notification(header = header, body = body, user_id = user.user_id, variant = 'message', cid = cid)
 
         db.session.add(message)    
+        db.session.add(notification)
         db.session.commit()
 
     return jsonify({'message': f'message sent to {recipient_id}', 'conversation_id': cid})
@@ -378,18 +416,22 @@ def getMessages():
 def getConversations():
     conversations = (Conversation.query.join(conversation_users, Conversation.conversation_id == conversation_users.c.conversation_id)
                      .filter(conversation_users.c.user_id == current_user.user_id)
-                     .order_by(db.desc(Conversation.last_used_at)).all())
+                     .order_by(db.desc(Conversation.last_used_at)).all())   
     
     
 
-    conversations = [{'last_used_at': c.last_used_at,
+    conversations = [{'last_used_at': c.last_used_at.isoformat() + 'Z',
                        'last_message_text': c.last_message_text,
                          'other_user_id': next((user.user_id for user in c.users if user.user_id != current_user.user_id), None),
                          'other_user_username': next((user.username for user in c.users if user.user_id != current_user.user_id), current_user.username),
                          'other_user_profile_picture_url': next((user.profile_picture_url for user in c.users if user.user_id != current_user.user_id), current_user.profile_picture_url),
                          'other_first_name': next((user.first_name for user in c.users if user.user_id != current_user.user_id), current_user.first_name),
                          'other_last_name': next((user.last_name for user in c.users if user.user_id != current_user.user_id), current_user.last_name),
-                         'conversation_id': c.conversation_id} for c in conversations]
+                         'conversation_id': c.conversation_id,
+                         'unread_message': (c.unread_message and current_user.username != c.last_message_sender_username),
+                         'seen': (not(c.unread_message) and current_user.username == c.last_message_sender_username)} for c in conversations]
+
+    
     
     return jsonify({'listOfConversations': conversations, 'message': 'successfully fetched conversations'})
 
@@ -490,4 +532,86 @@ def joinTeamWithCode():
     db.session.commit()
 
     return jsonify({'message': 'successfully joined team!'}), 201
+
+@app.route('/getNotifications')
+@login_required
+def getNotifications():
+    notifications = Notification.query.filter_by(user_id = current_user.user_id).all()
+
+    notifications = [{
+                'notification_id': n.notification_id,
+                'header': n.header,
+                'body': n.body,
+                'is_new': n.is_new,
+                'timestamp': n.timestamp.isoformat() + 'Z',  # Convert datetime to string for JSON compatibility
+                'user_id': n.user_id,
+                'variant': n.variant,
+                'cid': n.cid,  # This will be None if not related to a message
+                'meal_username': n.meal_username,  # This will be None if not related to a meal comment
+                'meal_id': n.meal_id,
+                'meal_logged_at': n.meal_logged_at.isoformat()+'Z' if n.meal_logged_at else None}  for n in notifications]
+
+    return jsonify({'message': 'successfully fetched notifications', 'listOfNotifications': notifications}) 
+
+@app.route('/resolveNotification', methods = ['POST'])
+@login_required
+def resolveNotification():
+    notification_id = request.json.get('notification_id')
+    
+    notification = Notification.query.filter_by(notification_id = notification_id).first()
+    if (notification is None): 
+        return jsonify({'message': 'notification not found'}), 404
+    
+    notification.is_new = False
+        
+    db.session.commit()
+
+
+@app.route('/resolveMessages', methods = ['POST'])
+@login_required
+def resolveMessage():
+    conversation_id = request.json.get('conversation_id')
+    
+    convo = Conversation.query.filter_by(conversation_id = conversation_id).first()
+    if (convo is None): 
+        return jsonify({'message': 'no conversation found'}), 404 
+    ##only proceed if recipient views
+    if (convo.last_message_sender_username == current_user.username and convo.users.count() > 1):
+        return jsonify({'message':'no notifications to clear'})
+    convo.unread_message = False
+
+    notifs = Notification.query.filter_by(cid = conversation_id).all()
+
+    for n in notifs: 
+        n.is_new = False
+
+    db.session.commit()
+
+    return jsonify({'message':'successfully resolved new message'})
+
+
+    
+@app.route('/resolveComments', methods = ['POST'])
+@login_required
+def resolveComments():
+    meal_id = request.json.get('meal_id')
+    
+    meal = Meal.query.filter_by(meal_id = meal_id).first()
+    if (meal is None): 
+        return jsonify({'message': 'no meal found'}), 404 
+    ##only proceed if recipient views
+    if (meal.user_id != current_user.user_id):
+        return jsonify({'message':'no comments to clear'})
+    
+
+    notifs = Notification.query.filter_by(meal_id = meal_id).all()
+
+    for n in notifs: 
+        n.is_new = False
+
+    db.session.commit()
+
+    return jsonify({'message':'successfully resolved new message'})
+    
+
 

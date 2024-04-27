@@ -5,7 +5,6 @@ import { Text, Flex,  Box, Button, Image, VStack, Heading, Container, IconButton
     } from '@chakra-ui/react'
 import defaultProfilePicture from '../../static/avatar-1577909_1280.webp'
 import {EditIcon} from '@chakra-ui/icons'
-import otherPP from '../../static/istockphoto-1476170969-170667a.jpg'
 import {useState, useEffect} from 'react'
 import useUserInfo from '../../custom hooks/useUserInfo'
 import { useUser } from '../../context'
@@ -68,9 +67,9 @@ export default function UserInfoDisplay({hideEdit}) {
                 {!hideEdit && <IconButton onClick = {()=>setEditOpen(true)} icon = {<EditIcon/>} pos = 'absolute' top = {0} right = {-3} bg = 'lightblue'/>}
             </Box>
             <Heading as="h3" size="lg">
-                {user?.username}
+                {(user && user.username) ? user.username : 'no username'}
             </Heading>
-            <Text fontSize="md">{`${user?.first_name} ${user?.last_name}`}</Text>
+            <Text fontSize="md">{`${(user && user.first_name) ? user.first_name : 'N/a'} ${(user && user.last_name) ? user.last_name : 'N/a'}`}</Text>
             <Box pt = {3} borderTopWidth = {1} borderTopColor = 'lightgrey'>
                 <Text fontSize="sm" textAlign = 'center ' color="gray.500">{user?.bio}</Text>
             </Box>

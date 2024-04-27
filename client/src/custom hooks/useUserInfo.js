@@ -9,6 +9,7 @@ const useUserInfo = () => {
     const baseURL = 'http://localhost:5000'
     const {team} = useTeam()
     const {setUser} = useUser()
+    const [userInfo, setUserInfo] = useState(null)
 
     // used for providing functionality for owner to set team member settings 
     const getTeamMemberContext = async(username) => {
@@ -25,13 +26,20 @@ const useUserInfo = () => {
     // updates context and local storage with up to date user info 
     const getUserInfo = async() => {
         try {
-            const response = await axios.get(baseURL+'/getUserInfo', {withCredentials: true})
+            const response = await axios.post(baseURL+'/getUserInfo',{}, {withCredentials: true})
             setUser(response.data.user)
             localStorage.setItem('user', JSON.stringify(response.data.user))
+            setUserInfo(response.data.user)
             console.log('user info updated', response.data.user)
         }catch(err) {
             console.error(err)
         }
+    }
+
+    const getOtherUserInfo = async(username) => {
+        const response = await axios.post(baseURL+'/getUserInfo',{username: username}, {withCredentials: true})
+        setUserInfo(response.data.user)
+        console.log(response.data)
     }
 
     // update user info 
@@ -58,7 +66,7 @@ const useUserInfo = () => {
         }
     }
 
-    return {getTeamMemberContext, getUserInfo, role, changeUserInfo,  userId, changeUserProfilePicture}
+    return {getTeamMemberContext, getUserInfo, role, changeUserInfo, userId, changeUserProfilePicture, userInfo, getOtherUserInfo}
 
 }
 

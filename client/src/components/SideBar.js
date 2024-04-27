@@ -7,7 +7,7 @@ import TeamHeader from "./TeamHeader";
 import { useTeam, useUser } from "../context";
 import SwitchTeamsButton from "./SwitchTeamsButton";
 
-export default function SideBar() {
+export default function SideBar({unreadMessageCount}) {
     const {team} = useTeam()
     const {user} = useUser()
 
@@ -22,7 +22,8 @@ export default function SideBar() {
                     <>
                         <SideButton to = '/'  text = 'dashboard' icon = {ArrowBackIcon}/>
                         <SideButton to = '/athletes'  text = 'athletes' icon = {ArrowBackIcon}/>
-                        <SideButton to = '/messages'  text = 'messages' icon = {ArrowBackIcon}/>
+                        <SideButton to = '/messages'  text = 'messages' icon = {ArrowBackIcon} notifCount = {unreadMessageCount}/>
+                        
                     </>}
                     {team.role === 'athlete' && 
                     <>
