@@ -1,17 +1,22 @@
-import { SettingsIcon } from "@chakra-ui/icons";
 import NotificationButton from "./NotificationButton";
 import SettingsButton from "./SettingsButton";
 import { Flex } from "@chakra-ui/react";
-import ProfileButton from "./ProfileButton";
 import CurrentUserHeader from "./CurrentUserHeader";
-import { useTeam } from "../context";
+import { useNotificationContext, useTeam } from "../context";
 import MemberListButton from "./Settings/MemberListButton";
+import { useEffect } from "react";
+import useNotifications from "../custom hooks/useNotifications";
 
 
-
-
-export default function ToolBar({notificationCount}) {
+export default function ToolBar() {
     const {team} = useTeam()
+    const {notificationCount} = useNotificationContext()
+    const {getNotifications} = useNotifications()
+
+    useEffect(()=> {
+        getNotifications()
+    },[])
+
     return (
         <Flex align = 'center' gap = '10px'>
             {team.role === 'owner' && <MemberListButton orangeScheme={true}/>}

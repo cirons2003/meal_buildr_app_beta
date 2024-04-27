@@ -1,11 +1,12 @@
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useLoggedIn, useUser } from '../context'
+import { useLoggedIn, useTeam, useUser } from '../context'
 import { useProxy } from '../context'
 
 const useUserAuth = () => {
     const {baseURL} = useProxy()
     const {setUser} = useUser()
+    const {setTeam} = useTeam()
     const {loggedIn, setLoggedIn} = useLoggedIn()
 
     const loginUser = async (username, password) => {
@@ -28,7 +29,9 @@ const useUserAuth = () => {
             setLoggedIn(false)
             const response = await axios.get(baseURL.current + '/logout', {withCredentials: true})
             setUser(null)
+            setTeam(null)
             AsyncStorage.removeItem('user')
+            AsyncStorage.removeItem('team')
         }catch(err) {
             console.error(err)
         }

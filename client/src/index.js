@@ -4,16 +4,16 @@ import App from './App'
 import Routing from './Routing';
 import {ChakraProvider} from '@chakra-ui/react'
 import theme from './theme/theme'
-import { UserProvider } from './context';
+import { ContextProvider } from './context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-      <UserProvider>
+      <ContextProvider>
         <ChakraProvider theme = {theme}>
           <Routing />
         </ChakraProvider>
-      </UserProvider>
+      </ContextProvider>
     </React.StrictMode>
 );
 

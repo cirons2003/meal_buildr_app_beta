@@ -2,7 +2,7 @@ import {Flex, Text, Image, Box} from '@chakra-ui/react'
 import {useUser} from '../context'
 import {HamburgerIcon} from '@chakra-ui/icons'
 import {Link as RouterLink} from 'react-router-dom'
-import defaultProfilePicture from '../static/istockphoto-1476170969-170667a.jpg'
+import defaultProfilePicture from '../static/avatar-1577909_1280.webp'
 
 export default function CurrentUserHeader() {
     const {user, setUser} = useUser()

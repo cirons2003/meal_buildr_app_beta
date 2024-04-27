@@ -3,7 +3,7 @@ import { BellIcon } from '@chakra-ui/icons';
 import {Link as RouterLink} from 'react-router-dom'
 
 
-const NotificationButton = ({ notificationCount = 7, ...props }) => {
+const NotificationButton = ({ notificationCount, ...props }) => {
   
   
 

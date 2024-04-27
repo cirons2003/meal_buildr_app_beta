@@ -1,13 +1,13 @@
 import axios from 'axios'
-import {useState} from 'react'
+import {useCallback, useState} from 'react'
+import { useSetNotificationContext } from '../context'
 
 const useNotifications = () => {
     const baseURL = 'http://localhost:5000'
     const [listOfNotifications, setListOfNotifications] = useState(null)
-    const [notificationCount, setNotificationCount] = useState(0)
-    const [unreadMessageCount, setUnreadMessageCount] = useState(0)
+    const { setNotificationCount, setUnreadMessageCount} = useSetNotificationContext()
 
-    const handleNotificationCounts = (notifs) => {
+    const handleNotificationCounts = useCallback((notifs) => {
         let total = 0
         let messages = 0
 
@@ -18,30 +18,11 @@ const useNotifications = () => {
                     messages++
             }
         }
-        console.log(total)
-        setNotificationCount(total)
-        setUnreadMessageCount(messages)
-    }
+        setNotificationCount(0 + total)
+        setUnreadMessageCount(0 + messages)
+    },[])
 
-    const openMessages = async(cid) => {
-        try {
-            const response = await axios.post(baseURL+'/resolveMessages', {conversation_id: cid}, {withCredentials: true})
-            console.log(response.data)
-        }catch(err) {
-            console.error(err)
-        }
-    }
-
-    const viewComments = async(meal_id) => {
-        try {
-            const response = await axios.post(baseURL+'/resolveComments', {meal_id: meal_id}, {withCredentials: true})
-            console.log(response.data)
-        }catch(err) {
-            console.error(err)
-        }
-    }
-
-    const getNotifications = async() => {
+    const getNotifications = useCallback(async() => {
         try {
             const response = await axios.get(baseURL + '/getNotifications', {withCredentials: true})
             setListOfNotifications(response.data.listOfNotifications.sort((a,b)=>new Date(b.timestamp) - new Date(a.timestamp)))
@@ -50,10 +31,33 @@ const useNotifications = () => {
         }catch(err) {
             console.error(err)
         }
-    }
+    },[baseURL, handleNotificationCounts])
 
 
-    return {openMessages, listOfNotifications, getNotifications, viewComments, notificationCount, unreadMessageCount}
+    const openMessages = useCallback(async(cid) => {
+        try {
+            const response = await axios.post(baseURL+'/resolveMessages', {conversation_id: cid}, {withCredentials: true})
+            getNotifications()
+            console.log(response.data)
+        }catch(err) {
+            console.error(err)
+        }
+    },[baseURL, getNotifications])
+
+    const viewComments = useCallback(async(meal_id) => {
+        try {
+            const response = await axios.post(baseURL+'/resolveComments', {meal_id: meal_id}, {withCredentials: true})
+            getNotifications()
+            console.log(response.data)
+        }catch(err) {
+            console.error(err)
+        }
+    },[baseURL, getNotifications])
+
+    
+
+
+    return {openMessages, listOfNotifications, getNotifications, viewComments}
 }
 
 export default useNotifications

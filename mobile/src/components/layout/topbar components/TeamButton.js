@@ -12,7 +12,7 @@ export default function TeamButton({teamVal, setTeam, team}) {
         AsyncStorage.setItem('team', JSON.stringify(teamVal))
     }
     
-    const selected = (team.team_name == teamVal.team_name && team.role == teamVal.role)
+    const selected = (team?.team_name === teamVal.team_name && team.role === teamVal.role)
 
     return (
         <Pressable onPress = {()=> setActiveTeam()} _pressed = {{opacity: 40}}>

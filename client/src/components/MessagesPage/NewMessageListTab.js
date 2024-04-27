@@ -32,7 +32,7 @@ export default function NewMessageListTab({member}) {
             <Popover  >
                 <PopoverTrigger>
                     <Flex as = {Button} bg = 'white' mb = '2px' borderRadius = '0px' borderBottom = '1px' px = '8px' justify = 'space-between'>
-                        {(member.first_name && member.last_name)? <Text as = 'b' >{member.first_name} {member.last_name}</Text> :<Text as = 'b' >"{member.username}"</Text>}
+                        {(member.first_name && member.last_name)? <Text as = 'b' >{member.first_name} {member.last_name}</Text> :<Text as = 'b' >{member.username}</Text>}
                     </Flex>
                 </PopoverTrigger>
                 <Box sx = {{opacity: 0.95, zIndex: 1000}}>
@@ -41,7 +41,7 @@ export default function NewMessageListTab({member}) {
                         <PopoverCloseButton/>
                         <PopoverHeader>
                             <Flex > 
-                                {(member.first_name && member.last_name)? <Text as = 'b' > Message {member.first_name} {member.last_name}?</Text> :<Text as = 'b' > Message "{member.username}"?</Text>}
+                                {(member.first_name && member.last_name)? <Text as = 'b' > Message {member.first_name} {member.last_name}?</Text> :<Text as = 'b' > Message {member.username}?</Text>}
                             </Flex>
                         </PopoverHeader>
                         <PopoverBody>

@@ -1,25 +1,24 @@
-import { useEffect } from "react";
-import useLogoutUser from "../custom hooks/useLogoutUser";
 import { FaCrown } from "react-icons/fa";
 import { BsClipboard2PulseFill } from "react-icons/bs";
-import { useTeam, useUser} from "../context";
+import { useTeam} from "../context";
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import SideBar from '../components/SideBar';
-import { Outlet, Link as RouterLink, useNavigate } from "react-router-dom";
+import { Outlet, Link as RouterLink} from "react-router-dom";
 import TopBar from "../components/TopBar";
 import ToolBar from "../components/Toolbar";
+import { useEffect } from "react";
+
 
 
 
 
 export default function HomePage() {
-    const {user, setUser} = useUser();
-    const {logout} = useLogoutUser(user, setUser);
-
-    const navigate = useNavigate()
-    const {team} = useTeam()
 
     
+
+    const {team} = useTeam()
+    
+    useEffect(()=>{console.log('homepage')},[])
 
     return (
         <>
@@ -30,7 +29,7 @@ export default function HomePage() {
                         {team?.role === 'owner' && <FaCrown color = 'yellow' fontSize = '30px'/>}
                         {team?.role === 'admin' && <BsClipboard2PulseFill color = 'red' fontSize = '30px'/>}
                     </Flex>
-                    
+
                     
                     <Flex gap='30px'>
                         <ToolBar/>

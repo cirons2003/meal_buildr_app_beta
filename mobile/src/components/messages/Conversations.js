@@ -48,9 +48,9 @@ export default function Conversations({isFocused}) {
                 <MessagesTopBar/>
                 <ScrollView width= '100%' flex = {1} marginBottom = {20}>
                     <SearchBar placeholder={'search conversations...'} value = {searchTerm} setValue={setSearchTerm}/>
-                    {filteredListOfConversations.map((convo, index) => (
+                    {(filteredListOfConversations?.length > 0) ? filteredListOfConversations.map((convo, index) => (
                         <ConversationTab key = {index} convo = {convo}/>
-                    ))}
+                    )):<Flex mt = {20} width = '100%' align = 'center'><Text>No Conversations...</Text></Flex>}
                 </ScrollView>
             </Flex>
         </Flex>

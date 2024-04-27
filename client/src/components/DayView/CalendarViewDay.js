@@ -56,6 +56,11 @@ export default function CalendarViewDay ({selectedGroup, setSelectedGroup, meals
           }
   }, [selectedMealId, mealGroupings])
 
+  //initial scroll
+  useEffect(()=>{
+    if (mealGroupings && !selectedGroup)
+      scrollContainerRef.current.scrollTop = (mealGroupings.length > 0) ? Math.min(Math.max(0 ,getMealPosition(mealGroupings[0].meals[0].logged_at)-100), scrollToPosition) : scrollToPosition
+  }, [mealGroupings, targetDate])
 
   //scroll to opened meal group
   useEffect(()=>{
@@ -63,10 +68,7 @@ export default function CalendarViewDay ({selectedGroup, setSelectedGroup, meals
       scrollContainerRef.current.scrollTop = getMealPosition(selectedGroup.meals[0].logged_at) - 100
   },[selectedGroup])
 
-  useEffect(()=>{
-    if (mealGroupings)
-      scrollContainerRef.current.scrollTop = (mealGroupings.length > 0) ? Math.min(Math.max(0 ,getMealPosition(mealGroupings[0].meals[0].logged_at)-100), scrollToPosition) : scrollToPosition
-  }, [mealGroupings, targetDate])
+  
 
   return (
     <Box ref = {scrollContainerRef} overflowY="auto" h="80%" position="relative">

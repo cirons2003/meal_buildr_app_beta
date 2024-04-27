@@ -1,8 +1,10 @@
-import {Flex, Text, IconButton} from '@chakra-ui/react'
+import {Flex} from '@chakra-ui/react'
 import NotificationsTopBar from '../components/Notifications/NotificationsTopBar'
 import NotificationsFeed from '../components/Notifications/NotificationsFeed'
-import useNotifications from '../custom hooks/useNotifications'
 import {useEffect} from 'react'
+import {useNotificationContext } from '../context'
+import useNotifications from '../custom hooks/useNotifications'
+
 
 
 export default function NotificationsPage() {

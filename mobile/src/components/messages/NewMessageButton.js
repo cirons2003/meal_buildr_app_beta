@@ -45,7 +45,7 @@ export default function NewMessageButton() {
                         </Flex>
                         <Flex width = '95%' flex = {1} mt = {3}>
                             <ScrollView width = '100%' flex = {1}>
-                                {staff ? 
+                                {team ? (staff ? 
                                     filteredStaff.map((mem, index)=>(
                                         <NewMessagePopover onClose = {() => setIsOpen(false)} navigation = {navigation} key = {index} mem = {mem}/>
                                     ))
@@ -53,7 +53,7 @@ export default function NewMessageButton() {
                                     filteredAthletes.map((mem, index)=>(
                                         <NewMessagePopover onClose = {() => setIsOpen(false)} navigation = {navigation} key = {index} mem = {mem}/>
                                     ))
-                                }
+                                ):<Flex mt = {20} width = '100%' align = 'center'><Text>Select a team below username...</Text></Flex>}
                             </ScrollView>
                         </Flex>
                     </Flex>

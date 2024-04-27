@@ -3,11 +3,11 @@ import useGetUserMeals from "../custom hooks/useGetUserMeals"
 import { useEffect, useState } from "react"
 import { useTeam } from "../context"
 import { Box, list } from "@chakra-ui/react"
-import useDateHandling from "../custom hooks/useDateHandling"
 import { CgFormatJustify } from "react-icons/cg"
 import DayCard from "../components/DayCard"
 import DayView from "../components/DayView/index"
 import MealCalendarTopBar from "../components/DayView/MealCalendarTopBar"
+import useDateHandling from "../custom hooks/useDateHandling"
 
 
 export default function AthletePage() {

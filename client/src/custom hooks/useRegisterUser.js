@@ -10,7 +10,7 @@ const useRegisterUser = () => {
     const [message, setMessage] = useState('')
     const {getUserInfo} = useUserInfo()
     
-    const navigate = useNavigate()
+    
 
     const register = async(username, password) => {
         setRegisterLoading(true)
@@ -21,8 +21,7 @@ const useRegisterUser = () => {
             console.log(response.data.message)
             setMessage(response.data.message)
             getUserInfo()
-            if (user) 
-                navigate('/')
+            
 
         }catch(err) {
             console.error(err)

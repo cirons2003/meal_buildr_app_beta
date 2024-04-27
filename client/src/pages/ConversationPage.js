@@ -1,16 +1,13 @@
 import { useParams } from "react-router-dom"
 import useGetConversationMessages from "../custom hooks/useGetConversationMessages"
 import { useEffect, useState } from "react"
-import { Box, Flex, Input, list } from "@chakra-ui/react"
-import useSendMessage from "../custom hooks/useSendMessage"
-import { useNotificationContext, useUser } from "../context"
-import ConversationMessage from "../components/ConversationPage/ConversationMessage"
+import { Flex} from "@chakra-ui/react"
+import { useUser } from "../context"
 import ConversationFeed from "../components/ConversationPage/ConversationFeed"
 import ConversationBottomBar from "../components/ConversationPage/ConversationBottomBar"
 import ConversationTopBar from "../components/ConversationPage/ConversationTopBar"
-import useMessageHandling from "../custom hooks/useMessageHandling"
-import useNotifications from '../custom hooks/useNotifications'
 import useUserInfo from '../custom hooks/useUserInfo'
+import useNotifications from "../custom hooks/useNotifications"
 
 
 export default function ConversationPage() {
@@ -27,8 +24,7 @@ export default function ConversationPage() {
 
     const [refresh, setRefresh] = useState(false)
 
-    const {notifications} = useNotificationContext()
-    const {openMessages} = notifications
+    const {openMessages} = useNotifications()
 
     useEffect(()=> {
         if (conversationId)

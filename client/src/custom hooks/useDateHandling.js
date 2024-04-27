@@ -120,6 +120,7 @@ const useDateHandling = () => {
     }
 
     const assignTargetDate = (datestring) => {
+        console.log('datestring')
         if (!datestring || datestring === '')
             return 
         let target = new Date(datestring)

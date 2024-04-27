@@ -1,6 +1,4 @@
 import { IconButton, AspectRatio, Box, Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody, Image, Text, Input, Flex, Center } from '@chakra-ui/react';
-
-import useNotifications from '../../custom hooks/useNotifications';
 import defaultImage from '../../static/SVG Layer4.svg'
 import {ArrowForwardIcon, ChevronLeftIcon, ChevronRightIcon} from '@chakra-ui/icons'
 import { useEffect, useState, useRef } from 'react';
@@ -8,6 +6,7 @@ import useAddComment from '../../custom hooks/useAddComment';
 import useGetComments from '../../custom hooks/useGetComments';
 import PopupComment from './PopupComment';
 import '../../style.css'
+import useNotifications from '../../custom hooks/useNotifications';
 
 
     export default function DayMealSidePopup({getMealPosition, setSelectedGroup, selectedGroup, mealIndex, setMealIndex}) {
@@ -17,8 +16,7 @@ import '../../style.css'
 
         const scrollRef = useRef(null)
 
-        
-
+    
         const {viewComments} = useNotifications()
         
 
@@ -33,6 +31,12 @@ import '../../style.css'
             addComment(comment, selectedMeal.meal_id)
             setComment('')
         }
+
+        const handleKeyDown = (e) => {
+            if (e.key === 'Enter')
+                handleComment()
+        }
+
 
         // handle new popup opening
         useEffect(()=> {
@@ -70,7 +74,6 @@ import '../../style.css'
 
     return (
         <Box /*onClick = {() => setSelectedMeal(null)}*/ w="50%" p="4" bg="white">
-        {console.log(mealIndex)}
         {(selectedMeal && selectedGroup) && (
             <Popover  isOpen>
             <PopoverTrigger>
@@ -97,7 +100,7 @@ import '../../style.css'
                         ))}
                     </Box>
                     <Flex alignItems = 'center' mb = '20px' mt = '20px' bg = '' >
-                        <Input  type = 'text' value = {comment} onChange = {(e) => setComment(e.target.value)}
+                        <Input onKeyDown={(e)=> handleKeyDown(e)} type = 'text' value = {comment} onChange = {(e) => setComment(e.target.value)}
                         fontSize = '20px' color = 'teal' placeholder = 'comment' bg ='white' />
                         <IconButton onClick = {()=> handleComment()} icon = {<ArrowForwardIcon/>}  bg = 'orange' />
                     </Flex>
