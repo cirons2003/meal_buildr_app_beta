@@ -10,7 +10,7 @@ export default function ConfirmUploadAlert({alertOpen, setAlertOpen, onConfirm})
     const theme = useTheme()
     return (
         <AlertDialog isOpen={alertOpen} onClose={()=>setAlertOpen(false)}>
-            <AlertDialog.Content>
+            <AlertDialog.Content pos = 'absolute' style = {{'zIndex': 900000}}>
                 <AlertDialog.Header >Log Out?</AlertDialog.Header>
                 <AlertDialog.Footer>
                 <Button.Group space={2}>

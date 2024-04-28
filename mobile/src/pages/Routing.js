@@ -1,48 +1,66 @@
-import BottomBar from '../components/layout/BottomBar'
-import PagerViewContent from '../components/layout/PagerViewContent'
-import {useRef, useState, useEffect} from 'react'
-import {useUser } from '../context'
+import TopBar from "../components/layout/TopBar";
+import HomePage from "./HomePage";
+import {useState} from 'react'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import NotificationsPage from "./NotificationsPage";
+import SettingsPage from "./SettingsPage";
+import {useEffect} from 'react'
+import { useLoggedIn, useUser } from "../context";
+import useUserInfo from "../custom hooks/useUserInfo";
+import useUserAuth from "../custom hooks/useUserAuth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoginPage from '../pages/LoginPage'
-import {Flex} from 'native-base'
-import TopBar from '../components/layout/TopBar'
-import useUserAuth from '../custom hooks/useUserAuth'
-
+import { Flex, Text, theme, useTheme } from "native-base";
 
 
 export default function Routing() {
-
-  const [pageIndex, setPageIndex] = useState(1)
-  const [activePicture, setActivePicture] = useState(false)
-  const pagerViewRef = useRef(null)
-
-  const {user} = useUser()
+  const MainStack = createNativeStackNavigator()
+  const {loggedIn} = useLoggedIn()
+  const {getUserInfo} = useUserInfo()
   const {loginUser} = useUserAuth()
+  const [loading, setLoading] = useState(true)
+  const theme = useTheme()
 
   useEffect(()=>{
-    if (user) {
-      const clear = setTimeout(()=>loginUser(user.username, user.password),3000)
-      return () => clearTimeout(clear)
+    if(loggedIn) {
+      getUserInfo()
     }
-  },[user])
+  },[loggedIn])
 
-
-  const setPage = (pageNum) => {
-    pagerViewRef.current?.setPage(pageNum)
-  }
-  
-  backgroundColorMap = {'0':'white', '1':'black','2':'white'}
-  
-  return(
-      <>
-        {user ? 
-            <>
-                <TopBar activePicture = {activePicture}/>
-                <PagerViewContent activePicture = {activePicture} setActivePicture = {setActivePicture} setPageIndex = {setPageIndex} pagerViewRef = {pagerViewRef}/>
-                <BottomBar pageIndex = {pageIndex} activePicture = {activePicture} setPage = {setPage}/>
-            </>
-        :
-            <LoginPage/>
+  //remember login on device
+  useEffect(()=>{
+    const fun = async()=>{
+        const loginData = JSON.parse(await AsyncStorage.getItem('loginData'))
+        if (loginData) {
+            const clear = loginUser(loginData.username, loginData.password)
         }
+        setLoading(false)
+    }
+    fun()
+  },[])
+
+  if (loading) {
+    return (
+      <Flex bg = {theme.colors.teal.grad4} width = '100%' flex = {1} justify = 'center' align = 'center'>
+        <Text color = {theme.colors.teal.grad3} fontSize = {40}>Loading...</Text>
+      </Flex>
+    )
+  }
+
+  return (
+    <>
+      {loggedIn ? 
+        <>
+          <TopBar/>
+          <MainStack.Navigator initialRouteName="Home">
+            <MainStack.Screen name = 'Home' component = {HomePage} options = {{headerShown: false}}/>
+            <MainStack.Screen name = 'Notifications' component = {NotificationsPage} options={{headerShown: false, presentation: 'modal'}}/>
+            <MainStack.Screen name = 'Settings' component = {SettingsPage} options={{headerShown: false, presentation: 'modal'}}/>
+          </MainStack.Navigator>
+        </>
+      :
+        <LoginPage/>
+      }
     </>
   )
 }

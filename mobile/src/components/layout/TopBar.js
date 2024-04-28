@@ -1,36 +1,42 @@
-import {Flex, Text, IconButton, useTheme, Link} from 'native-base'
+import {Flex, Text, IconButton, useTheme, Link, Pressable, Avatar} from 'native-base'
 import {useSafeArea} from 'react-native-safe-area-context'
-import { FontAwesome5, FontAwesome } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import LogOutUserAlert from '../LogOutUserAlert'
 import useUserAuth from '../../custom hooks/useUserAuth';
-import { useState } from 'react';
-import { useUser } from '../../context';
+import { useState, useEffect } from 'react';
+import { useActivePicture, useUser } from '../../context';
 import NameDropDown from './topbar components/NameDropDown';
+import { useNavigation } from '@react-navigation/native';
+import defaultProfilePicture from '../../static/download.png'
 
 
 
 
-export default function TopBar({activePicture}) {
+export default function TopBar({unsafe}) {
     const theme = useTheme()
-    const insets = useSafeArea();
+    const insets = (unsafe ? 0 : useSafeArea())
 
-    if(activePicture)
-        return (<></>)
+    const {activePicture} = useActivePicture()
     
     const {logoutUser} = useUserAuth()
     const [logOutOpen, setLogOutOpen] = useState(false)
     const [dropDownOpen, setDropDownOpen] = useState(false)
     const {user} = useUser()
+    const navigation = useNavigation()
+
+    if(activePicture)
+        return (<></>)
 
     return (
         <Flex direction = 'row' gap = {2} justify = 'space-between' align = 'center' bg= 'transparent' position = 'absolute' top = {insets.top} left = {0} width = '100%' zIndex={1001} p = {3}>
-            <IconButton onPress = {()=>setLogOutOpen(true)} borderRadius = {40} _icon = {{as: FontAwesome5, name: 'user-circle', size: 10, color: theme.colors.teal.grad4}} /> 
+            <Pressable onPress = {()=>{navigation?.navigate('Settings')}}>
+                <Avatar borderColor = {theme.colors.teal.grad3} borderWidth = '2px' size = {50} source = {user?.profile_picture_url ? {uri: user.profile_picture_url} : defaultProfilePicture}/>
+            </Pressable>
             <Flex flexShrink = {1} pos = 'relative'>
-                <Text isTruncated numberOfLines={1} color = {theme.colors.teal.grad2} flexShrink = {1} fontSize = {35}>{user.username ? user.username : 'no username'}</Text>
+                <Text isTruncated numberOfLines={1} color = {theme.colors.teal.grad2} flexShrink = {1} fontSize = {35}>{user?.username ? user?.username : 'no username'}</Text>
                 <NameDropDown dropDownOpen={dropDownOpen} setDropDownOpen={setDropDownOpen}/>
             </Flex>
-            <IconButton as = {Link} isExternal to = 'https://princeton.medicatconnect.com/appointment.aspx' borderRadius = {40} _icon = {{as: FontAwesome, name: 'calendar-plus-o', size: 10, color: theme.colors.teal.grad4}} />     
-            <LogOutUserAlert onConfirm = {logoutUser} alertOpen={logOutOpen} setAlertOpen={setLogOutOpen}/>
+            <IconButton onPress = {()=>{navigation?.navigate('Notifications')}} borderRadius = {40} _icon = {{as: MaterialCommunityIcons, name: 'bell', size: 10, color: theme.colors.teal.grad3}} />     
 
         </Flex>  
     )

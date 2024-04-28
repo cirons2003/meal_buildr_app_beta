@@ -14,5 +14,5 @@ export default function MessagesPage() {
                 <Conversations isFocused = {isFocused}/>
             </Flex>
         </Box>
-    )
+    )  
 }

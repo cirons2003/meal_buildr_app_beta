@@ -9,13 +9,13 @@ export default function ConversationRouting() {
     const theme = useTheme()
     
     return (
-        <Flex width = '100%' flex = {1} safeAreaTop pos = 'relative' top = {20}>
-            <NavigationContainer>
+        <Flex width = '100%' flex = {1} bg = 'white'>
+            <Flex width = '100%' flex = {1} safeAreaTop pos = 'relative' top = {20}>
                 <Stack.Navigator initialRouteName='Messages'>
                     <Stack.Screen name = 'Messages' component = {MessagesPage} options = {{headerShown: false}}/>
                     <Stack.Screen name = 'Conversation' component={ConversationPage}/>
                 </Stack.Navigator>            
-            </NavigationContainer>
-        </Flex>
+            </Flex>
+        </Flex>  
     )
 }

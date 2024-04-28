@@ -7,7 +7,7 @@ const useUserAuth = () => {
     const {baseURL} = useProxy()
     const {setUser} = useUser()
     const {setTeam} = useTeam()
-    const {loggedIn, setLoggedIn} = useLoggedIn()
+    const { setLoggedIn} = useLoggedIn()
 
     const loginUser = async (username, password) => {
         try {
@@ -15,8 +15,8 @@ const useUserAuth = () => {
             {withCredentials: true, timeout: 30000})
             console.log(response.data)
             if (response.data.username) {
-                setUser({username: response.data.username})
-                AsyncStorage.setItem('user', JSON.stringify({username: response.data.username, password: response.data.password}))
+                // will trigger useEffect to fill user data 
+                AsyncStorage.setItem('loginData', JSON.stringify({username: response.data.username, password: response.data.password}))
             }
             setLoggedIn(true)
         }catch(err) {
@@ -30,6 +30,7 @@ const useUserAuth = () => {
             const response = await axios.get(baseURL.current + '/logout', {withCredentials: true})
             setUser(null)
             setTeam(null)
+            AsyncStorage.removeItem('loginData')
             AsyncStorage.removeItem('user')
             AsyncStorage.removeItem('team')
         }catch(err) {
@@ -44,8 +45,8 @@ const useUserAuth = () => {
             {withCredentials: true})
             console.log(response.data)
             if (response.data.username) {
-                setUser({username: response.data.username})
-                AsyncStorage.setItem('user', JSON.stringify({username: response.data.username, password: response.data.password}))
+                // will trigger useEffect to fill user data 
+                AsyncStorage.setItem('loginData', JSON.stringify({username: response.data.username, password: response.data.password}))
             }
             setLoggedIn(true)
         }catch(err) {
