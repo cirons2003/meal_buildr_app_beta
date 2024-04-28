@@ -1,7 +1,6 @@
 import { Flex, IconButton, Text, useTheme, Pressable, Button, Avatar, Input} from "native-base";
 import { useUser } from "../context";
 import { Feather } from '@expo/vector-icons';
-import { Octicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import useUserAuth from "../custom hooks/useUserAuth";
 import {useState, useEffect} from 'react'
@@ -48,7 +47,7 @@ export default function SettingsPage() {
 
     return (
         <>
-        <Flex bg = {theme.colors.lightgrey} width = '100%' flex = {1} justify = 'start' align = 'center'>
+        <Flex bg = 'white' width = '100%' flex = {1} justify = 'start' align = 'center'>
             {!editMode ?
                 <>
                 <Pressable width = '100%'  onPress = {()=>navigation.navigate('Home')}>

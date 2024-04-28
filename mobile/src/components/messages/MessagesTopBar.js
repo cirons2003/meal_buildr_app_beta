@@ -7,6 +7,6 @@ export default function MessagesTopBar() {
         <Flex direction = 'row' width = '100%' height = {12}  align = 'center' justify = 'space-between' pl = {4} pr = {2}>
             <Text fontSize = {20} bold color = {theme.colors.teal.grad4}>Messages</Text>
             <NewMessageButton/>
-        </Flex>
+        </Flex>        
     )
 }

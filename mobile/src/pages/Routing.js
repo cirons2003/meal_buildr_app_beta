@@ -11,6 +11,7 @@ import useUserAuth from "../custom hooks/useUserAuth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoginPage from '../pages/LoginPage'
 import { Flex, Text, theme, useTheme } from "native-base";
+import OtherProfilePage from "./OtherProfilePage";
 
 
 export default function Routing() {
@@ -56,6 +57,7 @@ export default function Routing() {
             <MainStack.Screen name = 'Home' component = {HomePage} options = {{headerShown: false}}/>
             <MainStack.Screen name = 'Notifications' component = {NotificationsPage} options={{headerShown: false, presentation: 'modal'}}/>
             <MainStack.Screen name = 'Settings' component = {SettingsPage} options={{headerShown: false, presentation: 'modal'}}/>
+            <MainStack.Screen name = 'OtherProfile' component={OtherProfilePage} options = {{headerShown: false, presentation: 'modal'}}/>
           </MainStack.Navigator>
         </>
       :

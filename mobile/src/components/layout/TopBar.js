@@ -18,8 +18,6 @@ export default function TopBar({unsafe}) {
 
     const {activePicture} = useActivePicture()
     
-    const {logoutUser} = useUserAuth()
-    const [logOutOpen, setLogOutOpen] = useState(false)
     const [dropDownOpen, setDropDownOpen] = useState(false)
     const {user} = useUser()
     const navigation = useNavigation()

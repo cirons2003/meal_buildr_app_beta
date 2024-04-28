@@ -3,15 +3,11 @@ import Message from './Message'
 import {useEffect, useRef} from 'react'
 import useGetConversationMessages from '../../custom hooks/useGetConversationMessages'
 
-export default function ConversationMessages({cid, refresh}) {
-    const {listOfMessages, getMessages} = useGetConversationMessages()
+export default function ConversationMessages({listOfMessages}) {
 
     const scrollRef = useRef(null)
 
 
-    useEffect(()=>{
-        getMessages(cid)
-    },[refresh])
 
     useEffect(()=> {
         const clear = setTimeout(()=> {

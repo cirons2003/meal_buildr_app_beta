@@ -2,6 +2,7 @@
 
 import {createContext, useContext, useState, useEffect, useRef, useMemo} from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import useNotifications from './custom hooks/useNotifications'
 
 const UserContext = createContext(null)
 const TeamContext = createContext(null)
@@ -9,6 +10,8 @@ const LoggedInContext = createContext(null)
 const ReRenderContext = createContext(null)
 const ProxyContext = createContext(null)
 const ActivePictureContext = createContext(null)
+const NotificationContext = createContext(null) 
+const SetNotificationContext = createContext(null)
 
 export const ContextProvider = ({children}) => {
     const [user, setUser] = useState(null)
@@ -20,7 +23,6 @@ export const ContextProvider = ({children}) => {
     /*../../../Downloads/ngrok-v3-stable-windows-amd64*/
     const baseURL = useRef('https://8827-140-180-240-225.ngrok-free.app')
     
-
     const userVals = useMemo(()=>({
         user,
         setUser
@@ -102,3 +104,46 @@ export const useProxy = () => useContext(ProxyContext)
 export const useActivePicture = () => useContext(ActivePictureContext)
 
 
+// must consume ProxyProvider
+export const NotificationContextProvider = ({children}) => {
+
+    const [notificationCount, setNotificationCount] = useState(0)
+    const [unreadMessageCount, setUnreadMessageCount] = useState(0)
+    
+
+    const nvals = useMemo(()=>({
+        notificationCount, 
+        setNotificationCount, 
+        unreadMessageCount, 
+        setUnreadMessageCount
+    }),[notificationCount,setNotificationCount, unreadMessageCount, setUnreadMessageCount])
+
+    return (
+        <NotificationContext.Provider value = {nvals}>
+            {children}
+        </NotificationContext.Provider>
+    )
+}
+
+export const useNotificationContext = () => useContext(NotificationContext)
+
+
+//must consume NotificationContextProvider and ProxyProvider
+export const SetNotificationContextProvider= ({children}) => {
+    const {openMessages, listOfNotifications, getNotifications, viewComments} = useNotifications()
+
+    const setnvals = useMemo(()=>({
+        openMessages, 
+        listOfNotifications, 
+        getNotifications, 
+        viewComments
+    }),[openMessages, listOfNotifications, getNotifications, viewComments])
+
+    return (
+        <SetNotificationContext.Provider value = {setnvals}>
+            {children}
+        </SetNotificationContext.Provider>
+    )
+}
+
+export const useSetNotificationContext = () => useContext(SetNotificationContext)
