@@ -8,14 +8,14 @@ import ConversationTopBar from '../components/conversation page/ConversationTopB
 
 export default function({ route}) {
 
-    const {conversationId, otherUsername} = route.params
+    const {conversationId, otherUsername, url} = route.params
 
     const {listOfMessages, getMessages} = useGetConversationMessages()
     const [refresh, setRefresh] = useState(false)
 
     return (
         <Flex direction='column' justify = 'space-between' align = 'center' flex = {1} mb = {20}>
-            <ConversationTopBar otherUsername = {otherUsername}/>
+            <ConversationTopBar otherUsername = {otherUsername} url = {url}/>
             <ConversationMessages cid = {conversationId} refresh = {refresh}/>
             <ConversationBottomBar cid = {conversationId} refresh={refresh} setRefresh={setRefresh}/>
         </Flex>

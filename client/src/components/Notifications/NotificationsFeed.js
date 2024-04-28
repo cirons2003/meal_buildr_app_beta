@@ -14,7 +14,6 @@ export default function NotificationsFeed({listOfNotifications}) {
                 <Text fontSize = '30px'>No Notifications...</Text>
             </Flex>
             }
-            
         </Flex>
     )
 }
