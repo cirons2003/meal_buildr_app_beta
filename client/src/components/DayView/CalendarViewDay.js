@@ -33,6 +33,7 @@ export default function CalendarViewDay ({selectedGroup, setSelectedGroup, meals
   },[])
 
   //reset to unbiased calendar when mealIndex changes 
+  //TODO: Ensure this doesn't rely on race conditions... consider fixing by specifying if (mealIndex !== 0)
   useEffect(()=> {
     if (mealIndex) {
       navigate(`/athletePage/${athleteName}`)

@@ -60,8 +60,6 @@ def uploadProfilePicture():
 
 
 
-
-
 @app.route('/getMealImage/<filename>')
 def get_meal_image(filename):
     bucket_name = 'mealbuildr-bucket'

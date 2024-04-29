@@ -4,9 +4,10 @@ import useGetUserMeals from '../../custom hooks/useGetUserMeals'
 import { useReRender, useTeam, useUser } from '../../context'
 import DayViewTab from './DayViewTab'
 import MealGroupPopup from './MealGroupPopup'
+import useUpdateEffect from '../../custom hooks/utility/useUpdateEffect'
 
 
-export default function DayView({startDate, endDate}) {
+export default function DayView({time, startDate, endDate, toMealId}) {
     const scrollContainerRef = useRef(null)
     const scrollToTime = '7:00'
     const scrollTo = (scrollToTime.split(':')[0] * 2 + scrollToTime.split(':')[1] / 30) * boxHeight
@@ -33,14 +34,45 @@ export default function DayView({startDate, endDate}) {
 
     useEffect(()=>{
         
-        const clear = setTimeout(() => {
-            
-            if (startDate && endDate && user) {
-            getMealsInDateRange(user.username, 'none', startDate, endDate)
-            }}, 250)
+    const clear = setTimeout(() => {
+        if (startDate && endDate && user) {
+        getMealsInDateRange(user.username, 'none', startDate, endDate)
+        }}, 250)
 
-            return () => clearTimeout(clear)
-        }, [startDate, endDate, user, reRender])
+        return () => clearTimeout(clear)
+
+    }, [startDate, endDate, user, reRender])
+
+    useEffect(()=>{
+        if (time)
+            setJumpToMeal(true)
+    },[time])
+
+    // handle jumpTo meal logic
+    const [mealIndex, setMealIndex] = useState(0)
+    const [jumpToMeal, setJumpToMeal] = useState(true)
+   
+    useEffect(()=> {
+        if (jumpToMeal && toMealId && mealGroupings) {
+            mealGroupings.forEach((group)=> {
+            for (let i = 0; i < group.meals.length; i++) {
+                if (group.meals[i].meal_id - toMealId === 0) {
+                    setSelectedGroup(group)
+                    setMealIndex(i)
+                }
+            }})
+        }
+    }, [toMealId, mealGroupings, jumpToMeal])
+
+    //handle changes in selectedGroup
+    useEffect(()=>{
+        if (!selectedGroup || !jumpToMeal) {
+            setMealIndex(0)
+        } else {
+            setJumpToMeal(false)
+        }
+    },[selectedGroup])
+
 
     return (
         <Flex width = '100%' direction = 'column' flex = {1} bg = 'white' align = 'center'>
@@ -55,11 +87,11 @@ export default function DayView({startDate, endDate}) {
                 ))}
                 
                 {mealGroupings.map((mealGroup, index)=>(  
-                        <DayViewTab group = {mealGroup} isSelected = {selectedGroup && selectedGroup.meals[0].logged_at === mealGroup.meals[0].logged_at}
+                        <DayViewTab key = {index} group = {mealGroup} isSelected = {selectedGroup && selectedGroup.meals[0].logged_at === mealGroup.meals[0].logged_at}
                             setSelectedGroup={setSelectedGroup} index = {index} boxHeight={boxHeight}
                         />
                 ))}
-                {selectedGroup && <MealGroupPopup selectedGroup={selectedGroup} setSelectedGroup={setSelectedGroup}/>}
+                {selectedGroup && <MealGroupPopup selectedMealIndex = {mealIndex} setSelectedMealIndex = {setMealIndex} selectedGroup={selectedGroup} setSelectedGroup={setSelectedGroup}/>}
            </ScrollView>
         </Flex>
     )

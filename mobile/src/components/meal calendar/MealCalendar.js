@@ -1,9 +1,9 @@
 import DayView from './DayView'
 
-export default function MealCalendar({startDate, endDate}) {
+export default function MealCalendar({time, startDate, endDate, toMealId}) {
     return (
         <>
-            <DayView startDate = {startDate} endDate = {endDate}/>
+            <DayView time = {time} startDate = {startDate} endDate = {endDate} toMealId = {toMealId}/>
         </>
     )
 }   

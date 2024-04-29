@@ -36,7 +36,7 @@ export default function MessagesConversationTab({conversation}) {
                 </Flex>
                 <Flex align = 'center' gap = '15px'>  
                     <Text color = 'teal' as = 'i' fontSize = '16px'>{basicFormat(conversation.last_used_at)}</Text>
-                    <IconButton bg = 'teal' borderRadius = '15px' icon = {<DeleteIcon/>}></IconButton>
+                    <IconButton onClick = {()=>alert('those are just for show at the moment')} bg = 'teal' borderRadius = '15px' icon = {<DeleteIcon/>}></IconButton>
                 </Flex>
                 {conversation.unread_message &&<Flex bg = 'red' borderRadius = 'full' boxSize = '20px' pos = 'absolute' top = {0} left = {0}></Flex>}
             </Flex>

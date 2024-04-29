@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import LogOutUserAlert from '../LogOutUserAlert'
 import useUserAuth from '../../custom hooks/useUserAuth';
 import { useState, useEffect } from 'react';
-import { useActivePicture, useUser } from '../../context';
+import { useActivePicture, useNotificationContext, useUser } from '../../context';
 import NameDropDown from './topbar components/NameDropDown';
 import { useNavigation } from '@react-navigation/native';
 import defaultProfilePicture from '../../static/download.png'
@@ -21,6 +21,7 @@ export default function TopBar({unsafe}) {
     const [dropDownOpen, setDropDownOpen] = useState(false)
     const {user} = useUser()
     const navigation = useNavigation()
+    const {notificationCount} = useNotificationContext()
 
     if(activePicture)
         return (<></>)
@@ -34,8 +35,12 @@ export default function TopBar({unsafe}) {
                 <Text isTruncated numberOfLines={1} color = {theme.colors.teal.grad2} flexShrink = {1} fontSize = {35}>{user?.username ? user?.username : 'no username'}</Text>
                 <NameDropDown dropDownOpen={dropDownOpen} setDropDownOpen={setDropDownOpen}/>
             </Flex>
-            <IconButton onPress = {()=>{navigation?.navigate('Notifications')}} borderRadius = {40} _icon = {{as: MaterialCommunityIcons, name: 'bell', size: 10, color: theme.colors.teal.grad3}} />     
-
+            <Flex pos = 'relative'>
+                <IconButton onPress = {()=>{navigation?.navigate('Notifications')}} borderRadius = {40} _icon = {{as: MaterialCommunityIcons, name: 'bell', size: 10, color: theme.colors.teal.grad3}} />     
+                {notificationCount > 0 && <Flex style = {{position: 'absolute', top: 6, right: 6}} bg = {theme.colors.red} borderRadius='full' boxSize={5} justify = 'center' align = 'center'>
+                    <Text color= 'white'bold>{notificationCount}</Text>
+                </Flex>}
+            </Flex>
         </Flex>  
     )
 }

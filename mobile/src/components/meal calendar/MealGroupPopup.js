@@ -4,9 +4,9 @@ import {useState, useEffect} from 'react'
 import { Dimensions } from 'react-native'
 import CommentPopOver from './CommentPopOver'
 
-export default function MealGroupPopup({selectedGroup, setSelectedGroup}) {
+export default function MealGroupPopup({selectedMealIndex, setSelectedMealIndex, selectedGroup, setSelectedGroup}) {
 
-    const [selectedMealIndex, setSelectedMealIndex] = useState(0)
+    
 
     const theme = useTheme()
 
@@ -36,9 +36,9 @@ export default function MealGroupPopup({selectedGroup, setSelectedGroup}) {
                     <Modal.CloseButton bg = 'white'/>
                 </Modal.Header>
                 <Modal.Body width = '100%' height = '100%' m = {0} p = {0}>
-                    <PagerView style = {{padding: 0}} initialPage = {0} height = {ModalDimensions.height} width = {ModalDimensions.width} onPageSelected={e => setSelectedMealIndex(e.nativeEvent.position)}>
+                    <PagerView style = {{padding: 0}} initialPage = {selectedMealIndex} height = {ModalDimensions.height} width = {ModalDimensions.width} onPageSelected={e => setSelectedMealIndex(e.nativeEvent.position)}>
                         {selectedGroup.meals.map((meal, index)=>(
-                            <Flex pt = {6} bg = {theme.colors.teal.grad3} p = {0} gap = {5} mb = {0} direction = 'column' align = 'center' width = '100%' height = '100%' key = {index}>
+                            <Flex key = {index} pt = {6} bg = {theme.colors.teal.grad3} p = {0} gap = {5} mb = {0} direction = 'column' align = 'center' width = '100%' height = '100%' key = {index}>
                                 
                                 <AspectRatio ratio = {0.8} height = '50%' >
                                     <Image borderColor = {theme.colors.teal.grad5} borderWidth = {1} borderRadius = {10} source = {{uri: meal.image_url}} alt = 'pic' />

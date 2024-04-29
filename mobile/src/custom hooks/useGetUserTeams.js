@@ -13,6 +13,7 @@ const useGetUserTeams = () => {
         setLoading(true)
         try {
             const response = await axios.get(baseURL.current+'/getUserTeams', {withCredentials: true})
+            console.log('getMeals')
             setListOfTeams(response.data)
         }catch(err) {
             console.error(err)

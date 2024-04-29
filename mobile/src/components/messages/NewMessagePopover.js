@@ -35,18 +35,18 @@ export default function NewMessagePopover({mem, navigation, onClose}) {
                         </Pressable>}}
             >
                 <Popover.Content width = {300}>
-                    <Popover.Arrow bg = {theme.colors.teal.grad6}/>
-                    <Popover.CloseButton onPress = {()=>setIsOpen(false)} bg = {theme.colors.teal.grad6}/>
-                    <Popover.Header bg = {theme.colors.white}>
-                        <Text fontSize = {20} bold color = {theme.colors.teal.grad6}> Send Message </Text>
-                    </Popover.Header>
-                    <Popover.Body bg = {theme.colors.white}>
-                        <Flex width = '100%' height = '100%' align = 'center' justify = 'center' >
-                            <Input placeholder = 'new message...' color = {theme.colors.teal.grad3} fontSize = {17} onChangeText={setNewMessage} value = {newMessage} rightElement={
-                                <IconButton _icon = {{as: MaterialIcons, name: 'send', size: 8, color: theme.colors.teal.grad6}} onPress = {() =>{handleSend()}}/>}
-                            />
-                        </Flex>  
-                    </Popover.Body>
+                        <Popover.CloseButton onPress = {()=>setIsOpen(false)} bg = {theme.colors.teal.grad6}/>
+                        <Popover.Header bg = {theme.colors.white}>
+                            <Text fontSize = {20} bold color = {theme.colors.teal.grad6}> Send Message to</Text>
+                            <Text fontSize = {20} bold color = {theme.colors.teal.grad6}>{(mem?.first_name && mem?.last_name) ? `${mem.first_name} ${mem.last_name}` : mem?.username}</Text>
+                        </Popover.Header>
+                        <Popover.Body bg = {theme.colors.white}>
+                            <Flex width = '100%' height = '100%' align = 'center' justify = 'start' >
+                                <Input placeholder = 'new message...' color = {theme.colors.teal.grad3} fontSize = {17} onChangeText={setNewMessage} value = {newMessage} rightElement={
+                                    <IconButton _icon = {{as: MaterialIcons, name: 'send', size: 8, color: theme.colors.teal.grad6}} onPress = {() =>{handleSend()}}/>}
+                                />
+                            </Flex>   
+                        </Popover.Body>
                 </Popover.Content>
 
                 

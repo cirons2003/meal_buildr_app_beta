@@ -17,7 +17,6 @@ export default function NotificationsPage() {
             getNotifications()
     },[getNotifications])
 
-
     return (
         <>
         <Flex bg = 'white' width = '100%' flex = {1} justify = 'start' align = 'center'>

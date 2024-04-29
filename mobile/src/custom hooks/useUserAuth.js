@@ -1,6 +1,6 @@
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useLoggedIn, useTeam, useUser } from '../context'
+import { useLoggedIn, useSetNotificationContext, useTeam, useUser } from '../context'
 import { useProxy } from '../context'
 
 const useUserAuth = () => {
@@ -8,12 +8,14 @@ const useUserAuth = () => {
     const {setUser} = useUser()
     const {setTeam} = useTeam()
     const { setLoggedIn} = useLoggedIn()
+    const {getNotifications} = useSetNotificationContext()
 
     const loginUser = async (username, password) => {
         try {
             const response = await axios.post(baseURL.current+'/login', {username: username, password: password},
             {withCredentials: true, timeout: 30000})
-            console.log(response.data)
+            console.log('loginUser')
+            getNotifications()
             if (response.data.username) {
                 // will trigger useEffect to fill user data 
                 AsyncStorage.setItem('loginData', JSON.stringify({username: response.data.username, password: response.data.password}))
@@ -44,6 +46,7 @@ const useUserAuth = () => {
             const response = await axios.post(baseURL.current + '/register', {username: username, password: password},
             {withCredentials: true})
             console.log(response.data)
+            getNotifications()
             if (response.data.username) {
                 // will trigger useEffect to fill user data 
                 AsyncStorage.setItem('loginData', JSON.stringify({username: response.data.username, password: response.data.password}))

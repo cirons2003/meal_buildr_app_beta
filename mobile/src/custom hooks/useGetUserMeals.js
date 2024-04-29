@@ -21,16 +21,11 @@ const useGetUserMeals = () => {
             groupMeals()
     },[meals])
 
-    useEffect(()=>{
-        if (baseURL?.current)
-            console.log(baseURL.current)
-    },[baseURL])
-
     const getMealsInDateRange = async(username, teamName, start, end ) => {
 
         try {   
             const response = await axios.post(baseURL.current+'/getMeals', {start: start, end: end, username: username, teamName: teamName}, {withCredentials: true})
-            console.log(response.data)
+            console.log('getMeals')
             setMeals(response.data.listOfMeals)
         }catch(err) {
             console.error(err)

@@ -4,9 +4,9 @@ import {useEffect, useState} from 'react'
 import ConversationMessages from '../components/conversation page/ConversationMessages'
 import ConversationBottomBar from '../components/conversation page/ConversationBottomBar'
 import ConversationTopBar from '../components/conversation page/ConversationTopBar'
-import { useUser } from '../context'
+import { usePage, useUser } from '../context'
 import useUserInfo from '../custom hooks/useUserInfo'
-import { useRoute } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 
 export default function ConversationPage() {
@@ -14,6 +14,7 @@ export default function ConversationPage() {
     const {user} = useUser()
     const route = useRoute()
     const {conversationId, username, url} = route.params
+
 
     const {listOfMessages, getMessages} = useGetConversationMessages()
     const [refresh, setRefresh] = useState(false)
@@ -39,12 +40,6 @@ export default function ConversationPage() {
             getOtherUserInfo(otherUsername)
         }
     },[otherUsername])
-
-    useEffect(()=> {
-        console.log(otherUsername)
-        console.log(conversationId)
-    }, [otherUsername])
-
 
     return (
         <Flex direction='column' justify = 'space-between' align = 'center' flex = {1} mb = {20}>

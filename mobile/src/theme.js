@@ -29,8 +29,8 @@ const customTheme = extendTheme({
       purple: '#330C88',
       lightpurple: '#CDA0E9', 
       lightgrey: '#ABABAB',
-      darkgrey: '#6B6C6C'
-      
+      darkgrey: '#6B6C6C',
+      red: '#D11E18',
     },
     
   })

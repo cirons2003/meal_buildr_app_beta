@@ -28,9 +28,9 @@ const useNotifications = () => {
     const getNotifications = useCallback(async() => {
         try {
             const response = await axios.get(baseURL.current + '/getNotifications', {withCredentials: true})
+            console.log('getNotifications')
             setListOfNotifications(response.data.listOfNotifications.sort((a,b)=>new Date(b.timestamp) - new Date(a.timestamp)))
             handleNotificationCounts(response.data.listOfNotifications)
-            console.log(response.data)
         }catch(err) {
             console.error(err)
         }
@@ -41,7 +41,6 @@ const useNotifications = () => {
         try {
             const response = await axios.post(baseURL.current+'/resolveMessages', {conversation_id: cid}, {withCredentials: true})
             getNotifications()
-            console.log(response.data)
         }catch(err) {
             console.error(err)
         }
@@ -51,14 +50,13 @@ const useNotifications = () => {
         try {
             const response = await axios.post(baseURL.current+'/resolveComments', {meal_id: meal_id}, {withCredentials: true})
             getNotifications()
-            console.log(response.data)
         }catch(err) {
             console.error(err)
         }
     },[baseURL, getNotifications])
 
     
-    
+
 
     return {openMessages, listOfNotifications, getNotifications, viewComments}
 }

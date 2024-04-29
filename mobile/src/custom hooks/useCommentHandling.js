@@ -16,8 +16,8 @@ const useCommentHandling = () => {
         try {
             const response = await axios.post(baseURL.current + '/getComments', 
             {meal_id: meal_id}, {withCredentials: true})
+            console.log('getComments')
             setListOfComments(response.data.listOfComments)
-            console.log(response.data)
             setLoading(false)
         }catch(err) {
             console.error(err)

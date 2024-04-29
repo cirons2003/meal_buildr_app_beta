@@ -1,6 +1,6 @@
 
 
-import {createContext, useContext, useState, useEffect, useRef, useMemo} from 'react'
+import {createContext, useContext, useState, useEffect, useRef, useMemo, useCallback} from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import useNotifications from './custom hooks/useNotifications'
 
@@ -12,6 +12,7 @@ const ProxyContext = createContext(null)
 const ActivePictureContext = createContext(null)
 const NotificationContext = createContext(null) 
 const SetNotificationContext = createContext(null)
+const PageContext = createContext(null)
 
 export const ContextProvider = ({children}) => {
     const [user, setUser] = useState(null)
@@ -53,17 +54,6 @@ export const ContextProvider = ({children}) => {
     }), [activePicture, setActivePicture])
 
     useEffect(() =>{
-        /*const getUser = async() => {
-            
-            
-            try {
-                const value = JSON.parse(await AsyncStorage.getItem('user'))
-                if (value !== null)
-                    setUser(value)
-            }catch(err) {
-                console.error(err)
-            }
-        }*/
         const getTeam = async() => {
             try {
                 const value = JSON.parse(await AsyncStorage.getItem('team'))
@@ -76,7 +66,20 @@ export const ContextProvider = ({children}) => {
         getTeam()   
     },[])
 
+    const pagerViewRef = useRef(null)
+    const [pageIndex, setPageIndex] = useState(1)
 
+    const setPage = useCallback((pageNum) => {
+        if (pagerViewRef)
+            pagerViewRef?.current?.setPage(pageNum)
+    }, [pagerViewRef])
+
+    const pageVals = useMemo(()=>({
+        pageIndex, 
+        setPageIndex, 
+        setPage, 
+        pagerViewRef
+    }), [pageIndex, setPageIndex, pagerViewRef, setPage])
     
     return (
         <UserContext.Provider value = {userVals}>
@@ -85,7 +88,9 @@ export const ContextProvider = ({children}) => {
                     <LoggedInContext.Provider value = {loggedInVals}>
                         <ReRenderContext.Provider value = {reRenderVals}>
                                 <ActivePictureContext.Provider value = {activePictureVals}>
-                                    {children}  
+                                    <PageContext.Provider value = {pageVals}>
+                                        {children}  
+                                    </PageContext.Provider>
                                 </ActivePictureContext.Provider>
                         </ReRenderContext.Provider>
                     </LoggedInContext.Provider>
@@ -102,7 +107,7 @@ export const useLoggedIn = () => useContext(LoggedInContext)
 export const useReRender = () => useContext(ReRenderContext)
 export const useProxy = () => useContext(ProxyContext)
 export const useActivePicture = () => useContext(ActivePictureContext)
-
+export const usePage = () => useContext(PageContext)
 
 // must consume ProxyProvider
 export const NotificationContextProvider = ({children}) => {

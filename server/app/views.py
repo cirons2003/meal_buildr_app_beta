@@ -280,13 +280,14 @@ def addComment():
 def getComments():
     meal_id = request.json.get('meal_id')
     meal = Meal.query.filter_by(meal_id = meal_id).first()
-
     if meal is None: 
         return jsonify({'message': 'meal not found'}), 404 
     
-    ##low security version here... anybody can view all comments on a meal
-    comments = Comment.query.filter_by(meal_id = meal.meal_id).all()
-    comments = [{'comment_text': c.comment_text, 'poster_username': c.poster_username, 'commented_at':c.commented_at} for c in comments]
+    comments = db.session.query(Comment.comment_text, Comment.poster_username, User.profile_picture_url, Comment.commented_at)\
+        .join(User, User.username == Comment.poster_username)\
+        .filter(Comment.meal_id == meal_id).all()   
+    comments = [{'comment_text': c[0], 'poster_username': c[1], 
+                 'poster_profile_picture_url': c[2], 'commented_at':c[3].isoformat()+'Z'} for c in comments]
     return jsonify({'listOfComments': comments, 'message': 'comments fetched successfully'})
 
 ##sry for sloppiness :(
@@ -613,5 +614,3 @@ def resolveComments():
 
     return jsonify({'message':'successfully resolved new message'})
     
-
-

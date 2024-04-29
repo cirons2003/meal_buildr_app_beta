@@ -16,6 +16,7 @@ const useJoinCodeHandling = () => {
         setLoading(true)
         try {
             const response = await axios.post(baseURL.current+'/getTeamWithCode', {team_code: team_code}, {withCredentials: true})
+            console.log('getTeamWithCode')
             setTeamFound(response.data.team)
         }catch(err) {
             console.error(err)
@@ -28,7 +29,7 @@ const useJoinCodeHandling = () => {
         setLoading(true)
         try {
             const response= await axios.post(baseURL.current+'/joinTeamWithCode', {team_name: team_name, team_code: team_code}, {withCredentials: true})
-            console.log(response.data)
+            console.log('joinTeamWithCode')
             setJoinResponse(response.data)
         }catch(err) {
             console.error(err)

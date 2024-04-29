@@ -15,7 +15,6 @@ const useConversationHandling = () => {
             const response = await axios.get(baseURL.current+'/getConversations', {withCredentials: true})
             setListOfConversations(response.data.listOfConversations.sort((a, b) => new Date(b.last_used_at) - new Date(a.last_used_at)))
             setFilteredListOfConversations(response.data.listOfConversations.sort((a, b) => new Date(b.last_used_at) - new Date(a.last_used_at)))
-            console.log(response.data)
         }catch(err) {
             console.error(err)
         }
@@ -26,7 +25,10 @@ const useConversationHandling = () => {
             setFilteredListOfConversations(listOfConversations)
             return 
         }
-        setFilteredListOfConversations(listOfConversations.filter(conv => conv.other_user_username.toLowerCase().startsWith(searchTerm.toLowerCase())).sort((a,b) => a.other_user_username.localeCompare(b.other_user_username)))
+        setFilteredListOfConversations(listOfConversations.filter(conv => ((conv.other_first_name && (conv.other_first_name).toLowerCase().startsWith(searchTerm.toLowerCase()))
+        || (conv.other_last_name && (conv.other_last_name).toLowerCase().startsWith(searchTerm.toLowerCase()))
+        || (conv.other_user_username && (conv.other_user_username).toLowerCase().startsWith(searchTerm.toLowerCase()))))
+        .sort((a,b) => a.other_user_username.localeCompare(b.other_user_username)))
         
     }
 
@@ -34,8 +36,8 @@ const useConversationHandling = () => {
     const getMessages = async(conversationId) => {
         try {
             const response = await axios.post(baseURL+'/getMessages', {'conversation_id': conversationId}, {withCredentials: true})
+            console.log('getMessages')
             setListOfMessages(response.data.listOfMessages)
-            console.log(response.data.listOfMessages)
         }catch(err) {
             console.error(err)
         }

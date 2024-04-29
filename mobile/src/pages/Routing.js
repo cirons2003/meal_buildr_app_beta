@@ -5,12 +5,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import NotificationsPage from "./NotificationsPage";
 import SettingsPage from "./SettingsPage";
 import {useEffect} from 'react'
-import { useLoggedIn, useUser } from "../context";
+import { useLoggedIn, useSetNotificationContext } from "../context";
 import useUserInfo from "../custom hooks/useUserInfo";
 import useUserAuth from "../custom hooks/useUserAuth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoginPage from '../pages/LoginPage'
-import { Flex, Text, theme, useTheme } from "native-base";
+import { Flex, Text, useTheme } from "native-base";
 import OtherProfilePage from "./OtherProfilePage";
 
 
@@ -21,12 +21,18 @@ export default function Routing() {
   const {loginUser} = useUserAuth()
   const [loading, setLoading] = useState(true)
   const theme = useTheme()
+  const {getNotifications} = useSetNotificationContext()
 
   useEffect(()=>{
     if(loggedIn) {
       getUserInfo()
     }
   },[loggedIn])
+
+  //fetch notification counts
+  useEffect(()=>{
+    getNotifications()
+  },[])
 
   //remember login on device
   useEffect(()=>{
