@@ -55,75 +55,77 @@ export default function MemberSettingsPage() {
     
     
     return (
-        <Flex width = '100%' direction  = 'column' bg = ''>
-            <Flex justify = 'start' align = 'center' gap = {6} mb = {5}>
-                <Text as = 'b' color = {headerColor} fontSize = {40}>{athleteName}</Text>
-                <SettingsMessageButton  headerColor = {headerColor} member = {{username: athleteName, user_id: userId}}/>
-                <IconButton icon = {<CalendarIcon fontSize = {25} color = {headerColor}/>} as = {RouterLink} to = {`/athletePage/${athleteName}`} bg = 'transparent'/>
-                <MemberListButton/>
-            </Flex>
-            <Flex>
-                <Flex bg = {colorMap[role]} px = {5} fontRadius = {20} borderRadius = {20} mb = '10px'>
-                    <Text fontSize = '20px' color = 'white'>{role}</Text>
+        <Flex width = '100%' direction = 'row'>
+            <Flex width = '100%' direction  = 'column' bg = ''>
+                <Flex justify = 'start' align = 'center' gap = {6} mb = {5}>
+                    <Text as = 'b' color = {headerColor} fontSize = {40}>{athleteName}</Text>
+                    <SettingsMessageButton  headerColor = {headerColor} member = {{username: athleteName, user_id: userId}}/>
+                    <IconButton icon = {<CalendarIcon fontSize = {25} color = {headerColor}/>} as = {RouterLink} to = {`/athletePage/${athleteName}`} bg = 'transparent'/>
+                    <MemberListButton/>
                 </Flex>
+                <Flex>
+                    <Flex bg = {colorMap[role]} px = {5} fontRadius = {20} borderRadius = {20} mb = '10px'>
+                        <Text fontSize = '20px' color = 'white'>{role}</Text>
+                    </Flex>
+                </Flex>
+                <FormControl as ='fieldset'>
+                    <FormLabel as='legend'>Change Role </FormLabel>
+                    <RadioGroup value= {isAdmin ? 'Admin':'Athlete'}>
+                        <HStack spacing='24px'>
+                        <Radio value='Athlete' onChange = {(e)=>setIsAdmin(e.target.value === 'Admin')} checked = {!isAdmin}>Athlete</Radio>
+                        <Radio value='Admin' onChange = {(e)=>setIsAdmin(e.target.value === 'Admin')} checked = {isAdmin}>Admin</Radio>
+                        </HStack>
+                    </RadioGroup>
+                    <FormHelperText>*Only Make trusted members admins</FormHelperText>
+                </FormControl>
+
+                <Flex my = {5}>
+                    <Button onClick = {()=>handleSaveChanges()} bg = 'lightblue'>Save Changes</Button>
+                </Flex>
+                {changeResponse &&  <Alert onClick = {clearChangeResponse} status={changeResponse?.status}>
+                    <AlertIcon />
+                    {changeResponse?.message}
+                </Alert>
+                }
+                <hr/>
+                <Flex mt = {3}>
+                    <Button onClick = {()=> setDeleteConfirm(true)} bg = '#F0460E'>Delete User</Button>
+                </Flex>
+                {removeResponse &&  <Alert onClick = {clearRemoveResponse} status={removeResponse?.status}>
+                    <AlertIcon />
+                    {removeResponse?.message}
+                </Alert>}
+
+
+                {/* Alert Dialog to confirm delete user*/} 
+                <AlertDialog
+                    isOpen={deleteConfirm}
+                    leastDestructiveRef={cancelRef}
+                    onClose={()=>setDeleteConfirm(false)}
+                >
+                    <AlertDialogOverlay>
+                    <AlertDialogContent>
+                        <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                        Delete Member
+                        </AlertDialogHeader>
+
+                        <AlertDialogBody>
+                        Are you sure? This user will be removed from the team.
+                        </AlertDialogBody>
+
+                        <AlertDialogFooter>
+                        <Button ref={cancelRef} onClick={()=>setDeleteConfirm(false)}>
+                            Cancel
+                        </Button>
+                        <Button colorScheme='red' onClick={handleDeleteConfirm} ml={3}>
+                            Delete
+                        </Button>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                    </AlertDialogOverlay>
+                </AlertDialog>
+                
             </Flex>
-            <FormControl as ='fieldset'>
-                <FormLabel as='legend'>Change Role </FormLabel>
-                <RadioGroup value= {isAdmin ? 'Admin':'Athlete'}>
-                    <HStack spacing='24px'>
-                    <Radio value='Athlete' onChange = {(e)=>setIsAdmin(e.target.value === 'Admin')} checked = {!isAdmin}>Athlete</Radio>
-                    <Radio value='Admin' onChange = {(e)=>setIsAdmin(e.target.value === 'Admin')} checked = {isAdmin}>Admin</Radio>
-                    </HStack>
-                </RadioGroup>
-                <FormHelperText>*Only Make trusted members admins</FormHelperText>
-            </FormControl>
-
-            <Flex my = {5}>
-                <Button onClick = {()=>handleSaveChanges()} bg = 'lightblue'>Save Changes</Button>
-            </Flex>
-            {changeResponse &&  <Alert onClick = {clearChangeResponse} status={changeResponse?.status}>
-                <AlertIcon />
-                {changeResponse?.message}
-            </Alert>
-            }
-            <hr/>
-            <Flex mt = {3}>
-                <Button onClick = {()=> setDeleteConfirm(true)} bg = '#F0460E'>Delete User</Button>
-            </Flex>
-            {removeResponse &&  <Alert onClick = {clearRemoveResponse} status={removeResponse?.status}>
-                <AlertIcon />
-                {removeResponse?.message}
-            </Alert>}
-
-
-            {/* Alert Dialog to confirm delete user*/} 
-            <AlertDialog
-                isOpen={deleteConfirm}
-                leastDestructiveRef={cancelRef}
-                onClose={()=>setDeleteConfirm(false)}
-            >
-                <AlertDialogOverlay>
-                <AlertDialogContent>
-                    <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                    Delete Member
-                    </AlertDialogHeader>
-
-                    <AlertDialogBody>
-                    Are you sure? This user will be removed from the team.
-                    </AlertDialogBody>
-
-                    <AlertDialogFooter>
-                    <Button ref={cancelRef} onClick={()=>setDeleteConfirm(false)}>
-                        Cancel
-                    </Button>
-                    <Button colorScheme='red' onClick={handleDeleteConfirm} ml={3}>
-                        Delete
-                    </Button>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-                </AlertDialogOverlay>
-            </AlertDialog>
-            
         </Flex>
     )
 }

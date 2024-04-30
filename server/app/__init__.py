@@ -21,8 +21,12 @@ bcrypt = Bcrypt(app)
 
 load_dotenv() 
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{os.getenv('MYSQL_USERNAME')}:{os.getenv('MYSQL_PASSWORD')}@localhost/meal_buildr_beta"
+uri = os.getenv('DATABASE_URI_TEST') 
+if 'postgresql' in uri or 'postgres' in uri:
+    uri += '?sslmode=require'
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 
 
 

@@ -1,6 +1,5 @@
 import {Flex, Text, Input, Image, IconButton, Button} from '@chakra-ui/react'
 import UserInfoDisplay from '../components/Profile/UserInfoDisplay'
-import {useState} from 'react'
 
 
 
@@ -9,10 +8,8 @@ export default function SettingsPage() {
 
     return (
         <Flex width = '100%' height = '100%' justify = 'start' align = 'start' direction = 'column' p = {10}>
-            
             <Flex width = '100%'>
                 <UserInfoDisplay />
-                
             </Flex> 
         </Flex>
     )

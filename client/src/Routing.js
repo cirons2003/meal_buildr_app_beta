@@ -31,7 +31,6 @@ export default function Routing() {
         <Router> 
             <Routes>
                 <Route path = '/' element = {<ProtectedRoute><HomePage/></ProtectedRoute>}>
-                    <Route index element = {<DashBoard/>}/>
                     <Route path = 'athletes' element = {<AthleteList/>}/>
                     <Route path = 'athletePage/:athleteName/:mealId?/:mealLoggedAt?' element = {<AthletePage/>}/>
                     <Route path = 'messages' element = {<MessagesPage/>}/>
@@ -42,6 +41,7 @@ export default function Routing() {
                     <Route path = 'ownerDashboard' element = {<OwnerDashboard/>}/>
                     <Route path = 'settings' element = {<SettingsPage/>}/>
                     <Route path = 'notifications' element = {<NotificationsPage/>}/>
+                    <Route index element = {<DashBoard/>}/>
                 </Route>
                 <Route path = '/login' element = {<LoginRedirect><LoginPage/></LoginRedirect>}/>
                 <Route path = '/register' element = {<LoginRedirect><RegistrationPage/></LoginRedirect>}/>

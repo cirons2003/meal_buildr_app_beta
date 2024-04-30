@@ -6,19 +6,10 @@ import SideBar from '../components/SideBar';
 import { Outlet, Link as RouterLink} from "react-router-dom";
 import TopBar from "../components/TopBar";
 import ToolBar from "../components/Toolbar";
-import { useEffect } from "react";
-
-
-
 
 
 export default function HomePage() {
-
-    
-
-    const {team} = useTeam()
-    
-    useEffect(()=>{console.log('homepage')},[])
+    const {team} = useTeam()    
 
     return (
         <>
