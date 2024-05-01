@@ -14,7 +14,7 @@ import boto3
 
 
 app = Flask(__name__) 
-CORS(app, supports_credentials=True, origins=['http://localhost:3000', 'https://meal-buildr-app-beta-client.onrender.com'])
+CORS(app, supports_credentials=True, origins=['http://localhost:3000', 'https://meal-buildr-app-beta-client-static.onrender.com'])
 
 bcrypt = Bcrypt(app)
 
