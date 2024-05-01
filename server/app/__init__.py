@@ -21,7 +21,7 @@ bcrypt = Bcrypt(app)
 
 load_dotenv() 
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
-uri = os.getenv('DATABASE_URI_TEST') 
+uri = os.getenv('DATABASE_URI_PRODUCTION') 
 if 'postgresql' in uri or 'postgres' in uri:
     uri += '?sslmode=require'
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
