@@ -20,7 +20,8 @@ export const ContextProvider = ({children}) => {
     const [unreadMessageCount, setUnreadMessageCount] = useState(0)
 
     const baseURL = useRef('https://meal-buildr-app-beta.onrender.com')
-
+    //production: https://meal-buildr-app-beta.onrender.com
+    //testing: http://localhost:5000
 
     const setterValue = useMemo(()=>({
         setNotificationCount, 
