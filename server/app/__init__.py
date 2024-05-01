@@ -14,7 +14,7 @@ import boto3
 
 
 app = Flask(__name__) 
-CORS(app, supports_credentials=True)
+CORS(app, supports_credentials=True, origins=['http://localhost:3000'])
 
 bcrypt = Bcrypt(app)
 
@@ -28,6 +28,10 @@ uri += '?sslmode=require'# uncomment for production
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['DEBUG'] = False #True for testing only 
+
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'  
+
 
 
 

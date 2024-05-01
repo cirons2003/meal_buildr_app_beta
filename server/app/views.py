@@ -81,9 +81,9 @@ def changeUserRole():
     
 @app.route('/getTeamMemberContext', methods = ['POST'])
 @login_required
-def getUserRole():
+def gerRole():
     username = request.json.get('username')
-    team_name = request.json.get('team_name')
+    teamg_name = request.json.get('team_name')
 
     user = User.query.filter_by(username = username).first()
     if (user is None): 
