@@ -36,7 +36,7 @@ export default function NotificationTab({notification}) {
     }
 
     return (
-        <Flex mx = {3} as = {RouterLink} to = {toLink} gap = {2} pos = 'relative' pr = {3} px = '8px' py = '4px' borderBottom = '4px' borderLeft = '4px' borderRadius = {20}  borderColor = {notification.is_new ? 'teal' : 'lightblue'} justify = 'start'  flex = {1}>
+        <Flex mx = {3} as = {RouterLink} to = {toLink} gap = {2} pos = 'relative' pr = {3} px = '8px' py = '4px' borderBottom = '4px' borderLeft = '4px' borderRadius = {20}  borderColor = {notification.is_new ? 'teal' : 'lightblue'} justify = 'start'  >
             <IconChooser sty = {{color: 'teal'}}/>
             <Flex width = '100%' direction = 'column'>
                 <Flex width = '100%' justify = 'space-between'>
