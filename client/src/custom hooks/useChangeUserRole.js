@@ -1,11 +1,11 @@
 import axios from 'axios'
-import { useTeam} from '../context'
+import { useProxy, useTeam} from '../context'
 import {useState} from 'react'
 
 
 const useChangeUserRole = () => {
     const {team} = useTeam()
-    const baseURL = 'http://localhost:5000'
+    const baseURL = useProxy()
     const [response, setResponse] = useState(null)
 
     const changeRole = async(athleteName, to_role) => {

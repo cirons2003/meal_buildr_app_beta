@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
-import { useUser } from '../context'
+import { useProxy, useUser } from '../context'
 import useUserInfo from './useUserInfo'
 
 
@@ -11,10 +11,12 @@ const useLogInUser = () => {
     const navigate = useNavigate() 
     const {getUserInfo} = useUserInfo()
 
+    const baseURL = useProxy()
+
     const login = async(username, password) => {
         
         try {
-            const response = await axios.post('http://localhost:5000/login', {username: username, password: password},{withCredentials: true})
+            const response = await axios.post(baseURL+'/login', {username: username, password: password},{withCredentials: true})
             console.log(response.data.message)
             getUserInfo() //updates context and local storage 
         }catch(err) {

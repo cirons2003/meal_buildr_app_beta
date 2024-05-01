@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { useState } from 'react'
-import { useTeam, useUser } from '../context'
+import { useProxy, useTeam, useUser } from '../context'
 
 
 const useUserInfo = () => {
     const [role, setRole] = useState(null)
     const [userId, setUserId] = useState(null)
-    const baseURL = 'http://localhost:5000'
+    const baseURL = useProxy()
     const {team} = useTeam()
     const {setUser} = useUser()
     const [userInfo, setUserInfo] = useState(null)

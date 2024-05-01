@@ -1,11 +1,13 @@
 import axios from 'axios'
-import { useUser } from '../context'
+import { useProxy, useUser } from '../context'
 
 const useUpdateProfile = () => {
     const {user, setUser} = useUser()
+
+    const baseURL = useProxy()
     
     const updateProfile = async() => {
-        const response = await axios.post('http://localhost:5000/updateProfile', {}, {withCredentials: true})
+        const response = await axios.post(baseURL+'/updateProfile', {}, {withCredentials: true})
 
     }
 }

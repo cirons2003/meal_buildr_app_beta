@@ -1,11 +1,13 @@
 
 
+import { useRef } from 'react'
 import {createContext, useContext, useState, useEffect, useMemo} from 'react'
 
 const UserContext = createContext(null)
 const TeamContext = createContext(null)
 const NotificationContext = createContext(null)
 const SetNotificationContext = createContext(null)
+const ProxyContext = createContext(null)
 
 
 
@@ -16,6 +18,9 @@ export const ContextProvider = ({children}) => {
     const [team, setTeam] = useState(null)
     const [notificationCount, setNotificationCount] = useState(0)
     const [unreadMessageCount, setUnreadMessageCount] = useState(0)
+
+    const baseURL = useRef('https://meal-buildr-app-beta.onrender.com')
+
 
     const setterValue = useMemo(()=>({
         setNotificationCount, 
@@ -30,6 +35,10 @@ export const ContextProvider = ({children}) => {
         team, setTeam
     }),[team])
 
+    const urlval = useMemo(()=>(
+        baseURL.current
+    ), [baseURL])
+
     useEffect(() =>{
         const storedUser = localStorage.getItem('user')
         storedUser && setUser(JSON.parse(storedUser))
@@ -42,6 +51,7 @@ export const ContextProvider = ({children}) => {
     },[])
 
     return (
+    <ProxyContext.Provider value = {urlval}>
         <TeamContext.Provider value = {teamVal}>
             <UserContext.Provider value = {userVal}>
                 <SetNotificationContext.Provider value = {setterValue}>
@@ -51,6 +61,7 @@ export const ContextProvider = ({children}) => {
                 </SetNotificationContext.Provider>
             </UserContext.Provider>
         </TeamContext.Provider>
+    </ProxyContext.Provider>
     )
 
 }
@@ -59,3 +70,4 @@ export const useUser = () => useContext(UserContext)
 export const useTeam = () => useContext(TeamContext)
 export const useNotificationContext = () => useContext(NotificationContext)
 export const useSetNotificationContext = () => useContext(SetNotificationContext)
+export const useProxy = () => useContext(ProxyContext)

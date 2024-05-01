@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useState } from "react"
+import { useProxy } from "../context"
 
 
 
@@ -7,9 +8,11 @@ const useGetConversationMessages = () => {
     
     const [listOfMessages, setListOfMessages] = useState([])
 
+    const baseURL = useProxy()
+
     const getMessages = async(conversationId) => {
         try {
-            const response = await axios.post('http://localhost:5000/getMessages', {'conversation_id': conversationId}, {withCredentials: true})
+            const response = await axios.post(baseURL+'/getMessages', {'conversation_id': conversationId}, {withCredentials: true})
             setListOfMessages(response.data.listOfMessages)
             console.log(response.data.listOfMessages)
         }catch(err) {

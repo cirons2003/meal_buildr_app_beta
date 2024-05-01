@@ -1,10 +1,13 @@
 import axios from 'axios'
 import { useState } from 'react';
+import { useProxy } from '../context';
 
 
 const useAddComment = () => {
     const [loading, setLoading] = useState(false)
     const [toggleRefresh, setToggleRefresh] = useState(false)
+
+    const baseURL = useProxy()
 
     const addComment = async(comment_text, meal_id) => {
         if (comment_text.trim() === '') {
@@ -12,7 +15,7 @@ const useAddComment = () => {
         }
         setLoading(true)
         try {
-            const response = await axios.post('http://localhost:5000/addComment', {
+            const response = await axios.post(baseURL+'/addComment', {
                 comment_text: comment_text, meal_id: meal_id
             }, {withCredentials: true})
             console.log(response.data)

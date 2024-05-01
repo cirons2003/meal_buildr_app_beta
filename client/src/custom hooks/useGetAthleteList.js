@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useTeam, useUser } from "../context"
+import { useProxy, useTeam, useUser } from "../context"
 import axios from "axios"
 import { list } from "@chakra-ui/react"
 
@@ -12,9 +12,11 @@ const useGetAthleteList = () => {
     const {user} = useUser()
     const {team} = useTeam()
 
+    const baseURL = useProxy()
+
     const getAthleteList = async(username, teamName) => {
         try {
-            const response = await axios.post('http://localhost:5000/getListOfAthletes', {username: username, team_name: teamName}, {withCredentials: true})
+            const response = await axios.post(baseURL+'/getListOfAthletes', {username: username, team_name: teamName}, {withCredentials: true})
             setListOfAthletes(response.data.listOfAthletes)
             setFilteredListOfAthletes(response.data.listOfAthletes.sort((a,b) => a.username.localeCompare(b.username)))
             console.log(response.data.listOfAthletes)

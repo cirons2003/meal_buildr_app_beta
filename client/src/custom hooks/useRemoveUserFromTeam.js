@@ -1,12 +1,12 @@
 import { useState } from "react"
-import { useTeam, useUser } from "../context"
+import { useProxy, useTeam, useUser } from "../context"
 import axios from "axios"
 
 
 const useRemoveUserFromTeam = () => {
     const [response, setResponse] = useState(null)
     const {team} = useTeam()
-    const baseURL = 'http://localhost:5000'
+    const baseURL = useProxy()
 
     const removeUser = async(username) => {
         if (team.role !== 'owner')

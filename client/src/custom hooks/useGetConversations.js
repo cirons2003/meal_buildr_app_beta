@@ -1,14 +1,17 @@
 import { useState } from "react"
 import axios from 'axios'
+import { useProxy } from "../context"
 
 
 const useGetConversations = () => {
     const [listOfConversations, setListOfConversations] = useState([])
     const [filteredListOfConversations, setFilteredListOfConversations] = useState([])
 
+    const baseURL = useProxy()
+    
     const getConversations = async() => {
         try {
-            const response = await axios.get('http://localhost:5000/getConversations', {withCredentials: true})
+            const response = await axios.get(baseURL+'/getConversations', {withCredentials: true})
             const val = response.data.listOfConversations.sort((a, b) => new Date(b.last_used_at) - new Date(a.last_used_at))
             setListOfConversations(val)
             setFilteredListOfConversations(val)

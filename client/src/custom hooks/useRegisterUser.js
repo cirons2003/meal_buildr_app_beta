@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
-import { useUser } from '../context'
+import { useProxy, useUser } from '../context'
 import useUserInfo from './useUserInfo'
 
 const useRegisterUser = () => {
@@ -10,13 +10,13 @@ const useRegisterUser = () => {
     const [message, setMessage] = useState('')
     const {getUserInfo} = useUserInfo()
     
-    
+    const baseURL = useProxy()
 
     const register = async(username, password) => {
         setRegisterLoading(true)
         setMessage('')
         try {
-            const response = await axios.post('http://localhost:5000/register', {username: username, password: password},
+            const response = await axios.post(baseURL+'/register', {username: username, password: password},
              {withCredentials: true})
             console.log(response.data.message)
             setMessage(response.data.message)

@@ -19,7 +19,7 @@ CORS(app, supports_credentials=True)
 
 bcrypt = Bcrypt(app)
 
-load_dotenv() 
+#uncomment for testing load_dotenv() 
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
 uri = os.getenv('DATABASE_URI_PRODUCTION') 
 if 'postgresql' in uri or 'postgres' in uri:

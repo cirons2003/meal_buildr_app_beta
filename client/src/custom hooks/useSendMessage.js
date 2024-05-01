@@ -1,10 +1,11 @@
 import axios from "axios"
 import { useState } from "react"
+import { useProxy } from "../context"
 
 
 
 const useSendMessage = () => {
-    const baseURL = 'http://localhost:5000'
+    const baseURL = useProxy()
 
     const [cid, setCid] = useState(-1)
     const [refreshToggle, setRefreshToggle] = useState(false)
@@ -29,7 +30,7 @@ const useSendMessage = () => {
         if (message_text === '')
             return
         try {
-            const response = await axios.post('http://localhost:5000/sendMessage', {message_text: message_text, conversation_id: conversation_id}, {withCredentials: true})
+            const response = await axios.post(baseURL+'/sendMessage', {message_text: message_text, conversation_id: conversation_id}, {withCredentials: true})
             console.log(response.data)
             setCid(response.data.conversation_id)
             setRefreshToggle(!refreshToggle)

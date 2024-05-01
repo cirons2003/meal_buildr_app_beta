@@ -1,9 +1,9 @@
 import axios from 'axios'
 import {useCallback, useState} from 'react'
-import { useSetNotificationContext } from '../context'
+import { useProxy, useSetNotificationContext } from '../context'
 
 const useNotifications = () => {
-    const baseURL = 'http://localhost:5000'
+    const baseURL = useProxy()
     const [listOfNotifications, setListOfNotifications] = useState(null)
     const { setNotificationCount, setUnreadMessageCount} = useSetNotificationContext()
 
