@@ -47,3 +47,7 @@ s3_client = boto3.client(
 
 
 from app import models, authentication, views, aws
+
+##returns app instance for deployment
+def create_app():
+    return app
