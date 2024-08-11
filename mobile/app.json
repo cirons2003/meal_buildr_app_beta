@@ -2,7 +2,7 @@
   "expo": {
     "name": "Mealbuildr",
     "slug": "mealbuildr-mobile",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "entryPoint": "./AppEntry.js",
     "icon": "./assets/icon.png",
@@ -21,6 +21,7 @@
         "NSCameraUsageDescription": "We need access to your camera to enable meal logging",
         "NSPhotoLibraryAddUsageDescription": "We need access to your photos to change your avatar"
       },
+      "buildNumber": "2",
       "bundleIdentifier": "com.carson123.mealbuildrmobile"
     },
     "android": {
