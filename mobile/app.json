@@ -4,6 +4,7 @@
     "slug": "mealbuildr-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
+    "entryPoint": "./AppEntry.js",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -19,7 +20,8 @@
       "infoPlist": {
         "NSCameraUsageDescription": "We need access to your camera to enable meal logging",
         "NSPhotoLibraryAddUsageDescription": "We need access to your photos to change your avatar"
-      }
+      },
+      "bundleIdentifier": "com.carson123.mealbuildrmobile"
     },
     "android": {
       "adaptiveIcon": {
@@ -33,6 +35,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e39c7f1d-02d0-4119-9169-dd8a65edfc9a"
+      }
     }
   }
 }
