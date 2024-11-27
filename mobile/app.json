@@ -1,46 +1,41 @@
 {
-  "expo": {
-    "name": "Mealbuildr",
-    "slug": "mealbuildr-mobile",
-    "version": "1.0.1",
-    "orientation": "portrait",
-    "entryPoint": "./AppEntry.js",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": false,
-      "infoPlist": {
-        "NSCameraUsageDescription": "We need access to your camera to enable meal logging",
-        "NSPhotoLibraryAddUsageDescription": "We need access to your photos to change your avatar"
-      },
-      "buildNumber": "2",
-      "bundleIdentifier": "com.carson123.mealbuildrmobile"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "permissions": [
-        "CAMERA",
-        "WRITE_EXTERNAL_STORAGE"
-      ]
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "e39c7f1d-02d0-4119-9169-dd8a65edfc9a"
-      }
+    "expo": {
+        "name": "Mealbuildr",
+        "slug": "mealbuildr-mobile",
+        "version": "1.0.1",
+        "orientation": "portrait",
+        "entryPoint": "./AppEntry.js",
+        "icon": "./assets/icon.png",
+        "userInterfaceStyle": "light",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": false,
+            "infoPlist": {
+                "NSCameraUsageDescription": "We need access to your camera to enable meal logging",
+                "NSPhotoLibraryAddUsageDescription": "We need access to your photos to change your avatar"
+            },
+            "buildNumber": "3",
+            "bundleIdentifier": "com.carson123.mealbuildrmobile"
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            },
+            "permissions": ["CAMERA", "WRITE_EXTERNAL_STORAGE"]
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "extra": {
+            "eas": {
+                "projectId": "e39c7f1d-02d0-4119-9169-dd8a65edfc9a"
+            }
+        }
     }
-  }
 }
