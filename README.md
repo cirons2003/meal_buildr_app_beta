@@ -20,8 +20,7 @@ Mealbuildr Aims to Solve these by:
 3) Avoiding the innacurate calculations of existing nutrition apps, by letting registered dieticians provide feedback instead
 
 ## How long until Mealbuildr becomes a reality?
-- Despite the misleading repository name, we are currently in the alpha stages, gaining feedback from a select group of test users before moving forward with a beta release. 
-- We hope to be available for download by March 2025!
+- We have unfortunately paused development, but hope to resume in late 2025.
 - Our alpha stage web platform is active at www.mealbuildr.com (Use team code 092835) -- Please contact ci7229@princeton.edu if interested in trying out the mobile (athlete) version!
 
 ## Technologies Used 
